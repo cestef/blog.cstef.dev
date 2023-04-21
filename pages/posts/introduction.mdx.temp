@@ -1,0 +1,35 @@
+---
+title: Working with BLE to create a meshed communication network
+date: 2023/04/18
+description: A recap of my maturity work over IoT and BLE, and how I created a meshed communication network for Android devices.
+tag: [iot, ble, android, mesh, bluetooth, kotlin]
+author: cstef
+---
+
+import GithubText from "../../components/GithubText";
+
+## Introduction
+
+In the context of my maturity work, I had to create a meshed communication network for Android devices using BLE.
+A maturity work consists of a small thesis, where you have to choose a topic and work on it for about 7 months, and then present it to a jury.
+My global topic was IoT, and I had to choose a problem to solve in this domain.
+
+## Android + BLE = IoT ?
+
+I can see you coming, you're thinking "Wait a minute, how is BLE related to IoT ?".
+Well, it's not really, but we are using it more and more in the IoT domain nowadays.
+For example the recent [Apple AirTag](https://adamcatley.com/AirTag.html) is using BLE to broadcast its location and status to nearby devices, and so are many other IoT devices.
+
+One of the interesting use cases of BLE is to create a meshed communication network, where multiple devices can communicate with one another, even if they are not directly connected. This can be useful in scenarios where devices are spread out over a large area, but still need to communicate with one another.
+
+In Android, you can use the [Android BLE API](https://developer.android.com/guide/topics/connectivity/bluetooth-le) to create a meshed network of BLE devices. By using the advertising and scanning features of the API, you can create a network where devices can discover one another and communicate, even if they are not paired.
+
+## The problem
+
+The problem I chose to solve was the following: **"How to create a decentralized messaging system using Bluetooth as an alternative to a mobile network?"**.
+
+I wanted to create a messaging system that would work without a mobile network, and that would be decentralized, meaning that there would be no central server that would store or relay the messages. Instead, the messages would be stored on the devices themselves, and the devices would communicate with one another to exchange the messages.
+
+## The solution
+
+I took my inspiration from the <GithubText user="keinix" repo="peer_to_peer_ble"/> project.
