@@ -2,7 +2,7 @@ const withNextra = require("nextra")({
     theme: "nextra-theme-blog",
     themeConfig: "./theme.config.tsx",
     latex: true,
-    defaultShowCopyCode: true,
+    defaultShowCopyCode: false,
     readingTime: true,
 });
 

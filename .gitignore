@@ -36,3 +36,9 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 .next
+
+# WIP posts
+wip/
+
+# .DS_Store (OSX)
+**/.DS_Store
