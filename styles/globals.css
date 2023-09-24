@@ -8,3 +8,7 @@
 .emoji {
 	margin: 0 0.05em 0 0.1em;
 }
+
+img[data-nimg="1"] {
+	border-radius: 0.75rem;
+}

@@ -361,80 +361,25 @@ docker inspect traefik/jobs
 ```
 
 ```json
-[
-	{
-		"Id": "sha256:8fd1aa093b13d1ebad4b58ab318f25e9f7d757a6cbc7391acc99518a81b5c144",
-		"RepoTags": ["traefik/jobs:latest"],
-		"RepoDigests": [
-			"traefik/jobs@sha256:4e5b3dc8dbdf40b89969dbccbce84809a649b056e9793a9fc1a7613f13fe46fb"
-		],
-		"Parent": "",
-		"Comment": "buildkit.dockerfile.v0",
-		"Created": "2020-10-22T13:50:23.922043068Z",
-		"Container": "",
-		"ContainerConfig": {
-			"Hostname": "",
-			"Domainname": "",
-			"User": "",
-			"AttachStdin": false,
-			"AttachStdout": false,
-			"AttachStderr": false,
-			"Tty": false,
-			"OpenStdin": false,
-			"StdinOnce": false,
-			"Env": null,
-			"Cmd": null,
-			"Image": "",
-			"Volumes": null,
-			"WorkingDir": "",
-			"Entrypoint": null,
-			"OnBuild": null,
-			"Labels": null
-		},
-		"DockerVersion": "",
-		"Author": "",
-		"Config": {
-			"Hostname": "",
-			"Domainname": "",
-			"User": "",
-			"AttachStdin": false,
-			"AttachStdout": false,
-			"AttachStderr": false,
-			"Tty": false,
-			"OpenStdin": false,
-			"StdinOnce": false,
-			"Env": ["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],
-			"Cmd": null,
-			"Image": "",
-			"Volumes": null,
-			"WorkingDir": "/",
-			"Entrypoint": ["/start"],
-			"OnBuild": null,
-			"Labels": {
-				"helmsman": "dcc9c530767c102764d45d621fc92317"
-			}
-		},
-		"Architecture": "amd64",
-		"Os": "linux",
-		"Size": 27754496,
-		"VirtualSize": 27754496,
-		"GraphDriver": {
-			"Data": {
-				"MergedDir": "/var/lib/docker/overlay2/f3a1840d370c70a6902af6316e9ab206bea745d9f773595e6b19e8e796df9eb8/merged",
-				"UpperDir": "/var/lib/docker/overlay2/f3a1840d370c70a6902af6316e9ab206bea745d9f773595e6b19e8e796df9eb8/diff",
-				"WorkDir": "/var/lib/docker/overlay2/f3a1840d370c70a6902af6316e9ab206bea745d9f773595e6b19e8e796df9eb8/work"
-			},
-			"Name": "overlay2"
-		},
-		"RootFS": {
-			"Type": "layers",
-			"Layers": ["sha256:852b54c4c0be1f879a3a868bb89119a68fa8a5155cec5d8e37cadba9ac38befb"]
-		},
-		"Metadata": {
-			"LastTagTime": "0001-01-01T00:00:00Z"
+{
+	"Id": "sha256:...",
+	"RepoTags": ["traefik/jobs:latest"],
+	"Comment": "buildkit.dockerfile.v0",
+	"Created": "2020-10-22T13:50:23.922043068Z",
+	"Config": {
+		// ...
+		"WorkingDir": "/",
+		"Entrypoint": ["/start"],
+		"Labels": {
+			"helmsman": "dcc9c530767c102764d45d621fc92317"
 		}
-	}
-]
+	},
+	"Architecture": "amd64",
+	"Os": "linux",
+	"Size": 27754496,
+	"VirtualSize": 27754496
+	// ...
+}
 ```
 
 And look at that, there is a `helmsman` label with a value.
@@ -492,7 +437,13 @@ Restarting the pod, port-forwarding the proxy, and visiting [`localhost:1337`](h
 This was a fun challenge, and I learned a lot about Kubernetes and Traefik in the process.
 I hope you enjoyed reading this article as much as I enjoyed writing it <Twemoji emoji="😄" />.
 
-If you are using this article to solve the challenge, please make sure to not just copy-paste the commands, but to understand what they do.
-My aim was to allow you to learn something new, not to give you the solution on a silver platter <Twemoji emoji="😉" />.
+In the end, I learned how to use Traefik, which proved to be an amazing alternative to Apache or Nginx.
+It's really easy to set up, and the fact that it can automatically discover services and create routes for them is really cool.
+I am definitely going to use this in future projects.
 
 All the manifests used in this article are available on [GitHub](https://github.com/cestef/blog.cstef.dev/tree/main/resources/traefik-jobs).
+
+## Disclaimer
+
+If you are using this article to solve the challenge, please make sure to not just copy-paste the commands, but to understand what they do.
+My aim was to allow you to learn something new, not to give you the solution on a silver platter <Twemoji emoji="😉" />.
