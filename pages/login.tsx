@@ -9,7 +9,7 @@ export default function Login() {
 	const callbackUrl = search.get("callbackUrl") ?? "/";
 	return (
 		<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-			<div className="w-screen h-[100svh] flex flex-col items-center justify-center">
+			<div className="w-full h-[100svh] flex flex-col items-center justify-center">
 				<button
 					className="absolute top-4 left-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200 ease-in-out fill-current text-gray-800 dark:text-gray-100"
 					onClick={() => router.back()}
