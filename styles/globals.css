@@ -1,9 +1,6 @@
-/* h1 {
-	background: linear-gradient(90deg, hsla(238, 100%, 71%, 1) 0%, hsla(295, 100%, 84%, 1) 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-} */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .emoji {
 	margin: 0 0.05em 0 0.1em;
@@ -11,4 +8,9 @@
 
 img[data-nimg="1"] {
 	border-radius: 0.75rem;
+}
+
+body {
+	margin: 0;
+	padding: 0;
 }
