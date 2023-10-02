@@ -20,6 +20,8 @@ const config: NextraBlogTheme = {
 			{meta.title && <meta property="og:title" content={meta.title} />}
 			{meta.description && <meta property="og:description" content={meta.description} />}
 			{meta.url && <meta property="og:url" content={meta.url} />}
+			{meta.author && <meta property="og:author" content={meta.author} />}
+
 			{/* <link rel='icon' href='/favicon.ico' /> */}
 		</>
 	),
