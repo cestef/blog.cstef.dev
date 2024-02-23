@@ -43,7 +43,7 @@ export const Comments = () => {
 				</div>
 			)}
 			<div className="flex flex-col space-y-4 mt-8">
-				{comments.map((comment) => (
+				{comments?.map((comment) => (
 					<div
 						key={comment.id}
 						className="flex flex-col space-y-2 group px-4 py-2 bg-gray-200/20 dark:bg-gray-800/20 rounded-lg relative"

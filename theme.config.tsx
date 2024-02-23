@@ -27,7 +27,7 @@ const config: NextraBlogTheme = {
 	dateFormatter: (date) => `${date.toDateString()}`,
 	readMore: "Read →",
 	darkMode: true,
-	comments: <Comments />,
+	// comments: <Comments />,
 };
 
 export default config;
