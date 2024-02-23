@@ -315,13 +315,13 @@ I like to use [ffuf.me](http://ffuf.me) to test out the tool, as it's a great ta
 A good wordlist to start with is [common.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/common.txt).
 
 ```bash copy
-rwalk https://ffuf.me/cd/recursion common.txt --depth 3
+rwalk http://ffuf.me/cd/recursion common.txt --depth 3
 ```
 
 <figcaption className="mb-6">Recursive scan of ffuf.me</figcaption>
 
 ```bash copy
-rwalk https://ffuf.me/cd/basic/$ common.txt --mode classic
+rwalk http://ffuf.me/cd/basic/$ common.txt --mode classic
 ```
 
 <figcaption>Classic scan of ffuf.me</figcaption>
