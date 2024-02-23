@@ -7,7 +7,7 @@ const Twemoji = ({ emoji }: { emoji: string }) => {
 				display: "inline-block",
 				width: "1.5rem",
 				height: "1.5rem",
-				verticalAlign: "text-bottom",
+				verticalAlign: "middle",
 			}}
 			// rome-ignore lint/security/noDangerouslySetInnerHtml: Need to use dangerouslySetInnerHTML to render twemoji
 			dangerouslySetInnerHTML={{
