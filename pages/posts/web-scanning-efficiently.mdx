@@ -127,13 +127,13 @@ let mut outs = vec![];
 for filter in filters {
     let negated = filter.0.starts_with('!');
     let out = match filter.0.trim_start_matches('!') {
-        "time" => check_range(&parse_range_input(&filter.1), time as usize) ^ negated,
-        "status" => check_range(&parse_range_input(&filter.1), status_code as usize) ^ negated,
+        "time" => check_range(&parse_range(&filter.1), time) ^ negated,
+        "status" => check_range(&parse_range(&filter.1), status_code) ^ negated,
         "contains" => !res_text.contains(&filter.1) ^ negated,
         "starts" => !res_text.starts_with(&filter.1) ^ negated,
         "ends" => !res_text.ends_with(&filter.1) ^ negated,
         "regex" => regex::Regex::new(&filter.1).is_match(res_text) ^ negated,
-        "size" => check_range(&parse_range_input(&filter.1), res_text.len()) ^ negated
+        "size" => check_range(&parse_range(&filter.1), res_text.len()) ^ negated
         _ => true,
     }
     outs.push(out);
@@ -147,7 +147,7 @@ if opts.or {
 
 <figcaption>Pseudocode for the filtering of the responses</figcaption>
 
-The `check_range(){:rust}` and `parse_range_input(){:rust}` functions are used to parse and check a specific type of filter, which is a range.
+The `check_range(){:rust}` and `parse_range(){:rust}` functions are used to parse and check a specific type of filter, which is a range.
 
 | Format       | Description                                               |
 | :----------- | :-------------------------------------------------------- |
