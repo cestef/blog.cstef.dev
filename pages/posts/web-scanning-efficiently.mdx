@@ -166,6 +166,12 @@ The `check_range(){:rust}` and `parse_range(){:rust}` functions are used to pars
 
 This allows for a lot of flexibility when filtering the responses, as most of them require a numeric comparison (more, less, equal, etc.).
 
+For example, let's say we want to filter the responses that only took less than `100` milliseconds:
+
+```ansi
+--filter "[0;1mtime:<100[0m"
+```
+
 We also needed a way to negate the filters, which is why the `!` character is used to do so with a XOR operation on the base result:
 
 | Filter Output  | Negated        | Result         |
@@ -178,14 +184,19 @@ We also needed a way to negate the filters, which is why the `!` character is us
 <figcaption>Truth table for the negation of the filters (XOR)</figcaption>
 
 The default behavior is to `and` all the filters, but the `or` behavior can be enabled with the `--or` flag.
-
-Some responses are JSON, and we might want to filter them based on their content.
+Most of the modern API responses are JSON, and we might want to filter them based on their content.
 We need to be able to easily access the JSON fields and compare them to a value.
 
 The following format is used to filter a JSON response:
 
 ```ansi
 --filter [0;1mjson:obj.key=value1|value2[0m
+```
+
+To filter only the responses that contain `deadbeef` as the first item of the `data` array:
+
+```ansi
+--filter [0;1mjson:data.0=deadbeef[0m
 ```
 
 #### Example
