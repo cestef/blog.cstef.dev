@@ -117,6 +117,8 @@ Basic filters include:
 
 -   Status code
 -   Response body
+-   Response size
+-   Response body hash
 -   Response headers
 -   Response time
 
@@ -186,6 +188,85 @@ The following format is used to filter a JSON response:
 --filter [0;1mjson:obj.key=value1|value2[0m
 ```
 
+#### Example
+
+Let's test out these filters with [ffuf.me/cd/no404](http://ffuf.me/cd/no404) !
+
+<small>
+	{" "}
+	**Note:** See the [install section](#test-it-out-yourself) to install the tool and try it out yourself.{" "}
+</small>
+
+We start out with a basic scan as follows:
+
+```bash copy
+rwalk http://ffuf.me/cd/no404 common.txt
+```
+
+And we get a bunch of **200**s:
+
+```ansi
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/wp-dbmanager [0;1;2m1842[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/header_logo [0;1;2m1842[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/signon [0;1;2m1842[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/private2 [0;1;2m1842[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/mantis [0;1;2m1852[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/authorization [0;1;2m1852[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/technical [0;1;2m1830[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/popup_content [0;1;2m1830[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/columns [0;1;2m1830[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/pre [0;1;2m1832[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/103 [0;1;2m1831[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/inline [0;1;2m1832[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/read [0;1;2m1842[0;2mms[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/ss_vms_admin_sm [0;1;2m1842[0;2mms[0m
+...
+```
+
+Let's make use of the `--show` flag, that allows us to display additional information on each request.
+
+```bash copy
+rwalk http://ffuf.me/cd/no404 common.txt --show hash
+```
+
+This yields the body hash of each response:
+
+```ansi
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/brochures [0;1;2m138[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/append [0;1;2m138[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/reqs [0;1;2m141[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/json [0;1;2m141[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/done [0;1;2m146[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/command [0;1;2m144[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/path [0;1;2m144[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/pro [0;1;2m145[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/webadm [0;1;2m147[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/th [0;1;2m146[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9[0m
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/shopstat [0;1;2m146[0;2mms[0m | [0;1;2mhash[0m: [0;2m1c3af61e88de6618c0fabbe48edf5ed9
+```
+
+We can now try our luck and search for a response that does not match `1c3af61e88de6618c0fabbe48edf5ed9`:
+
+```bash copy
+rwalk http://ffuf.me/cd/no404 common.txt --filter "!hash:1c3af61e88de6618c0fabbe48edf5ed9"
+```
+
+And voilà !
+
+```ansi
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/secret [0;1;2m114[0;2mms
+```
+
+If you are curious, you can also see what was the content of the response with the `--show body` option.
+
+```bash copy
+rwalk http://ffuf.me/cd/no404 common.txt --show body --filter "!hash:1c3af61e88de6618c0fabbe48edf5ed9"
+```
+
+```ansi
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/no404/secret [0;1;2m130[0;2mms[0m | [0;1;2mbody[0m: [0;2mController does not exist
+```
+
 ### Output
 
 You might want to save the results of your scan to a file, to be able to analyze them with another tool or to share them with someone else.
@@ -252,13 +333,13 @@ if opts.permutations {
 
 We first compute the number of tokens in the URL, then generate all the `n`-permutations of the wordlist and replace the tokens with the permutations.
 
-## Wordlists
+### Wordlists
 
 When you need to quickly scan a target, you might not want to use a huge wordlist.
 
 `rwalk` comes with a bunch of filters and transformations to help you generate a wordlist on the fly.
 
-### Filters
+#### Filters
 
 Let's say you need to scan a target for PHP files, you can use the `--filter` flag to only keep the words that end with `.php`.
 
@@ -272,7 +353,7 @@ or you might want to keep only 4-letter words:
 --wordlist-filter [0;1msize=4[0m
 ```
 
-### Transformations
+#### Transformations
 
 You might want to transform the words in the wordlist to lowercase, uppercase, or capitalize them.
 
@@ -287,6 +368,117 @@ or perhaps you want to replace each instance of `a` with `@`:
 ```
 
 These two features combined allow for a lot of flexibility when generating a granular wordlist.
+
+You can try this feature with [ffuf.me/cd/ext/logs](http://ffuf.me/cd/ext/logs) and the following command:
+
+```bash copy
+rwalk http://ffuf.me/cd/ext/logs common.txt --transform suffix:.log
+```
+
+This will generate a wordlist with the `.log` suffix and scan the target for files with this extension.
+
+```ansi
+[0;99;31m                    _ _[0m
+[0;99;31m                   | | |[0m
+[0;99;31m _ ____      ____ _| | | __[0m
+[0;99;31m| '__\ \ /\ / / _` | | |/ /[0m
+[0;99;31m| |   \ V  V / (_| | |   <[0m
+[0;99;31m|_|    \_/\_/ \__,_|_|_|\_\[0m
+
+[0;2mVersion:[0m [0;1;2m0.4.11[0m
+[0;2mAuthor:[0m [0;1;2mcstef[0m
+
+[0;34mℹ[0m [0;1m4613[0m words loaded
+[0;34mℹ[0m Starting crawler with [0;1m110[0m threads
+[0;34mℹ[0m Press [0;1mCtrl+C[0m to save state and exit
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/ext/logs/users.log [0;1;2m118[0;2mms[0m
+[0;32m✓[0m Done in [0;1m5 seconds[0m with an average of [0;1m916[0m req/s
+[0;31m✖[0m [0;2m403[0m /cd/ext/logs
+[0;2m└─ [0;32m✓[0m [0;2m200[0m /users.log
+```
+
+### Throttling
+
+When scanning a target, you sometimes need to throttle the requests to avoid being blocked by the server.
+
+Let's take a concrete example with [ffuf.me/cd/rate](http://ffuf.me/cd/rate).
+
+We start with a basic scan:
+
+```bash copy
+rwalk http://ffuf.me/cd/rate common.txt
+```
+
+This yields us an empty scan result:
+
+```ansi
+[0;99;31m                    _ _[0m
+[0;99;31m                   | | |[0m
+[0;99;31m _ ____      ____ _| | | __[0m
+[0;99;31m| '__\ \ /\ / / _` | | |/ /[0m
+[0;99;31m| |   \ V  V / (_| | |   <[0m
+[0;99;31m|_|    \_/\_/ \__,_|_|_|\_\[0m
+
+[0;2mVersion:[0m [0;1;2m0.4.11[0m
+[0;2mAuthor:[0m [0;1;2mcstef[0m
+
+[0;34mℹ[0m [0;1m4613[0m words loaded
+[0;34mℹ[0m Starting crawler with [0;1m110[0m threads
+[0;34mℹ[0m Press [0;1mCtrl+C[0m to save state and exit
+[0;32m✓[0m Done in [0;1m5 seconds[0m with an average of [0;1m1008[0m req/s
+[0;32m✓[0m [0;2m200[0m /cd/rate
+```
+
+This means that nothing has been matched, let's take a look at the response codes by overriding the default filter:
+
+```bash copy
+rwalk http://ffuf.me/cd/rate common.txt --filter status:"100-599"
+```
+
+```ansi
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/wpau-backup [0;1;2m122[0;2mms[0m
+[0;31m✖[0m [0;1m404[0m http://ffuf.me/cd/rate/video [0;1;2m124[0;2mms[0m
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/transaction [0;1;2m138[0;2mms[0m
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/furl [0;1;2m134[0;2mms[0m
+[0;31m✖[0m [0;1m404[0m http://ffuf.me/cd/rate/calling [0;1;2m140[0;2mms[0m
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/laptops [0;1;2m136[0;2mms[0m
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/resellers [0;1;2m136[0;2mms[0m
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/juniper [0;1;2m136[0;2mms[0m
+[0;31m✖[0m [0;1m429[0m http://ffuf.me/cd/rate/award [0;1;2m136[0;2mms[0m
+[0;31m✖[0m [0;1m404[0m http://ffuf.me/cd/rate/pnadodb [0;1;2m141[0;2mms
+```
+
+We can see that we are being rate-limited by the server, so we need to throttle the requests.
+The number of requests per second is equal to the throttle times the number of threads.
+
+For example, if we have **110** threads and a throttle of **10**, we will have **1100** requests per second.
+Let's go with **10** threads and a **5** second throttle (**50** requests per second).
+
+```bash copy
+rwalk http://ffuf.me/cd/rate common.txt --throttle 5 --threads 10
+```
+
+After a few minutes, we get the following:
+
+```ansi
+[0;99;31m                    _ _[0m
+[0;99;31m                   | | |[0m
+[0;99;31m _ ____      ____ _| | | __[0m
+[0;99;31m| '__\ \ /\ / / _` | | |/ /[0m
+[0;99;31m| |   \ V  V / (_| | |   <[0m
+[0;99;31m|_|    \_/\_/ \__,_|_|_|\_\[0m
+
+[0;2mVersion:[0m [0;1;2m0.4.11[0m
+[0;2mAuthor:[0m [0;1;2mcstef[0m
+
+[0;34mℹ[0m [0;1m4613[0m words loaded
+[0;34mℹ[0m Starting crawler with [0;1m10[0m threads
+[0;34mℹ[0m Press [0;1mCtrl+C[0m to save state and exit
+[0;32m✓[0m [0;1m200[0m http://ffuf.me/cd/rate/oracle [0;1;2m202[0;2mms[0m
+[0;32m✓[0m Done in [0;1m2 minutes[0m with an average of [0;1m49[0m req/s
+[0;32m✓[0m [0;2m200[0m /cd/rate
+[0;2m└─ [0;32m✓[0m [0;2m200[0m /oracle
+```
 
 ## Final result
 
