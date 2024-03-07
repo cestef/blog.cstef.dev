@@ -35,7 +35,13 @@ It is based on a `FUZZ` keyword that is replaced by the words in a wordlist. It 
 ffuf -u http://ffuf.me/cd/basic/FUZZ -w common.txt
 ```
 
-However, it is not able
+### Dirsearch
+
+[`dirsearch`](https://github.com/maurosoria/dirsearch) is a simple command line tool designed to brute force directories and files in web servers.
+
+```bash copy
+python3 dirsearch.py -u http://ffuf.me/cd/basic/ -w common.txt
+```
 
 ## Writing the tool
 
