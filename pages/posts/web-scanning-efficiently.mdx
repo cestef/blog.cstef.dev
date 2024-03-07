@@ -20,6 +20,23 @@ I decided to write my own tool to scan the web efficiently, and I called it [`rw
 
 [![rwalk](/images/rwalk.png)](/images/rwalk.png)
 
+I find it very important to have a good understanding of the inner workings of the tools we use, so this article will explain both the process of writing the tool and the features it offers.
+
+## Existing tools
+
+Before starting to write my own tool, let's take a look at the existing ones and see what they offer.
+
+### ffuf
+
+[`ffuf`](https://github.com/ffuf/ffuf) is a fast web fuzzer written in Go.
+It is based on a `FUZZ` keyword that is replaced by the words in a wordlist. It can thus be used to scan for parameters, headers, and directories.
+
+```bash copy
+ffuf -u http://ffuf.me/cd/basic/FUZZ -w common.txt
+```
+
+However, it is not able
+
 ## Writing the tool
 
 I chose Rust as the programming language for this tool because it's my favorite at the moment and has a great ecosystem for writing command line tools,
@@ -190,14 +207,24 @@ We need to be able to easily access the JSON fields and compare them to a value.
 The following format is used to filter a JSON response:
 
 ```ansi
---filter [0;1mjson:obj.key=value1|value2[0m
+--filter "[0;1mjson:obj.key=value1|value2[0m"
 ```
 
 To filter only the responses that contain `deadbeef` as the first item of the `data` array:
 
 ```ansi
---filter [0;1mjson:data.0=deadbeef[0m
+--filter "[0;1mjson:data.0=deadbeef[0m"
 ```
+
+```json
+{
+	"data": ["deadbeef", "cafebabe"],
+	"other": "stuff",
+	"answer": 42
+}
+```
+
+<figcaption>Example of a JSON response</figcaption>
 
 #### Example
 
