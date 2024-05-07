@@ -1,4 +1,6 @@
-const withNextra = require("nextra")({
+import buildWithNextra from "nextra";
+
+const withNextra = buildWithNextra({
 	theme: "nextra-theme-blog",
 	themeConfig: "./theme.config.tsx",
 	latex: true,
@@ -6,7 +8,7 @@ const withNextra = require("nextra")({
 	readingTime: true,
 });
 
-module.exports = withNextra({
+export default withNextra({
 	publicRuntimeConfig: {
 		UMAMI_WEBSITE_ID: process.env.UMAMI_WEBSITE_ID,
 	},
