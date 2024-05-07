@@ -48,7 +48,51 @@ python3 dirsearch.py -u http://ffuf.me/cd/basic/ -w common.txt
 I chose Rust as the programming language for this tool because it's my favorite at the moment and has a great ecosystem for writing command line tools,
 with libraries like [`clap`](https://crates.io/crates/clap) and [`reqwest`](https://crates.io/crates/reqwest).
 
-The first functionality I needed was to scan a target recursively. This was achieved by using a depth-first search algorithm.
+The first functionality I needed was to scan a target recursively. This was achieved by using a simple tree structure.
+
+```rust copy filename="tree.rs"
+impl<T> Tree<T> {
+    /// Insert a new data into the tree, at the root if no parent provided.
+    pub fn insert(
+        &mut self,
+        data: T,
+        parent: Option<Arc<Mutex<TreeNode<T>>>>,
+    ) -> Arc<Mutex<TreeNode<T>>> {
+        let new_node = Arc::new(Mutex::new(TreeNode {
+            data,
+            children: Vec::new(),
+        }));
+
+        match parent {
+            Some(parent) => {
+                parent.lock().children.push(new_node.clone());
+            }
+            None => {
+                self.root = Some(new_node.clone());
+            }
+        }
+
+        new_node
+    }
+
+    /// Recursively get all nodes at a given depth
+    fn get_nodes_at_depth(
+        node: &Option<Arc<Mutex<TreeNode<T>>>>,
+        depth: usize,
+        nodes: &mut Vec<Arc<Mutex<TreeNode<T>>>>,
+    ) {
+        if let Some(node) = node {
+            if depth == 0 {
+                nodes.push(node.clone());
+            } else {
+                for child in &node.lock().children {
+                    Self::get_nodes_at_depth_recursive(&Some(child.clone()), depth - 1, nodes);
+                }
+            }
+        }
+    }
+}
+```
 
 ```rust copy filename="single_threaded.rs"
 while depth < max_depth {
@@ -72,7 +116,7 @@ while depth < max_depth {
 }
 ```
 
-<figcaption>Pseudocode for the depth-first search algorithm</figcaption>
+<figcaption>Pseudocode for the search algorithm</figcaption>
 
 The algorithm is quite simple:
 
