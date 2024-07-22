@@ -12,7 +12,10 @@ export default withNextra({
 	publicRuntimeConfig: {
 		UMAMI_WEBSITE_ID: process.env.UMAMI_WEBSITE_ID,
 	},
-    output: "export"
+    output: "export",
+    images: {
+        unoptimized: true,
+    },
 });
 
 // If you have other Next.js configurations, you can pass them as the parameter:
