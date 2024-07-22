@@ -1,5 +1,5 @@
 import { NextraBlogTheme } from "nextra-theme-blog";
-import { Comments } from "./components/Comments";
+// import { Comments } from "./components/Comments";
 
 const config: NextraBlogTheme = {
 	footer: (
