@@ -1,0 +1,24 @@
+---
+import Prose from "@/layouts/Prose.astro";
+import RootLayout from "@/layouts/RootLayout.astro"
+import { getCollection } from "astro:content"
+
+const posts = await getCollection("blog");
+---
+
+<RootLayout path="/">
+    <Prose>
+        <a href="/">
+            <h1>blog.cstef.dev</h1>
+        </a>
+
+        <p>Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful here !</p>
+        <ul>
+            {posts.map((post) => (
+                <li>
+                    <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                </li>
+            ))}
+        </ul>
+    </Prose>
+</RootLayout>

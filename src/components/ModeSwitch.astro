@@ -1,0 +1,30 @@
+---
+import { Icon } from "astro-icon/components"
+
+---
+
+<button id="modeToggle" class="flex items-center justify-center">
+    <Icon class="h-[1.2rem] w-[1.2rem] absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" name="octicon:moon-16"/>
+    <Icon class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" name="octicon:sun-16"/>
+    <span class="sr-only">Toggle mode</span>
+</button>
+
+
+<script>
+    const setToggleListener = () => {
+      let toggleBtn = document.getElementById("modeToggle");
+      const handleToggleClick = () => {
+        const element = document.documentElement;
+        element.classList.toggle("dark");
+  
+        const isDark = element.classList.contains("dark");
+        localStorage.setItem("mode", isDark ? "dark" : "light");
+      };
+  
+      toggleBtn?.addEventListener("click", handleToggleClick);
+    };
+  
+    setToggleListener();
+  
+    document.addEventListener("astro:after-swap", setToggleListener);
+</script>

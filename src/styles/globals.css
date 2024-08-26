@@ -1,0 +1,89 @@
+@import "rehype-callouts/theme/vitepress";
+@import "katex/dist/katex.min.css";
+@import "./colors.css";
+@import "./code.css";
+
+@tailwind components;
+@tailwind utilities;
+@tailwind base;
+
+.emoji {
+	background: transparent;
+	height: 1em;
+	margin: 0 0.05em 0 0.1em !important;
+	vertical-align: -0.1em;
+	width: 1em;
+}
+
+body {
+	padding-left: 1rem;
+	padding-right: 1rem;
+	@apply bg-background text-foreground font-mono;
+	text-rendering: optimizeLegibility;
+	font-variant-ligatures: normal;
+}
+
+article {
+	padding-top: 5rem;
+	padding-bottom: 3rem;
+	display: block;
+}
+
+article,
+article img {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+article img {
+	@apply rounded-lg;
+}
+
+h1#user-content-no-anchor a.anchor,
+h2#user-content-no-anchor a.anchor,
+h3#user-content-no-anchor a.anchor,
+h4#user-content-no-anchor a.anchor,
+h5#user-content-no-anchor a.anchor,
+h6#user-content-no-anchor a.anchor {
+	@apply hidden;
+}
+
+.remove-arrow::-webkit-inner-spin-button,
+.remove-arrow::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.remove-arrow {
+	-moz-appearance: textfield;
+}
+
+[data-twemoji] {
+	@apply size-[1.2em] inline-block align-text-bottom;
+}
+
+.typst-text {
+	@apply fill-[--tw-prose-body];
+}
+
+.pikchr text,
+.pikchr path,
+.pikchr polygon {
+	@apply !stroke-[--tw-prose-body];
+}
+
+/* hide the .d2-dark class on light mode */
+html.dark .d2-light,
+html.dark .pikchr-light {
+	display: none;
+}
+
+html.light .d2-dark,
+html.light .pikchr-dark {
+	display: none;
+}
+
+body {
+	@apply !transition-colors duration-300;
+}
