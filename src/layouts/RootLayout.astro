@@ -18,24 +18,27 @@ const { path } = Astro.props;
         console.log("setMode");
         const mode = (() => {
             if (
-            typeof localStorage !== "undefined" &&
-            localStorage.getItem("mode")
+                typeof localStorage !== "undefined" &&
+                localStorage.getItem("mode")
             ) {
-            return localStorage.getItem("mode");
+                return localStorage.getItem("mode");
             }
             if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            return "dark";
+                return "dark";
             }
             return "light";
         })();
 
   
-      document.documentElement.classList.toggle("dark", mode === "dark");
+        document.documentElement.classList.toggle("dark", mode === "dark");
   
-      window.localStorage.setItem("mode", mode || "light");
-          const theme = localStorage.getItem('theme') || 'default';
+        window.localStorage.setItem("mode", mode || "light");
+        const theme = localStorage.getItem('theme') || 'default';
 
         document.documentElement.dataset.theme = theme;
+        const themeSelect = document.getElementById('theme');
+        const input = themeSelect.querySelector(`input[type="hidden"]`);
+        input.value = theme;
 
         localStorage.setItem('theme', theme);
         
@@ -60,7 +63,7 @@ const { path } = Astro.props;
         <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
             cstef
         </div>
-        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit hidden sm:block">
+        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit hidden sm:block" id="time">
             {new Date().toLocaleTimeString()}
         </div>
         <div class="flex-grow"/>
@@ -119,7 +122,7 @@ const { path } = Astro.props;
     document.addEventListener("astro:after-swap", setScroll);
     const setTime = () => {
         const time = document.getElementById("time");
-        if (!time) return;
+        if (!time) return console.log("no time");
         time.innerText = new Date().toLocaleTimeString();
     };
 
@@ -158,11 +161,11 @@ const { path } = Astro.props;
     input.value = theme;
 
     document.addEventListener("astro:after-swap", () => {
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-            document.documentElement.dataset.theme = theme;
-            const input = select.querySelector(`input[type="hidden"]`);
-            input.value = theme;
-        }
+        const theme = localStorage.getItem('theme') || 'default';
+
+        document.documentElement.dataset.theme = theme;
+        const input = select.querySelector(`input[type="hidden"]`);
+        input.value = theme;
+
     });
 </script>
