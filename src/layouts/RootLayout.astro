@@ -37,9 +37,9 @@ const { path } = Astro.props;
   
     setMode();
     const theme = localStorage.getItem('theme');
-    if (theme) {
-        document.documentElement.dataset.theme = theme || "default";
-    }
+
+    document.documentElement.dataset.theme = theme || "default";
+
   
     document.addEventListener("astro:after-swap", setMode);
 </script>
@@ -58,7 +58,7 @@ const { path } = Astro.props;
         <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
             cstef
         </div>
-        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit" id="time">
+        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit hidden sm:block">
             {new Date().toLocaleTimeString()}
         </div>
         <div class="flex-grow"/>
