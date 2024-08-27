@@ -70,7 +70,7 @@ h6#user-content-no-anchor a.anchor {
 .pikchr text,
 .pikchr path,
 .pikchr polygon {
-	@apply !stroke-[--tw-prose-body];
+	@apply !stroke-[--tw-prose-body] !text-base;
 }
 
 .pikchr-light {
