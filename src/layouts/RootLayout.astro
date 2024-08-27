@@ -38,7 +38,7 @@ const { path } = Astro.props;
     setMode();
     const theme = localStorage.getItem('theme');
     if (theme) {
-        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.theme = theme || "default";
     }
   
     document.addEventListener("astro:after-swap", setMode);
