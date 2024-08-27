@@ -1,9 +1,5 @@
 export const THEMES = [
 	{
-		name: "Atom One Dark",
-		id: "atomOneDark",
-	},
-	{
 		name: "Catppuccin",
 		id: "catppuccin",
 	},
