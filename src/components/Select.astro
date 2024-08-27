@@ -62,8 +62,11 @@ const defaultLabel = defaultOption ? defaultOption.label : "";
         this.el.addEventListener('select-change', (e) => {
             const { value } = e.detail;
             const selectedOption = Array.from(this.options).find(option => option.dataset.value === value);
+
             if (selectedOption) {
                 this.selectOption({ target: selectedOption }, false);
+            } else {
+                console.error(`Option with value ${value} not found`);
             }
         })
         // Set initial selected option if defaultValue is provided
