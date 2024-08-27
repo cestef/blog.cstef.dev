@@ -59,9 +59,11 @@ const { path } = Astro.props;
   </head>
   <body>
     <div class="fixed top-0 left-0 w-full bg-accent flex">
-        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
-            cstef
-        </div>
+        <a href="/">
+            <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
+                cstef
+            </div>
+        </a>
         <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit hidden sm:block" id="time">
             {new Date().toLocaleTimeString()}
         </div>

@@ -63,7 +63,7 @@ const defaultLabel = defaultOption ? defaultOption.label : "";
             const { value } = e.detail;
             const selectedOption = Array.from(this.options).find(option => option.dataset.value === value);
             if (selectedOption) {
-                this.selectOption({ target: selectedOption });
+                this.selectOption({ target: selectedOption }, false);
             }
         })
         // Set initial selected option if defaultValue is provided
@@ -88,7 +88,7 @@ const defaultLabel = defaultOption ? defaultOption.label : "";
         }
       }
   
-      selectOption(e) {
+      selectOption(e, dispatch = true) {
         // Ensure we are selecting the correct `li` element
         const option = e.target.closest('li');
         if (!option) return;
@@ -100,8 +100,10 @@ const defaultLabel = defaultOption ? defaultOption.label : "";
         this.ul.classList.add('hidden');
         this.button.setAttribute('aria-expanded', 'false');
   
+        if (dispatch) {
+          this.dispatchChangeEvent();
+        }
         // Dispatch custom event
-        this.dispatchChangeEvent();
       }
   
       dispatchChangeEvent() {

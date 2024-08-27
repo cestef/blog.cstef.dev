@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import Prose from "@/layouts/Prose.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+
+export async function getStaticPaths() {
+    const blogEntries = await getCollection('blog');
+    const tagsToEntries = blogEntries.reduce((acc, entry) => {
+        for (const tag of entry.data.tags) {
+            if (!acc[tag]) {
+                acc[tag] = [];
+            }
+            acc[tag].push(entry);
+        }
+        return acc;
+    }, {} as Record<string, typeof blogEntries>);
+    return Object.entries(tagsToEntries).map(([tag, entries]) => ({
+        params: { tag }, props: { entries },
+    }));
+}
+
+const { entries } = Astro.props;
+const { tag } = Astro.params;
+---
+
+<RootLayout path={`/tag/${tag}`}>
+    <Prose>
+        <h1>Tag: {entries[0].data.tags[0]}</h1>
+        <ul>
+            {entries.map(entry => (
+                <li>
+                    <a href={`/blog/${entry.slug}`}>{entry.data.title}</a>
+                </li>
+            ))}
+        </ul>
+    </Prose>
+</RootLayout>
+
