@@ -59,7 +59,13 @@ const defaultLabel = defaultOption ? defaultOption.label : "";
           option.addEventListener('click', (e) => this.selectOption(e));
         });
         document.addEventListener('click', (e) => this.closeDropdown(e));
-  
+        this.el.addEventListener('select-change', (e) => {
+            const { value } = e.detail;
+            const selectedOption = Array.from(this.options).find(option => option.dataset.value === value);
+            if (selectedOption) {
+                this.selectOption({ target: selectedOption });
+            }
+        })
         // Set initial selected option if defaultValue is provided
         if (this.hiddenInput.value) {
           const defaultOption = Array.from(this.options).find(option => option.dataset.value === this.hiddenInput.value);

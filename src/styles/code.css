@@ -2,9 +2,7 @@ div pre {
 	@apply my-4;
 }
 
-figure[data-rehype-pretty-code-figure]:has(> figcaption[data-rehype-pretty-code-title])
-	> div
-	> pre {
+figure[data-rehype-pretty-code-figure]:has(> figcaption[data-rehype-pretty-code-title]) > pre {
 	@apply rounded-t-none mt-0 border-t-0;
 }
 
@@ -98,7 +96,7 @@ code {
 }
 
 [data-rehype-pretty-code-title] {
-	@apply !text-sm border dark:border-gray-700 border-gray-200 rounded-t-md px-4 py-2 bg-[--shiki-background] font-mono font-medium;
+	@apply !text-sm border border-border rounded-t-md px-4 py-2 bg-[--shiki-background] font-mono font-medium;
 }
 
 [data-rehype-pretty-code-figure] code[data-line-numbers] {

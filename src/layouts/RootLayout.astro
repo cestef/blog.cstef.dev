@@ -13,50 +13,49 @@ export interface Props {
 const { path } = Astro.props;
 ---
 
-<script is:inline>
-    const setMode = () => {
-        console.log("setMode");
-        const mode = (() => {
-            if (
-                typeof localStorage !== "undefined" &&
-                localStorage.getItem("mode")
-            ) {
-                return localStorage.getItem("mode");
-            }
-            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                return "dark";
-            }
-            return "light";
-        })();
-
-  
-        document.documentElement.classList.toggle("dark", mode === "dark");
-  
-        window.localStorage.setItem("mode", mode || "light");
-        const theme = localStorage.getItem('theme') || 'default';
-
-        document.documentElement.dataset.theme = theme;
-        const themeSelect = document.getElementById('theme');
-        const input = themeSelect.querySelector(`input[type="hidden"]`);
-        input.value = theme;
-
-        localStorage.setItem('theme', theme);
-        
-    };
-  
-    setMode();
-  
-    document.addEventListener("astro:after-swap", setMode);
-</script>
-
 <!doctype html>
 <html lang="en">
   <head>
+      <script is:inline>
+          const setMode = () => {
+              console.log("setMode");
+              const mode = (() => {
+                  if (
+                      typeof localStorage !== "undefined" &&
+                      localStorage.getItem("mode")
+                    ) {
+                        return localStorage.getItem("mode");
+                    }
+                    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                        return "dark";
+                    }
+                    return "light";
+                })();
+                
+                
+                document.documentElement.classList.toggle("dark", mode === "dark");
+                
+                window.localStorage.setItem("mode", mode || "light");
+                const theme = localStorage.getItem('theme') || 'default';
+                
+                document.documentElement.dataset.theme = theme;
+                localStorage.setItem('theme', theme);
+                
+                window.addEventListener("DOMContentLoaded", () => {
+                    const themeSelect = document.getElementById('theme');
+                    if (!themeSelect) return console.log("no theme select");
+                    themeSelect.dispatchEvent(new CustomEvent('select-change', { detail: { value: theme } }));
+                });
+            };
+            
+            setMode();
+            
+            document.addEventListener("astro:after-swap", setMode);
+        </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ViewTransitions />
     <title>blog.cstef.dev</title>
-    
   </head>
   <body>
     <div class="fixed top-0 left-0 w-full bg-accent flex">
@@ -68,12 +67,14 @@ const { path } = Astro.props;
         </div>
         <div class="flex-grow"/>
         <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit appearance-none">
-            <Select id="theme" name="theme" defaultValue="default" options={[
+            <Select id="theme" name="theme" options={[
                 { label: "GRUVBOX", value: "gruvbox" },
                 { label: "NORD", value: "nord" },
                 { label: "DRACULA", value: "dracula" },
                 { label: "SOLARIZED", value: "solarized" },
                 { label: "MONOKAI", value: "monokai" },
+                { label: "CATPPUCCIN", value: "catppuccin" },
+                { label: "ATOM ONE DARK", value: "atomOneDark" },
                 { label: "GITHUB", value: "default" },
             ]} />
         </div>
