@@ -18,7 +18,7 @@
 body {
 	padding-left: 1rem;
 	padding-right: 1rem;
-	@apply bg-background text-foreground font-mono;
+	@apply bg-background text-foreground font-mono transition-colors duration-300;
 	text-rendering: optimizeLegibility;
 	font-variant-ligatures: normal;
 }
