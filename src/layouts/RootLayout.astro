@@ -33,13 +33,15 @@ const { path } = Astro.props;
       document.documentElement.classList.toggle("dark", mode === "dark");
   
       window.localStorage.setItem("mode", mode || "light");
+          const theme = localStorage.getItem('theme') || 'default';
+
+        document.documentElement.dataset.theme = theme;
+
+        localStorage.setItem('theme', theme);
+        
     };
   
     setMode();
-    const theme = localStorage.getItem('theme');
-
-    document.documentElement.dataset.theme = theme || "default";
-
   
     document.addEventListener("astro:after-swap", setMode);
 </script>
