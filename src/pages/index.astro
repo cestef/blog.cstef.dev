@@ -17,7 +17,7 @@ const posts = await getCollection("blog");
         <ul>
             {posts.map((post) => (
                 <li>
-                    <div class="flex items-center">
+                    <div>
                         <a href={`/blog/${post.slug}`}>
                             <h3>{post.data.title}</h3>
                         </a>

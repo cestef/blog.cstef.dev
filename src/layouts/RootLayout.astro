@@ -18,6 +18,7 @@ const { path } = Astro.props;
 <html lang="en">
   <head>
       <script is:inline define:vars={{ THEMES }}>
+
           const setMode = () => {
               console.log("setMode");
               const mode = (() => {
@@ -38,7 +39,10 @@ const { path } = Astro.props;
                 
                 window.localStorage.setItem("mode", mode || "light");
                 let theme = localStorage.getItem('theme') || 'default';
-                if (!Object.keys(THEMES).includes(theme)) {
+                console.log("theme", theme);
+                console.log("themes", Object.keys(THEMES));
+                if (!THEMES.find(e => e.id === theme)) {
+                    console.log("theme not found");
                     theme = 'default';
                 }
                 document.documentElement.dataset.theme = theme;
