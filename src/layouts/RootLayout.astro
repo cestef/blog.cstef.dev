@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import { ViewTransitions } from "astro:transitions";
 import ModeSwitch from "@/components/ModeSwitch.astro";
 import Select from "@/components/Select.astro";
+import { THEMES } from "@/constants";
 
 export interface Props {
     path: string;
@@ -16,7 +17,7 @@ const { path } = Astro.props;
 <!doctype html>
 <html lang="en">
   <head>
-      <script is:inline>
+      <script is:inline define:vars={{ THEMES }}>
           const setMode = () => {
               console.log("setMode");
               const mode = (() => {
@@ -36,8 +37,10 @@ const { path } = Astro.props;
                 document.documentElement.classList.toggle("dark", mode === "dark");
                 
                 window.localStorage.setItem("mode", mode || "light");
-                const theme = localStorage.getItem('theme') || 'default';
-                
+                let theme = localStorage.getItem('theme') || 'default';
+                if (!Object.keys(THEMES).includes(theme)) {
+                    theme = 'default';
+                }
                 document.documentElement.dataset.theme = theme;
                 localStorage.setItem('theme', theme);
                 
@@ -69,16 +72,7 @@ const { path } = Astro.props;
         </div>
         <div class="flex-grow"/>
         <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit appearance-none">
-            <Select id="theme" name="theme" options={[
-                { label: "GRUVBOX", value: "gruvbox" },
-                { label: "NORD", value: "nord" },
-                { label: "DRACULA", value: "dracula" },
-                { label: "SOLARIZED", value: "solarized" },
-                { label: "MONOKAI", value: "monokai" },
-                { label: "CATPPUCCIN", value: "catppuccin" },
-                { label: "ATOM ONE DARK", value: "atomOneDark" },
-                { label: "GITHUB", value: "default" },
-            ]} />
+            <Select id="theme" name="theme" options={THEMES.map(e => ({ label: e.name.toUpperCase(), value: e.id }))} />
         </div>
         <div class="bg-primary text-primary-foreground px-4 py-2 w-fit">
             <ModeSwitch />
