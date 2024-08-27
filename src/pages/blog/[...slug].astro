@@ -3,6 +3,7 @@ import Prose from '@/layouts/Prose.astro';
 import RootLayout from '@/layouts/RootLayout.astro';
 
 import { getCollection } from 'astro:content';
+
 export async function getStaticPaths() {
     const blogEntries = await getCollection('blog');
     return blogEntries.map(entry => ({
@@ -17,6 +18,14 @@ const { Content } = await entry.render();
 <RootLayout path={`/blog/${entry.slug}`}>
     <Prose>
         <h1>{entry.data.title}</h1>
+        <div>
+            {entry.data.tags.map((tag, i) => (
+                <>
+                    <a href={`/tag/${tag}`}><div class="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-md">{tag}</div></a>
+                </>
+            ))}
+        </div>
+
         <Content />
     </Prose>
 </RootLayout>

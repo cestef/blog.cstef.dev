@@ -13,10 +13,16 @@ const posts = await getCollection("blog");
         </a>
 
         <p>Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful here !</p>
+        <h2>Latest posts</h2>
         <ul>
             {posts.map((post) => (
                 <li>
-                    <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                    <div class="flex items-center">
+                        <a href={`/blog/${post.slug}`}>
+                            <h3>{post.data.title}</h3>
+                        </a>
+                        <p>{post.data.description}</p>
+                    </div>
                 </li>
             ))}
         </ul>

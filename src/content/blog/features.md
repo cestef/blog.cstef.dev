@@ -1,7 +1,8 @@
 ---
 title: Features
 author: cstef
-tags: []
+tags: [test, features]
+description: A list of features available in uses.ink
 ---
 
 `uses.ink` comes with a lot of features out of the box. No configuration needed. You push and we render.
