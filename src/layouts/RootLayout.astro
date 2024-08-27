@@ -1,0 +1,166 @@
+---
+import "@fontsource-variable/fira-code"
+import "@/styles/globals.css";
+
+import { ViewTransitions } from "astro:transitions";
+import ModeSwitch from "@/components/ModeSwitch.astro";
+import Select from "@/components/Select.astro";
+
+export interface Props {
+    path: string;
+}
+
+const { path } = Astro.props;
+---
+
+<script is:inline>
+    const setMode = () => {
+        console.log("setMode");
+        const mode = (() => {
+            if (
+            typeof localStorage !== "undefined" &&
+            localStorage.getItem("mode")
+            ) {
+            return localStorage.getItem("mode");
+            }
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+            }
+            return "light";
+        })();
+
+  
+      document.documentElement.classList.toggle("dark", mode === "dark");
+  
+      window.localStorage.setItem("mode", mode || "light");
+    };
+  
+    setMode();
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+        document.documentElement.dataset.theme = theme;
+    }
+  
+    document.addEventListener("astro:after-swap", setMode);
+</script>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ViewTransitions />
+    <title>blog.cstef.dev</title>
+    
+  </head>
+  <body>
+    <div class="fixed top-0 left-0 w-full bg-accent flex">
+        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
+            cstef
+        </div>
+        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit" id="time">
+            {new Date().toLocaleTimeString()}
+        </div>
+        <div class="flex-grow"/>
+        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit appearance-none">
+            <Select id="theme" name="theme" defaultValue="default" options={[
+                { label: "GRUVBOX", value: "gruvbox" },
+                { label: "NORD", value: "nord" },
+                { label: "DRACULA", value: "dracula" },
+                { label: "SOLARIZED", value: "solarized" },
+                { label: "MONOKAI", value: "monokai" },
+                { label: "GITHUB", value: "default" },
+            ]} />
+        </div>
+        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit">
+            <ModeSwitch />
+        </div>
+    </div>
+    <main>
+        <slot />
+    </main>
+    <div class="fixed bottom-0 left-0 w-full bg-accent flex">
+        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
+            VIS   
+        </div>
+        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit">
+            {path}
+        </div>
+        <div class="flex-grow"/>
+        <div class="bg-success/70 text-secondary-foreground px-4 py-2 w-fit font-black" id="connection">
+            ONLINE
+        </div>
+        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black" id="scroll">
+            TOP
+        </div>
+    </div>
+  </body>
+</html>
+
+<script is:inline>
+    const setScroll = () => {
+        const scroll = document.getElementById("scroll");
+        if (!scroll) return;
+        const percent = Math.floor((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (percent === 100) {
+            scroll.innerText = "END";
+            return;
+        } else if (percent === 0) {
+            scroll.innerText = "TOP";
+            return;
+        }
+        scroll.innerText = `${percent}%`;
+    };
+
+    setScroll();
+    window.addEventListener("scroll", setScroll);
+    document.addEventListener("astro:after-swap", setScroll);
+    const setTime = () => {
+        const time = document.getElementById("time");
+        if (!time) return;
+        time.innerText = new Date().toLocaleTimeString();
+    };
+
+    setTime();
+
+    setInterval(() => {
+        setTime();
+    }, 1000);
+
+    const setConnection = () => {
+        const connection = document.getElementById("connection");
+        if (!connection) return;
+        connection.innerText = navigator.onLine ? "ONLINE" : "OFFLINE";
+        if (navigator.onLine) {
+            connection.classList.remove("bg-destructive/70");
+            connection.classList.add("bg-success/70");
+        } else {
+            connection.classList.remove("bg-success/70");
+            connection.classList.add("bg-destructive/70");
+        }
+    };
+
+    setConnection();
+    window.addEventListener("online", setConnection);
+    window.addEventListener("offline", setConnection);
+    document.addEventListener("astro:after-swap", setConnection);
+
+    
+
+    const select = document.getElementById('theme');
+    select.addEventListener('select-change', (event) => {
+        document.documentElement.dataset.theme = event.detail.value;
+        localStorage.setItem('theme', event.detail.value);
+    });
+    const input = select.querySelector(`input[type="hidden"]`);
+    input.value = theme;
+
+    document.addEventListener("astro:after-swap", () => {
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+            document.documentElement.dataset.theme = theme;
+            const input = select.querySelector(`input[type="hidden"]`);
+            input.value = theme;
+        }
+    });
+</script>

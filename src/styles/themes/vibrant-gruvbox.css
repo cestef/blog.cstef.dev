@@ -1,0 +1,104 @@
+:root[data-theme="vibrant-gruvbox"] {
+	/* Base colors */
+	--background: 50 15% 92%;
+	--foreground: 40 10% 20%;
+
+	/* Primary colors */
+	--primary: 20 30% 40%;
+	--primary-foreground: 50 15% 92%;
+	--secondary: 60 15% 80%;
+	--secondary-foreground: 40 10% 20%;
+
+	/* Accent colors */
+	--accent: 180 20% 50%;
+	--accent-foreground: 50 15% 92%;
+	--muted: 40 15% 85%;
+	--muted-foreground: 40 10% 40%;
+
+	/* Functional colors */
+	--card: 50 15% 95%;
+	--card-foreground: 40 10% 20%;
+	--popover: 50 15% 95%;
+	--popover-foreground: 40 10% 20%;
+	--destructive: 0 60% 50%;
+	--destructive-foreground: 50 15% 92%;
+
+	/* Border and input colors */
+	--border: 40 15% 75%;
+	--input: 40 15% 75%;
+	--ring: 20 30% 40%;
+
+	/* Misc */
+	--radius: 0.5rem;
+
+	/* Chart colors */
+	--chart-1: 20 40% 50%;
+	--chart-2: 60 30% 45%;
+	--chart-3: 180 30% 45%;
+	--chart-4: 340 30% 50%;
+	--chart-5: 120 25% 40%;
+
+	/* Syntax highlighting */
+	--shiki-foreground: #3c3836;
+	--shiki-background: transparent;
+	--shiki-token-constant: #076678;
+	--shiki-token-string: #79740e;
+	--shiki-token-comment: #928374;
+	--shiki-token-keyword: #9d0006;
+	--shiki-token-parameter: #3c3836;
+	--shiki-token-function: #8f3f71;
+	--shiki-token-string-expression: #79740e;
+	--shiki-token-punctuation: #3c3836;
+	--shiki-token-link: #79740e;
+}
+
+.dark[data-theme="vibrant-gruvbox"] {
+	/* Base colors */
+	--background: 40 10% 18%;
+	--foreground: 50 15% 90%;
+
+	/* Primary colors */
+	--primary: 20 30% 60%;
+	--primary-foreground: 40 10% 18%;
+	--secondary: 60 15% 25%;
+	--secondary-foreground: 50 15% 90%;
+
+	/* Accent colors */
+	--accent: 180 20% 40%;
+	--accent-foreground: 50 15% 90%;
+	--muted: 40 15% 25%;
+	--muted-foreground: 50 15% 70%;
+
+	/* Functional colors */
+	--card: 40 10% 22%;
+	--card-foreground: 50 15% 90%;
+	--popover: 40 10% 22%;
+	--popover-foreground: 50 15% 90%;
+	--destructive: 0 60% 45%;
+	--destructive-foreground: 50 15% 90%;
+
+	/* Border and input colors */
+	--border: 40 15% 30%;
+	--input: 40 15% 30%;
+	--ring: 20 30% 60%;
+
+	/* Chart colors */
+	--chart-1: 20 40% 55%;
+	--chart-2: 60 30% 50%;
+	--chart-3: 180 30% 50%;
+	--chart-4: 340 30% 55%;
+	--chart-5: 120 25% 45%;
+
+	/* Syntax highlighting */
+	--shiki-foreground: #ebdbb2;
+	--shiki-background: transparent;
+	--shiki-token-constant: #83a598;
+	--shiki-token-string: #b8bb26;
+	--shiki-token-comment: #928374;
+	--shiki-token-keyword: #fb4934;
+	--shiki-token-parameter: #ebdbb2;
+	--shiki-token-function: #d3869b;
+	--shiki-token-string-expression: #b8bb26;
+	--shiki-token-punctuation: #ebdbb2;
+	--shiki-token-link: #b8bb26;
+}

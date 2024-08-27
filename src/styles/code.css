@@ -1,0 +1,140 @@
+div pre {
+	@apply my-4;
+}
+
+figure[data-rehype-pretty-code-figure]:has(> figcaption[data-rehype-pretty-code-title])
+	> div
+	> pre {
+	@apply rounded-t-none mt-0 border-t-0;
+}
+
+pre.with-title .copy-button {
+	@apply top-4;
+}
+
+pre {
+	@apply border border-border rounded-md py-2 px-4 overflow-x-auto;
+}
+
+code .diff.add {
+	background-color: rgba(16, 185, 129, 0.16) !important;
+	position: relative;
+}
+
+code .diff.remove {
+	background-color: rgba(239, 68, 68, 0.16) !important;
+	position: relative;
+	opacity: 0.65;
+}
+
+code .line.highlighted {
+	background-color: rgba(185, 185, 185, 0.16) !important;
+}
+
+code .diff.add::before {
+	content: "+";
+	color: #10b981;
+	position: absolute;
+	@apply left-1;
+}
+
+code .diff.remove::before {
+	content: "-";
+	color: #ef4444;
+	position: absolute;
+	@apply left-1;
+}
+
+code .diff.add span,
+code .diff.remove span,
+code .line.highlighted span {
+	background-color: transparent;
+}
+
+span.highlighted-word {
+	background-color: rgba(185, 185, 185, 0.16) !important;
+	border: 1px solid rgba(185, 185, 185, 0.32);
+	padding: 2px 4px;
+	border-radius: 4px;
+}
+
+.has-focused .line:not(.focused) {
+	filter: blur(0.095rem);
+	opacity: 0.4;
+	transition: filter 0.35s, opacity 0.35s;
+}
+
+.has-focused:hover .line:not(.focused) {
+	filter: blur(0);
+	opacity: 1;
+}
+
+html[data-word-wrap] pre {
+	word-break: break-word;
+	@apply whitespace-pre-wrap md:whitespace-pre;
+}
+
+span[data-rehype-pretty-code-figure] code {
+	@apply rounded-sm px-1 dark:border-gray-700 border-gray-200 border;
+
+	&::before {
+		content: "";
+	}
+	&::after {
+		content: "";
+	}
+}
+
+span[data-rehype-pretty-code-figure] {
+	text-wrap: nowrap;
+}
+
+[data-rehype-pretty-code-figure] pre {
+	@apply px-0;
+}
+
+code {
+	@apply text-[0.8571429em] md:text-sm;
+}
+
+[data-rehype-pretty-code-title] {
+	@apply !text-sm border dark:border-gray-700 border-gray-200 rounded-t-md px-4 py-2 bg-[--shiki-background] font-mono font-medium;
+}
+
+[data-rehype-pretty-code-figure] code[data-line-numbers] {
+	counter-reset: line;
+}
+
+[data-rehype-pretty-code-figure] code[data-line-numbers] > [data-line]::before {
+	counter-increment: line;
+	content: counter(line);
+	@apply mr-4 inline-block w-4 text-right text-gray-500;
+}
+
+[data-rehype-pretty-code-figure] pre [data-line] {
+	@apply border-l-2 border-l-transparent px-5;
+}
+
+[data-rehype-pretty-code-figure] code {
+	@apply py-2;
+}
+
+[data-rehype-pretty-code-figure] [data-highlighted-line] {
+	background: rgba(200, 200, 255, 0.1);
+	@apply !border-l-blue-400;
+}
+
+[data-rehype-pretty-code-figure] [data-highlighted-chars] {
+	background-color: rgba(224, 224, 249, 0.1);
+	border: 1px solid rgba(200, 200, 255, 0.2);
+	padding: 2px 4px;
+	border-radius: 4px;
+}
+
+[data-rehype-pretty-code-figure] [data-chars-id] {
+	@apply border-b-2 p-1 shadow-none;
+}
+
+[data-rehype-pretty-code-figure]:not([data-copy="true"]) #copy-code {
+	@apply hidden;
+}
