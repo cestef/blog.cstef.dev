@@ -73,15 +73,11 @@ h6#user-content-no-anchor a.anchor {
 	@apply !stroke-[--tw-prose-body];
 }
 
-/* hide the .d2-dark class on light mode */
-html.dark .d2-light,
-html.dark .pikchr-light {
-	display: none;
+.pikchr-light {
+	@apply dark:hidden block;
 }
-
-html.light .d2-dark,
-html.light .pikchr-dark {
-	display: none;
+.pikchr-dark {
+	@apply hidden dark:block;
 }
 
 body {
