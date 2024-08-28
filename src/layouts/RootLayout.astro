@@ -46,6 +46,10 @@ const { path } = Astro.props;
                     theme = 'default';
                 }
                 document.documentElement.dataset.theme = theme;
+                const prose = document.getElementById('prose');
+                if (prose) {
+                    prose.classList.add(`prose-${theme}`);
+                }
                 localStorage.setItem('theme', theme);
                 
                 window.addEventListener("DOMContentLoaded", () => {
@@ -82,14 +86,14 @@ const { path } = Astro.props;
             <ModeSwitch />
         </div>
     </div>
-    <main>
+    <main class="mb-24">
         <slot />
     </main>
     <div class="fixed bottom-0 left-0 w-full bg-accent flex">
         <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
             VIS   
         </div>
-        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit">
+        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit truncate">
             {path}
         </div>
         <div class="flex-grow"/>
@@ -103,7 +107,7 @@ const { path } = Astro.props;
   </body>
 </html>
 
-<script is:inline>
+<script is:inline define:vars={{ THEMES }}>
     const setScroll = () => {
         const scroll = document.getElementById("scroll");
         if (!scroll) return;
@@ -157,6 +161,13 @@ const { path } = Astro.props;
     const select = document.getElementById('theme');
     select.addEventListener('select-change', (event) => {
         document.documentElement.dataset.theme = event.detail.value;
+        const prose = document.getElementById('prose');
+        if (prose) {
+            for (const theme of THEMES) {
+                prose.classList.remove(`prose-${theme.id}`);
+            }
+            prose.classList.add(`prose-${event.detail.value}`);
+        }
         localStorage.setItem('theme', event.detail.value);
     });
     const input = select.querySelector(`input[type="hidden"]`);
@@ -166,6 +177,13 @@ const { path } = Astro.props;
         const theme = localStorage.getItem('theme') || 'default';
 
         document.documentElement.dataset.theme = theme;
+        const prose = document.getElementById('prose');
+        if (prose) {
+            for (const theme of THEMES) {
+                prose.classList.remove(`prose-${theme.id}`);
+            }
+            prose.classList.add(`prose-${theme}`);
+        }
         const input = select.querySelector(`input[type="hidden"]`);
         input.value = theme;
 

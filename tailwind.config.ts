@@ -6,6 +6,7 @@ import * as themes from "./themes";
 export default {
 	darkMode: "class",
 	content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+	safelist: [{ pattern: /prose-*/ }],
 	theme: {
 		extend: {
 			fontFamily: {
