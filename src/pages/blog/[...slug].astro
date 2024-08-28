@@ -12,12 +12,13 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, remarkPluginFrontmatter: frontmatter } = await entry.render();
 ---
 
 <RootLayout path={`/blog/${entry.slug}`}>
     <Prose>
         <h1>{entry.data.title}</h1>
+        <p class="text-muted-foreground">{entry.data.date.toLocaleDateString()} - {frontmatter.minutesRead}</p>
         <div>
             {entry.data.tags.map((tag, i) => (
                 <>

@@ -18,9 +18,11 @@ const posts = await getCollection("blog");
             {posts.map((post) => (
                 <li>
                     <div>
-                        <a href={`/blog/${post.slug}`}>
-                            <h3>{post.data.title}</h3>
-                        </a>
+
+                        <h3 class="md:flex justify-between items-center gap-2">
+                            <a href={`/blog/${post.slug}`}>{post.data.title.trim()}</a> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span>
+                        </h3>
+
                         <p>{post.data.description}</p>
                     </div>
                 </li>

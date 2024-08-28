@@ -19,6 +19,7 @@ import {
 } from "shiki";
 import pikchrLang from "./syntaxes/pikchr.tmLanguage.json";
 import icon from "astro-icon";
+import { remarkReadingTime } from "./plugins/reading-time";
 
 // https://astro.build/config
 export default defineConfig({
@@ -56,7 +57,7 @@ export default defineConfig({
 				},
 			],
 		],
-		remarkPlugins: [remarkMath, remarkEmoji],
+		remarkPlugins: [remarkMath, remarkEmoji, remarkReadingTime],
 		syntaxHighlight: false,
 	},
 });
