@@ -115,7 +115,9 @@ const { path } = Astro.props;
             scroll.innerText = "TOP";
             return;
         }
-        const percent = Math.floor((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        let percent = Math.floor((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        // Clamp to 100
+        percent = Math.min(percent, 100);
         if (percent === 100) {
             scroll.innerText = "END";
             return;
@@ -137,6 +139,8 @@ const { path } = Astro.props;
     setInterval(() => {
         setTime();
     }, 1000);
+
+    window.addEventListener("astro:after-swap", setTime);
 
     const setConnection = () => {
         const connection = document.getElementById("connection");
