@@ -27,6 +27,7 @@ article {
 	padding-top: 5rem;
 	padding-bottom: 3rem;
 	display: block;
+	@apply prose-figcaption:!text-muted-foreground prose-figcaption:text-center;
 }
 
 article,

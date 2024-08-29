@@ -32,6 +32,9 @@ importers:
       '@iconify-json/octicon':
         specifier: ^1.1.57
         version: 1.1.57
+      '@microflash/rehype-figure':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@myriaddreamin/typst-ts-node-compiler':
         specifier: 0.5.0-rc7
         version: 0.5.0-rc7
@@ -640,6 +643,9 @@ packages:
 
   '@mdx-js/mdx@3.0.1':
     resolution: {integrity: sha512-eIQ4QTrOWyL3LWEe/bu6Taqzq2HQvHcyTMaOrI95P2/LmJE7AsfPfgJGuFLPVqBUE1BC1rik3VIhU+s9u72arA==}
+
+  '@microflash/rehype-figure@2.1.0':
+    resolution: {integrity: sha512-Ff1rrqjRYcmV9/7Qk8HM/mBpz9k5yzO8pgKfbI2hnN09sBQXoeOP4d9J419Mwk+LoMZlSfd4kgI92dFRtYBvUg==}
 
   '@myriaddreamin/typst-ts-node-compiler-android-arm-eabi@0.5.0-rc7':
     resolution: {integrity: sha512-ylE/EAp6O3Riy0oeFz/QntbdlQi1crbS17WVYmeMRzQYRpvqzFVlSbg6I5TICwru6AxjajZIilcLX38OFSD2EQ==}
@@ -2624,6 +2630,9 @@ packages:
   unist-util-remove-position@5.0.0:
     resolution: {integrity: sha512-Hp5Kh3wLxv0PHj9m2yZhhLt58KzPtEYKQQ4yxfYFEO7EvHwzyDYnduhHnY1mDxoqr7VUwVuHXk9RXKIiYS1N8Q==}
 
+  unist-util-remove@4.0.0:
+    resolution: {integrity: sha512-b4gokeGId57UVRX/eVKej5gXqGlc9+trkORhFJpu9raqZkZhU0zm8Doi05+HaiBsMEIJowL+2WtQ5ItjsngPXg==}
+
   unist-util-stringify-position@4.0.0:
     resolution: {integrity: sha512-0ASV06AAoKCDkS2+xw5RXJywruurpbC4JZSm7nr7MOt1ojAzvyyaO+UxZf18j8FCF6kmzCZKcAgN/yu2gm2XgQ==}
 
@@ -3481,6 +3490,13 @@ snapshots:
       vfile: 6.0.2
     transitivePeerDependencies:
       - supports-color
+
+  '@microflash/rehype-figure@2.1.0':
+    dependencies:
+      hast-util-whitespace: 3.0.0
+      hastscript: 9.0.0
+      unist-util-remove: 4.0.0
+      unist-util-visit: 5.0.0
 
   '@myriaddreamin/typst-ts-node-compiler-android-arm-eabi@0.5.0-rc7':
     optional: true
@@ -6012,6 +6028,12 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
       unist-util-visit: 5.0.0
+
+  unist-util-remove@4.0.0:
+    dependencies:
+      '@types/unist': 3.0.3
+      unist-util-is: 6.0.0
+      unist-util-visit-parents: 6.0.1
 
   unist-util-stringify-position@4.0.0:
     dependencies:
