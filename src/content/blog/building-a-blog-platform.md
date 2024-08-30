@@ -3,6 +3,7 @@ title: Building a Dynamic Blog Platform with Astro and GitHub
 tags: [blog, astro, github]
 description: Learn how I built uses.ink, a dynamic blog platform that uses Astro and GitHub to generate and host content.
 date: 2024-08-25
+state: draft
 ---
 
 In the recent years, almost every developer has built a blog at some point. It's a great way to share your knowledge and experiences with the world. But building a blog platform from scratch can be a daunting task. You have to worry about things like content management, hosting, and SEO. Many developers opt for static site generators like Gatsby or Next.js to simplify the process. 
@@ -15,4 +16,11 @@ Astro is rapidly gaining traction as a powerful framework for building modern we
 
 This looked like the perfect tool for building my platform! I had first written a PoC in Next.js, but webpack was a bit too messy for my taste. Astro was a breath of fresh air, and I was able to get a working prototype up and running in no time. Very cool!
 
-## How does `uses.ink` work?
+## Planning the Architecture
+
+The first step in building `uses.ink` was to plan out the architecture. I wanted to keep things simple and modular, so I decided to opt for a monorepo structure. The repository would contain two main packages:
+
+- `web`: The main Astro app that serves the blog content.
+- `render`: A collection of renderer functions that convert markdown content to HTML.
+
+This separation of concerns made it easy to manage the codebase and add new features.
