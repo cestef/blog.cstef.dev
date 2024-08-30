@@ -8,6 +8,7 @@ const blogCollection = defineCollection({
 		image: z.string().optional(),
 		description: z.string(),
 		date: z.date().transform((val) => new Date(val)),
+		state: z.enum(["draft", "published"]).default("published"),
 	}),
 });
 

@@ -18,7 +18,7 @@ const { Content, remarkPluginFrontmatter: frontmatter } = await entry.render();
 <RootLayout path={`/blog/${entry.slug}`}>
     <Prose>
         <h1>{entry.data.title}</h1>
-        <p class="text-muted-foreground">{entry.data.date.toLocaleDateString()} - {frontmatter.minutesRead}</p>
+        <p class="text-muted-foreground">{entry.data.date.toLocaleDateString()} - {frontmatter.minutesRead} {entry.data.state === "draft" && <span class="bg-destructive text-destructive-foreground px-2 py-1 rounded-md w-fit font-bold">Draft</span>}</p>
         <div>
             {entry.data.tags.map((tag, i) => (
                 <>

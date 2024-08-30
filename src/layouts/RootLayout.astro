@@ -192,4 +192,22 @@ const { path } = Astro.props;
         input.value = theme;
 
     });
+
+    // vim keybindings
+    document.addEventListener("keydown", (event) => {
+        switch (event.key) {
+            case "j":
+                window.scrollBy(0, 100);
+                break;
+            case "k":
+                window.scrollBy(0, -100);
+                break;
+            case "g":
+                window.scrollTo(0, 0);
+                break;
+            case "G":
+                window.scrollTo(0, document.body.scrollHeight);
+                break;
+        }
+    });
 </script>
