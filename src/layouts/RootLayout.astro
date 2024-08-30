@@ -9,9 +9,11 @@ import { THEMES } from "@/constants";
 
 export interface Props {
     path: string;
+    title?: string;
+    description?: string;
 }
 
-const { path } = Astro.props;
+const { path, title, description } = Astro.props;
 ---
 
 <!doctype html>
@@ -66,7 +68,8 @@ const { path } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ViewTransitions />
-    <title>blog.cstef.dev</title>
+    <title>{title ? title : "cstef's Digital Garden"}</title>
+    <meta name="description" content={description} />
   </head>
   <body>
     <div class="fixed top-0 left-0 w-full bg-accent flex">
