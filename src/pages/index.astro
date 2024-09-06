@@ -34,3 +34,29 @@ const posts = (await getCollection("blog"))
         </ul> : <p>No posts yet. Check back later!</p>}
     </Prose>
 </RootLayout>
+
+<script is:inline>
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiIndex = 0;
+
+function setupKonamiCodeRickroll() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                rickroll();
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+}
+
+function rickroll() {
+    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+}
+
+// Call this function to set up the Konami Code listener
+setupKonamiCodeRickroll();
+</script>
