@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
@@ -16,11 +17,11 @@
     "@astrojs/tailwind": "^5.1.0",
     "@beoe/rehype-code-hook": "^0.0.1",
     "@fontsource-variable/fira-code": "^5.0.19",
-    "@iconify-json/lucide": "^1.1.208",
-    "@iconify-json/octicon": "^1.1.57",
+    "@iconify-json/lucide": "^1.2.2",
+    "@iconify-json/octicon": "^1.2.0",
     "@microflash/rehype-figure": "^2.1.0",
     "@myriaddreamin/typst-ts-node-compiler": "0.5.0-rc7",
-    "astro": "^4.15.2",
+    "astro": "^4.15.3",
     "astro-icon": "^1.1.1",
     "hast-util-from-html-isomorphic": "^2.0.0",
     "hast-util-to-text": "^4.0.2",
@@ -33,7 +34,7 @@
     "rehype-twemoji": "^0.0.6",
     "remark-emoji": "^5.0.1",
     "remark-math": "^6.0.0",
-    "shiki": "^1.14.1",
+    "shiki": "^1.16.2",
     "tailwindcss": "^3.4.10",
     "twemoji": "^14.0.2",
     "typescript": "^5.5.4",
@@ -42,11 +43,16 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@tailwindcss/typography": "^0.5.14",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@commitlint/types": "^19.0.3",
+    "@tailwindcss/typography": "^0.5.15",
     "@types/hast": "^3.0.4",
+    "commitlint": "^19.4.1",
+    "husky": "^9.1.5",
     "katex": "^0.16.11",
     "tailwindcss-bg-patterns": "^0.3.0",
     "unified": "^11.0.5",
-    "vfile": "^6.0.2"
-  }
+    "vfile": "^6.0.3"
+  },
+  "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1"
 }
