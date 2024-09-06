@@ -3,7 +3,11 @@ import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro"
 import { getCollection } from "astro:content"
 
-const posts = await getCollection("blog");
+const isProd = import.meta.env.PROD;
+const posts = (await getCollection("blog"))
+    .filter(e => isProd ? e.data.state !== "draft" : true)
+    .sort((a,b) => b.data.date.getTime() - a.data.date.getTime())
+
 ---
 
 <RootLayout path="/">
@@ -14,8 +18,8 @@ const posts = await getCollection("blog");
         <p>Welcome to my garden! 🌱</p>
         <p>Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful here !</p>
         <h2>Latest posts</h2>
-        <ul>
-            {posts.sort((a,b) => b.data.date.getTime() - a.data.date.getTime()).map((post) => (
+        {posts.length > 0 ? <ul>
+            {posts.map((post) => (
                 <li>
                     <div>
 
@@ -27,6 +31,6 @@ const posts = await getCollection("blog");
                     </div>
                 </li>
             ))}
-        </ul>
+        </ul> : <p>No posts yet. Check back later!</p>}
     </Prose>
 </RootLayout>
