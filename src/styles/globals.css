@@ -78,7 +78,12 @@ h6#user-content-no-anchor a.anchor {
 }
 .pikchr text,
 .pikchr path,
-.pikchr polygon {
+.pikchr polygon,
+.pikchr polyline,
+.pikchr circle,
+.pikchr ellipse,
+.pikchr rect,
+.pikchr line {
 	@apply !stroke-[--tw-prose-body] !text-base;
 }
 
