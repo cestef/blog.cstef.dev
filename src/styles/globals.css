@@ -64,7 +64,7 @@ h6#user-content-no-anchor a.anchor {
 	@apply size-[1.2em] inline-block align-text-bottom;
 }
 
-.typst-text {
+.typst-text[fill="#000"] {
 	@apply fill-[--tw-prose-body];
 }
 .typst-shape {
@@ -73,7 +73,9 @@ h6#user-content-no-anchor a.anchor {
 .typst-inline {
 	@apply inline;
 }
-
+.typst-doc:not(.typst-inline) {
+	@apply overflow-x-auto max-w-full;
+}
 .pikchr text,
 .pikchr path,
 .pikchr polygon {
