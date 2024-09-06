@@ -19,8 +19,8 @@ const posts = await getCollection("blog");
                 <li>
                     <div>
 
-                        <h3 class="md:flex justify-between items-center gap-2">
-                            <a href={`/blog/${post.slug}`}>{post.data.title.trim()}</a> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> {post.data.state === "draft" && <span class="bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-sm w-fit font-bold">Draft</span>}
+                        <h3 class="flex items-center gap-2 md:gap-4">
+                            <a href={`/blog/${post.slug}`} class="">{post.data.title.trim()}</a> <div class="flex-grow"/> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> {post.data.state === "draft" && <span class="bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-sm w-fit font-bold">Draft</span>}
                         </h3>
 
                         <p>{post.data.description}</p>

@@ -185,7 +185,7 @@ async function renderToSVGString_(
 ): Promise<any> {
 	const inlineMathTemplate = `
     #set page(height: auto, width: auto, margin: 0pt)
-
+    #set text(14pt)
     #let s = state("t", (:))
 
     #let pin(t) = locate(loc => {
@@ -204,7 +204,7 @@ async function renderToSVGString_(
   `;
 	const displayMathTemplate = `
     #set page(height: auto, width: auto, margin: 0pt)
-
+    #set text(14pt)
     $ ${code} $
   `;
 	const mainFileContent = displayMode

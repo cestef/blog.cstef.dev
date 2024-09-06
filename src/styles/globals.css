@@ -67,6 +67,12 @@ h6#user-content-no-anchor a.anchor {
 .typst-text {
 	@apply fill-[--tw-prose-body];
 }
+.typst-shape {
+	@apply fill-[--tw-prose-body] stroke-[--tw-prose-body];
+}
+.typst-inline {
+	@apply inline;
+}
 
 .pikchr text,
 .pikchr path,

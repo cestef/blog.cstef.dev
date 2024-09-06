@@ -114,7 +114,7 @@ const { path, title, description } = Astro.props;
     const setScroll = () => {
         const scroll = document.getElementById("scroll");
         if (!scroll) return;
-        if (window.scrollY === 0) {
+        if (window.scrollY <= 0) {
             scroll.innerText = "TOP";
             return;
         }
@@ -123,6 +123,9 @@ const { path, title, description } = Astro.props;
         percent = Math.min(percent, 100);
         if (percent === 100) {
             scroll.innerText = "END";
+            return;
+        } else if (percent <= 0) {
+            scroll.innerText = "TOP";
             return;
         }
         scroll.innerText = `${percent}%`;
