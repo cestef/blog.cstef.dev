@@ -183,10 +183,17 @@ async function renderToSVGString_(
 	code: string,
 	displayMode: boolean,
 ): Promise<any> {
+	const helperFunctions = `
+    #let colred(x) = text(fill: red, $#x$)
+    #let colblue(x) = text(fill: blue, $#x$)
+    #let colgreen(x) = text(fill: green, $#x$)
+    #let colyellow(x) = text(fill: yellow, $#x$)
+    `;
 	const inlineMathTemplate = `
     #set page(height: auto, width: auto, margin: 0pt)
     #set text(14pt)
     #let s = state("t", (:))
+    ${helperFunctions}
 
     #let pin(t) = locate(loc => {
       style(styles => s.update(it => it.insert(t, measure(line(length: loc.position().y + 0.25em), styles).width) + it))
@@ -205,6 +212,7 @@ async function renderToSVGString_(
 	const displayMathTemplate = `
     #set page(height: auto, width: auto, margin: 0pt)
     #set text(14pt)
+    ${helperFunctions}
     $ ${code} $
   `;
 	const mainFileContent = displayMode

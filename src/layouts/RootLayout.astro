@@ -74,18 +74,18 @@ const { path, title, description } = Astro.props;
   <body>
     <div class="fixed top-0 left-0 w-full bg-accent flex">
         <a href="/">
-            <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
+            <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
                 cstef
             </div>
         </a>
-        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit hidden sm:block" id="time">
+        <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block" id="time">
 
         </div>
         <div class="flex-grow"/>
-        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit appearance-none">
+        <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit appearance-none">
             <Select id="theme" name="theme" options={THEMES.map(e => ({ label: e.name.toUpperCase(), value: e.id }))} />
         </div>
-        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit">
+        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
             <ModeSwitch />
         </div>
     </div>
@@ -93,17 +93,17 @@ const { path, title, description } = Astro.props;
         <slot />
     </main>
     <div class="fixed bottom-0 left-0 w-full bg-accent flex">
-        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black">
+        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
             VIS   
         </div>
-        <div class="bg-secondary text-secondary-foreground px-4 py-2 w-fit truncate">
+        <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit truncate">
             {path}
         </div>
         <div class="flex-grow"/>
-        <div class="bg-success/70 text-secondary-foreground px-4 py-2 w-fit font-black" id="connection">
+        <div class="bg-success/70 text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black" id="connection">
             ONLINE
         </div>
-        <div class="bg-primary text-primary-foreground px-4 py-2 w-fit font-black" id="scroll">
+        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black" id="scroll">
             TOP
         </div>
     </div>
