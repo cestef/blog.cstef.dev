@@ -3,7 +3,7 @@ title: The Maths Behind RSA
 tags: [cryptography, maths]
 description: One of the most widely used encryption algorithms, RSA relies on the mathematical properties of prime numbers and modular arithmetic.
 date: 2024-09-06
-state: draft
+state: published
 ---
 
 RSA (named after its inventors, Ron **R**ivest, Adi **S**hamir, and Leonard **A**dleman) is one of the most widely used encryption algorithms in the world. It's used to secure everything from online banking transactions to secure communication between devices. But how does it work? What are the mathematical principles behind it? Let's dive in.
