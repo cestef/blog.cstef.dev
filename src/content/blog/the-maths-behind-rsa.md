@@ -158,6 +158,30 @@ $$
 
 We did it!
 
+## Attack Vectors
+
+The RSA algorithm is not magic, and it can be broken if not implemented correctly. For instance, you may have noticed that the letter "u" has been encoded twice in the sentence, and the output remains the same. [Frequency analysis](https://en.wikipedia.org/wiki/Frequency_analysis) could be used here to guess letters from a longer text. To remedy this, we can use a technique called [padding](https://en.wikipedia.org/wiki/Padding_(cryptography)) or combine RSA with symmetric encryption, like [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard):
+
+```pikchr
+circle "Bob"
+arrow right 250% "I love you <3" above
+box width 150% height 120% "AES Encryption" "with a random" "symmetric key"
+arrow right 350% "spq349832uç*%&2(Z*48" above "Clear key" below
+box width 150% height 120% "RSA Encryption" "with Alice's" "public key"
+arrow right 350% "spq349832uç*%&2(Z*48" above "Encrypted key" below
+down
+circle radius 100% with .w at last arrow.e "Alice"
+arrow down 100%
+box width 150% height 120% "RSA Decryption" "with Alice's" "private key"
+arrow left 350% "spq349832uç*%&2(Z*48" above "Decrypted key" below from last box.w
+box width 150% height 120% "AES Decryption" "with the" "decrypted key"
+arrow left 50%
+box width 150% height 120% "I love you <3"
+```
+
+Other attack vectors are a bit more complex, like [timing attacks](https://en.wikipedia.org/wiki/Timing_attack) or [a few others](https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Attacks_against_plain_RSA).
+This is why it is important to use a well-tested library to implement RSA, like [OpenSSL](https://www.openssl.org/).
+
 ## Proof using Fermat's little theorem
 
 [Fermat's little theorem](https://en.wikipedia.org/wiki/Fermat%27s_little_theorem) states that if $p$ is a prime number and $a$ is an integer not divisible by $p$, then:
