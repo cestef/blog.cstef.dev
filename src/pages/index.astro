@@ -1,11 +1,13 @@
 ---
+import { HERO, STATE_EMOJI } from "@/constants";
+import { HIDE_SEEDLINGS_PROD } from "@/constants";
 import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro"
 import { getCollection } from "astro:content"
 
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
-    .filter(e => isProd ? e.data.state !== "draft" : true)
+    .filter(e => isProd && HIDE_SEEDLINGS_PROD ? e.data.state !== "seedling" : true)
     .sort((a,b) => b.data.date.getTime() - a.data.date.getTime())
 
 ---
@@ -13,10 +15,9 @@ const posts = (await getCollection("blog"))
 <RootLayout path="/">
     <Prose>
         <a href="/">
-            <h1>blog.cstef.dev</h1>
+            <h1>{HERO.title}</h1>
         </a>
-        <p>Welcome to my garden! 🌱</p>
-        <p>Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful here !</p>
+        {typeof HERO.description === "string" ? <p>{HERO.description}</p> : HERO.description.map((line) => <p>{line}</p>)}
         <h2>Latest posts</h2>
         {posts.length > 0 ? <ul>
             {posts.map((post) => (
@@ -24,7 +25,7 @@ const posts = (await getCollection("blog"))
                     <div>
 
                         <h3 class="flex items-center gap-2 md:gap-4">
-                            <a href={`/blog/${post.slug}`} class="">{post.data.title.trim()}</a> <div class="flex-grow"/> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> {post.data.state === "draft" && <span class="bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-sm w-fit font-bold">Draft</span>}
+                            <a href={`/blog/${post.slug}`} class="">{post.data.title.trim()}</a> <div class="flex-grow"/> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> <span class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold">{STATE_EMOJI[post.data.state]}</span>
                         </h3>
 
                         <p>{post.data.description}</p>

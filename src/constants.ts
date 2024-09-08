@@ -1,3 +1,40 @@
+// Hide seedlings in production
+export const HIDE_SEEDLINGS_PROD = true;
+
+export const HERO: IHero = {
+	title: "blog.cstef.dev",
+	description: [
+		"Welcome to my garden! 🌱",
+		"Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful here !",
+	],
+};
+
+export const STATUS_LINE: IStatusLine = {
+	user: "cstef",
+	mode: "VIS",
+	scroll: false,
+};
+
+export type IHero = {
+	title: string;
+	description: string | string[];
+};
+
+export type IStatusLine = {
+	user: string | false;
+	time?: boolean;
+	mode: string | false;
+	path?: boolean;
+	connection?: boolean;
+	scroll?: boolean;
+};
+
+export const STATE_EMOJI = {
+	seedling: "🌱",
+	sapling: "🌿",
+	tree: "🌳",
+};
+
 export const THEMES = [
 	{
 		name: "Catppuccin",
