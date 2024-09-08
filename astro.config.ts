@@ -58,7 +58,7 @@ export default defineConfig({
 					source: "https://cdn.jsdelivr.net/gh/twitter/twemoji@latest",
 				},
 			],
-			rehypeFigure,
+			// rehypeFigure,
 		],
 		remarkPlugins: [remarkMath, remarkEmoji, remarkReadingTime],
 		syntaxHighlight: false,
