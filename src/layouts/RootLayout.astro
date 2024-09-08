@@ -5,7 +5,7 @@ import "@/styles/globals.css";
 import { ViewTransitions } from "astro:transitions";
 import ModeSwitch from "@/components/ModeSwitch.astro";
 import Select from "@/components/Select.astro";
-import { THEMES } from "@/constants";
+import { THEMES, STATUS_LINE } from "@/constants";
 
 export interface Props {
     path: string;
@@ -73,14 +73,16 @@ const { path, title, description } = Astro.props;
   </head>
   <body>
     <div class="fixed top-0 left-0 w-full bg-accent flex">
-        <a href="/">
-            <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
-                cstef
-            </div>
-        </a>
-        <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block" id="time">
+        {STATUS_LINE.user && (
+            <a href="/">
+                <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
+                    {STATUS_LINE.user}
+                </div>
+            </a>
+        )}
+        
+        {STATUS_LINE.time !== false && <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block" id="time"/>}
 
-        </div>
         <div class="flex-grow"/>
         <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit appearance-none">
             <Select id="theme" name="theme" options={THEMES.map(e => ({ label: e.name.toUpperCase(), value: e.id }))} />
@@ -93,24 +95,24 @@ const { path, title, description } = Astro.props;
         <slot />
     </main>
     <div class="fixed bottom-0 left-0 w-full bg-accent flex">
-        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
-            VIS   
-        </div>
-        <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit truncate">
+        {STATUS_LINE.mode && <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
+            {STATUS_LINE.mode}
+        </div>}
+        {STATUS_LINE.path !== false && <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit truncate">
             {path}
-        </div>
+        </div>}
         <div class="flex-grow"/>
-        <div class="bg-success/70 text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black" id="connection">
+        {STATUS_LINE.connection !== false && <div class="bg-success/70 text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black" id="connection">
             ONLINE
-        </div>
-        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black" id="scroll">
+        </div>}
+        {STATUS_LINE.scroll !== false && <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black" id="scroll">
             TOP
-        </div>
+        </div>}
     </div>
   </body>
 </html>
 
-<script is:inline define:vars={{ THEMES }}>
+<script is:inline define:vars={{ THEMES, STATUS_LINE }}>
     const setScroll = () => {
         const scroll = document.getElementById("scroll");
         if (!scroll) return;
@@ -131,22 +133,26 @@ const { path, title, description } = Astro.props;
         scroll.innerText = `${percent}%`;
     };
 
-    setScroll();
-    window.addEventListener("scroll", setScroll);
-    document.addEventListener("astro:after-swap", setScroll);
+    if (STATUS_LINE.scroll !== false) {
+        setScroll();
+        window.addEventListener("scroll", setScroll);
+        document.addEventListener("astro:after-swap", setScroll);
+    }
     const setTime = () => {
         const time = document.getElementById("time");
         if (!time) return console.log("no time");
         time.innerText = new Date().toLocaleTimeString();
     };
 
-    setTime();
-
-    setInterval(() => {
+    if (STATUS_LINE.time !== false) {
         setTime();
-    }, 1000);
 
-    window.addEventListener("astro:after-swap", setTime);
+        setInterval(() => {
+            setTime();
+        }, 1000);
+
+        window.addEventListener("astro:after-swap", setTime);
+    }
 
     const setConnection = () => {
         const connection = document.getElementById("connection");
@@ -161,10 +167,12 @@ const { path, title, description } = Astro.props;
         }
     };
 
-    setConnection();
-    window.addEventListener("online", setConnection);
-    window.addEventListener("offline", setConnection);
-    document.addEventListener("astro:after-swap", setConnection);
+    if (STATUS_LINE.connection !== false) {
+        setConnection();
+        window.addEventListener("online", setConnection);
+        window.addEventListener("offline", setConnection);
+        document.addEventListener("astro:after-swap", setConnection);
+    }
 
     
 

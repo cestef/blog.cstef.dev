@@ -1,6 +1,9 @@
 # blog.cstef.dev
 
-> [!NOTE]
-> This branch is currently under development. The blog is being rewritten with [`astro`](https://astro.build/).
-> The legacy blog can be found at the [`legacy`](https://github.com/cestef/blog.cstef.dev/tree/legacy) branch.
+My personal digital garden :seedling:
 
+A collection of notes, thoughts, and ideas, or whatever I feel like writing about. 
+
+## Make your own digital garden
+
+I've written a guide on how to make your own digital garden. You can find it [here](https://blog.cstef.dev/posts/digital-garden).
