@@ -97,8 +97,8 @@ The procedure to generate the private ($n$, $d$) and public ($n$, $e$) keys is t
 2. Compute $n = p*q$.
 3. Compute $phi.alt(n) = (p-1) * (q-1)$.
     - This value comes from the fact that both $p$ and $q$ are prime, thus $phi.alt(p) = (p-1)$, and $phi.alt(p*q) = phi.alt(p) * phi.alt(q)$
-4. Choose $e$ so that it is prime with, and smaller than $phi.alt(n)$
-5. Compute $d$, the inverse of $e$ modulo $phi.alt(n)$, $d eq.triple e^(-1) (mod phi.alt(n))$
+4. Choose the encryption exponent $e$ so that it is prime with, and smaller than $phi.alt(n)$
+5. Compute the decryption exponent $d$, the inverse of $e$ modulo $phi.alt(n)$, $d eq.triple e^(-1) (mod phi.alt(n))$
     - A quick and easy solution here is to use Euler's extended algorithm, which we know will work because $e < phi.alt(n)$ and is $e$ is prime to $phi.alt(n)$, which means $gcd(e, phi.alt(n)) = 1$
     - We then get $e*d + phi.alt(n)*y = 1 <==> d eq.triple e^(-1) (mod phi.alt(n))$
 
@@ -156,14 +156,11 @@ $$
 29 ==> M eq.triple 29^29 (mod 65) <==> 29^29 eq.triple underline(9) space (mod 65)
 $$
 
-We did it! This is possible thanks to this relationship: 
-$$
-(m^e)^d eq.triple m space (mod n)
-$$
+We did it!
 
 ## Proof using Fermat's little theorem
 
-Fermat's little theorem states that if $p$ is a prime number and $a$ is an integer not divisible by $p$, then:
+[Fermat's little theorem](https://en.wikipedia.org/wiki/Fermat%27s_little_theorem) states that if $p$ is a prime number and $a$ is an integer not divisible by $p$, then:
 
 $$
 a^(p-1) eq.triple 1 space (mod p)
@@ -175,7 +172,52 @@ $$
 (m^e)^d eq.triple m space (mod n)
 $$
 
-where $n = p*q$ with $p,q in PP$ and $e*d eq.triple 1 space (mod n)$ with $e,d in NN$.
+where $n = p*q$ with $p,q in PP$ and $e*d eq.triple 1 space (mod phi.alt(n))$ with $e,d in NN$.
 
-Since $phi.alt(n) = (p-1)*(q-1)$
+This basically shows that encrypting and decrypting the same message gives us the original input by first applying the encryption exponent $e$ and then the decryption one $d$.
 
+Since $e*d eq.triple 1 space (mod phi.alt(n)) <==> e*d = k*phi.alt(n) + 1$, we can rewrite $(m^e)^d$ as following:
+
+$$
+m^(e*d) = m^(k*n + 1) = m*m^(k*phi.alt(n)) = m * (m^phi.alt(n))^k
+$$
+
+$phi.alt(n)$ can be rewritten as $(p-1)*(q-1)$:
+
+$$
+m * (m^((p-1)*(q-1)))^k = m * (m^((p-1)))^((q-1)*k)
+$$
+
+If $m$ isn't divisible by both $p$ and $q$ (coprime to $n = p*q$), with Fermat's little theorem, we know that $m^(p-1) eq.triple 1 space (mod n)$ or $m^(q-1) eq.triple 1 space (mod n)$
+
+We can then simply replace $m^(p-1)$:
+
+$$
+m * (m^((p-1)))^((q-1)*k) eq.triple^? m space (mod n) <==> m*1^((q-1)*k) eq.triple m (mod n)
+$$
+
+Now, if $m$ is divisible by $p$ or $q$, this means that:
+
+$$
+m eq.triple 0 space (mod p) <==> m^(e*d) eq.triple 0 space (mod p)
+$$
+
+and likewise for $q$:
+
+$$
+m eq.triple 0 space (mod q) <==> m^(e*d) eq.triple 0 space (mod q)
+$$
+
+The [Chinese Remainder Theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem) tells us that:
+
+$$
+m^(e*d) eq.triple 0 space (mod p*q) <==> m^(e*d) eq.triple 0 space (mod n)
+$$
+
+And that's about it :smile:
+
+## Conclusion
+
+RSA is a fascinating algorithm that relies on the mathematical properties of prime numbers and modular arithmetic. It's a great example of how abstract mathematical concepts can be applied to solve real-world problems. 
+
+If you're interested in learning more about RSA, I highly recommend diving into the details of the algorithm and trying to implement it yourself. It's a great way to deepen your understanding of cryptography and computer science in general.
