@@ -1,0 +1,36 @@
+---
+import { StateSchema } from '@/content/config';
+import RootLayout from '@/layouts/RootLayout.astro';
+import Prose from '@/layouts/Prose.astro';
+import { HIDE_SEEDLINGS_PROD, STATE_EMOJI } from '@/constants';
+import { getCollection } from 'astro:content';
+
+
+export async function getStaticPaths() {
+    const isProd = import.meta.env.PROD;
+    const entries = await getCollection('blog');
+    return Object.keys(StateSchema.enum).map((state) => ({
+        params: { state: state as keyof typeof StateSchema["enum"] },
+        props: {
+            entries: entries.filter((entry) => entry.data.state === state && (isProd && HIDE_SEEDLINGS_PROD ? entry.data.state !== "seedling" : true)),
+        },
+    }));
+}
+
+const { state } = Astro.params;
+const { entries } = Astro.props;
+const emoji = STATE_EMOJI[state];
+---
+
+<RootLayout path={`/state/${state}`} title={`State: ${state} ${emoji}`}>
+    <Prose>
+        <h1>State: {state} {emoji}</h1>
+        <ul>
+            {entries.map(entry => (
+                <li>
+                    <a href={`/blog/${entry.slug}`}>{entry.data.title}</a>
+                </li>
+            ))}
+        </ul>
+    </Prose>
+</RootLayout>

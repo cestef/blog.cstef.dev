@@ -225,3 +225,15 @@ const { path, title, description } = Astro.props;
         }
     });
 </script>
+
+<script>
+    import twemoji from "twemoji";
+    // Replace all emojis with Twemoji images
+    document.addEventListener("DOMContentLoaded", () => {
+        twemoji.parse(document.body, {
+            folder: "svg",
+            ext: ".svg",
+            base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/"
+        });
+    });
+</script>

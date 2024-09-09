@@ -1,12 +1,11 @@
 import type { BlogEntry } from "./content/config.ts";
 
-// Hide seedlings in production
 export const HIDE_SEEDLINGS_PROD = true;
 
 export const HERO: IHero = {
 	title: "blog.cstef.dev",
 	description: [
-		"Welcome to my garden! 🌱",
+		"Welcome to my garden! 🌿",
 		"Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful here !",
 	],
 };
@@ -31,8 +30,8 @@ export type IStatusLine = {
 };
 
 export const STATE_EMOJI: { [key in BlogEntry["state"]]: string } = {
-	seedling: "🌱",
-	sapling: "🌿",
+	seedling: "🌿",
+	sapling: "🪴",
 	tree: "🌳",
 };
 
