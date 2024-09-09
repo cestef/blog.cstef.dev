@@ -1,3 +1,5 @@
+import type { BlogEntry } from "./content/config.ts";
+
 // Hide seedlings in production
 export const HIDE_SEEDLINGS_PROD = true;
 
@@ -29,7 +31,7 @@ export type IStatusLine = {
 	scroll?: boolean;
 };
 
-export const STATE_EMOJI = {
+export const STATE_EMOJI: {[key in BlogEntry["state"]]: string} = {
 	seedling: "🌱",
 	sapling: "🌿",
 	tree: "🌳",
