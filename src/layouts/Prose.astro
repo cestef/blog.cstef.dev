@@ -6,7 +6,7 @@ import rawCopyButton from "../components/CopyButton.html?raw"
     <slot />
 </article>
 
-<script define:vars={{ rawCopyButton }}>
+<script is:inline define:vars={{ rawCopyButton }}>
     // Add a copy button to each figure with data-copy attribute
     document.querySelectorAll('figure[data-copy]').forEach((figure) => {
         figure.style.position = 'relative'

@@ -8,8 +8,7 @@ import { getCollection } from "astro:content"
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
     .filter(e => isProd && HIDE_SEEDLINGS_PROD ? e.data.state !== "seedling" : true)
-    .sort((a,b) => b.data.date.getTime() - a.data.date.getTime())
-
+    .sort((a,b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <RootLayout path="/">

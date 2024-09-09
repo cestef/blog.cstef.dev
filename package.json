@@ -23,6 +23,7 @@
     "@myriaddreamin/typst-ts-node-compiler": "0.5.0-rc7",
     "astro": "^4.15.3",
     "astro-icon": "^1.1.1",
+    "dayjs": "^1.11.13",
     "hast-util-from-html-isomorphic": "^2.0.0",
     "hast-util-to-text": "^4.0.2",
     "mdast-util-to-string": "^4.0.0",

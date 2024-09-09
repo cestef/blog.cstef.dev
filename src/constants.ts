@@ -14,7 +14,6 @@ export const HERO: IHero = {
 export const STATUS_LINE: IStatusLine = {
 	user: "cstef",
 	mode: "VIS",
-	scroll: false,
 };
 
 export type IHero = {
@@ -31,7 +30,7 @@ export type IStatusLine = {
 	scroll?: boolean;
 };
 
-export const STATE_EMOJI: {[key in BlogEntry["state"]]: string} = {
+export const STATE_EMOJI: { [key in BlogEntry["state"]]: string } = {
 	seedling: "🌱",
 	sapling: "🌿",
 	tree: "🌳",
