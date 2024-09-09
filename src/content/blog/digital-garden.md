@@ -83,3 +83,6 @@ pnpm dev
 
 This will boot up [`astro`](https://astro.build) and the website will update as you edit your content.
 
+## Adding content
+
+To add a new blog post, you can create a new markdown file in the `src/content/blog` directory. The file name will be used as the URL slug, and the content will be parsed as markdown.

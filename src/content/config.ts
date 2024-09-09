@@ -7,7 +7,7 @@ const BlogSchema = z.object({
 	description: z.string(),
 	date: z.date().transform((val) => new Date(val)),
 	state: z.enum(["seedling", "sapling", "tree"]).default("seedling"),
-	related: z.array(reference('blog')).optional(),
+	related: z.array(reference("blog")).optional(),
 });
 
 const blogCollection = defineCollection({

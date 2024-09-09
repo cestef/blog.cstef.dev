@@ -21,6 +21,7 @@ import pikchrLang from "./syntaxes/pikchr.tmLanguage.json";
 import icon from "astro-icon";
 import { remarkReadingTime } from "./plugins/reading-time";
 import rehypeCopy from "./plugins/copy";
+import { remarkModifiedTime } from "./plugins/modified";
 
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
@@ -59,7 +60,12 @@ export default defineConfig({
 				},
 			],
 		],
-		remarkPlugins: [remarkMath, remarkEmoji, remarkReadingTime],
+		remarkPlugins: [
+			remarkMath,
+			remarkEmoji,
+			remarkReadingTime,
+			remarkModifiedTime,
+		],
 		syntaxHighlight: false,
 	},
 });
