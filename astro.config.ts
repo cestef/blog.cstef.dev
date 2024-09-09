@@ -20,8 +20,13 @@ import {
 import pikchrLang from "./syntaxes/pikchr.tmLanguage.json";
 import icon from "astro-icon";
 import { remarkReadingTime } from "./plugins/reading-time";
-// @ts-ignore
-import rehypeFigure from "@microflash/rehype-figure";
+
+const shikiTheme = createCssVariablesTheme({
+	name: "default",
+	variablePrefix: "--shiki-",
+	variableDefaults: {},
+	fontStyle: true,
+});
 
 // https://astro.build/config
 export default defineConfig({
@@ -37,14 +42,7 @@ export default defineConfig({
 				{
 					getHighlighter: () =>
 						getSingletonHighlighter({
-							themes: [
-								createCssVariablesTheme({
-									name: "default",
-									variablePrefix: "--shiki-",
-									variableDefaults: {},
-									fontStyle: true,
-								}),
-							],
+							themes: [shikiTheme],
 							langs: [...Object.values(bundledLanguages), pikchrLang] as any,
 						}),
 					// @ts-ignore
@@ -58,7 +56,6 @@ export default defineConfig({
 					source: "https://cdn.jsdelivr.net/gh/twitter/twemoji@latest",
 				},
 			],
-			// rehypeFigure,
 		],
 		remarkPlugins: [remarkMath, remarkEmoji, remarkReadingTime],
 		syntaxHighlight: false,
