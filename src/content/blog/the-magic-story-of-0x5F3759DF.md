@@ -3,7 +3,7 @@ title: The Magic Story of 0x5F3759DF
 tags: [maths]
 description: One of the most famous bit hacks in computer science history, the magic number 0x5F3759DF is used to calculate the inverse square root of a floating-point number.
 date: 2024-09-04
-state: seedling
+growth: seedling
 ---
 
 The magic number `0x5F3759DF` is one of the most famous bit hacks in computer science history. It's used to calculate the inverse square root of a floating-point number with astonishing speed and accuracy at the time. The method was popularized by John Carmack in the source code of the Quake III Arena engine.
