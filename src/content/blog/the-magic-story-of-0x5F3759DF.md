@@ -1,7 +1,7 @@
 ---
 title: The Magic Story of 0x5F3759DF
 tags: [maths]
-description: One of the most famous bit hacks in computer science history, the magic number 0x5F3759DF is used to calculate the inverse square root of a floating-point number.
+description: Perhaps one of the most famous bit hacks in computer science history, the magic number 0x5F3759DF is used to calculate the inverse square root of a floating-point number.
 date: 2024-09-04
 growth: seedling
 ---
