@@ -97,3 +97,7 @@ h6#user-content-no-anchor a.anchor {
 body {
 	@apply !transition-colors duration-300;
 }
+
+figure:hover > #copy-button {
+	@apply opacity-100;
+}
