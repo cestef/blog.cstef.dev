@@ -12,7 +12,7 @@ Even though I am myself a beginner in this field, I would still like to share my
 
 ## Starting out
 
-As in a real garden, when you first start yours, it will be a blank canvas. You will need to plant some seeds, and then cultivate them over time. Your seeds can be anything: notes, ideas, projects, really whatever comes to your mind. They usually start out as **seedlings** :seedling:, and will then grow slowly as you add content and connections to a **sapling** :herb:. When you feel like your ideas are mature enough, you can label them as **trees** :deciduous_tree:. This state is referenced in your frontmatter's `state` field.
+As in a real garden, when you first start yours, it will be a blank canvas. You will need to plant some seeds, and then cultivate them over time. Your seeds can be anything: notes, ideas, projects, really whatever comes to your mind. They usually start out as **seedlings** :herb:, and will then grow slowly as you add content and connections to a **sapling** 🪴. When you feel like your ideas are mature enough, you can label them as **trees** :deciduous_tree:. This state is referenced in your frontmatter's `state` field.
 
 Assigning the right tags to each of your plants is very important, as it then allows you to easily navigate in your garden and link them together.
 In this template, you can click on one of the tags from any blog page, and see all the related ideas. 
