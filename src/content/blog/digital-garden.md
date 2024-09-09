@@ -1,5 +1,5 @@
 ---
-title: Make your own digital garden
+title: Grow your own digital garden!
 description: A digital garden is a place to cultivate your thoughts and ideas, and share it with others.
 tags: [digital-garden, blog, tutorial]
 date: 2024-09-09
