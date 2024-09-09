@@ -1,5 +1,5 @@
 ---
-import { StateSchema } from '@/content/config';
+import { GrowthSchema } from '@/content/config';
 import RootLayout from '@/layouts/RootLayout.astro';
 import Prose from '@/layouts/Prose.astro';
 import { HIDE_SEEDLINGS_PROD, STATE_EMOJI } from '@/constants';
@@ -9,22 +9,22 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
     const isProd = import.meta.env.PROD;
     const entries = await getCollection('blog');
-    return Object.keys(StateSchema.enum).map((state) => ({
-        params: { state: state as keyof typeof StateSchema["enum"] },
+    return Object.keys(GrowthSchema.enum).map((state) => ({
+        params: { growth: state as keyof typeof GrowthSchema["enum"] },
         props: {
-            entries: entries.filter((entry) => entry.data.state === state && (isProd && HIDE_SEEDLINGS_PROD ? entry.data.state !== "seedling" : true)),
+            entries: entries.filter((entry) => entry.data.growth === state && (isProd && HIDE_SEEDLINGS_PROD ? entry.data.growth !== "seedling" : true)),
         },
     }));
 }
 
-const { state } = Astro.params;
+const { growth } = Astro.params;
 const { entries } = Astro.props;
-const emoji = STATE_EMOJI[state];
+const emoji = STATE_EMOJI[growth];
 ---
 
-<RootLayout path={`/state/${state}`} title={`State: ${state} ${emoji}`}>
+<RootLayout path={`/growth/${growth}`} title={`Growth: ${growth} ${emoji}`}>
     <Prose>
-        <h1>State: {state} {emoji}</h1>
+        <h1>Growth: {growth} {emoji}</h1>
         <ul>
             {entries.map(entry => (
                 <li>

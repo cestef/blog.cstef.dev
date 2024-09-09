@@ -29,7 +29,7 @@ export type IStatusLine = {
 	scroll?: boolean;
 };
 
-export const STATE_EMOJI: { [key in BlogEntry["state"]]: string } = {
+export const STATE_EMOJI: { [key in BlogEntry["growth"]]: string } = {
 	seedling: "🌿",
 	sapling: "🪴",
 	tree: "🌳",
