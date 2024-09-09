@@ -20,6 +20,7 @@ import {
 import pikchrLang from "./syntaxes/pikchr.tmLanguage.json";
 import icon from "astro-icon";
 import { remarkReadingTime } from "./plugins/reading-time";
+import rehypeCopy from "./plugins/copy";
 
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
@@ -33,6 +34,7 @@ export default defineConfig({
 	integrations: [tailwind(), sitemap(), mdx(), icon()],
 	markdown: {
 		rehypePlugins: [
+			rehypeCopy,
 			rehypeSlug,
 			rehypeCallouts,
 			rehypePikchr,

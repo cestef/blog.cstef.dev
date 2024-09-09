@@ -1,7 +1,17 @@
+---
+import rawCopyButton from "../components/CopyButton.html?raw"
+---
+
 <article class="prose dark:prose-invert mx-auto lg:prose-lg" id="prose">
     <slot />
 </article>
 
-<script>
-    // Add a copy button to each code block with the 
+<script define:vars={{ rawCopyButton }}>
+    // Add a copy button to each figure with data-copy attribute
+    document.querySelectorAll('figure[data-copy]').forEach((figure) => {
+        figure.style.position = 'relative'
+        const button = document.createElement('button')
+        figure.appendChild(button)
+        button.outerHTML = rawCopyButton
+    })
 </script>

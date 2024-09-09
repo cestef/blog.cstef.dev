@@ -34,22 +34,24 @@ state: sapling # Optional, but recommended, defaults to `seedling`
 
 ## Setting up your instance
 
+### Github Repository
+
 You can just fork this repository and add your own content, to do so:
 
-### With Github CLI (`gh`)
+#### With Github CLI (fastest)
 
 ```bash copy
-gh repo fork cestef/blog.cstef.dev --clone --remote --fork-name=blog
-cd blog
+gh repo fork cestef/blog.cstef.dev --clone --remote --fork-name=garden
+cd garden
 ```
 
 A git remote will be added to your local repository, so you can pull changes from the original repository.
 
-```bash
+```bash copy
 git pull upstream main
 ```
 
-### With Git
+#### With Git
 
 Click on the fork button on the top right of [the GitHub page](https://github.com/cestef/blog.cstef.dev), rename it to your liking, and then clone it to your local machine.
 
@@ -60,8 +62,24 @@ cd your-repo-name
 
 To update the template, you can pull the changes from the original repository:
 
-```bash
-git remote add upstream
+```bash copy
+git remote add upstream https://github.com/cestef/blog.cstef.dev.git
 git pull upstream main
 ```
+
+### Local development
+
+This project uses [`pnpm`](https://pnpm.io) as its package manager. To install the dependencies:
+
+```bash copy
+pnpm install
+```
+
+To run a local development server:
+
+```bash copy
+pnpm dev
+```
+
+This will boot up [`astro`](https://astro.build) and the website will update as you edit your content.
 
