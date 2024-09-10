@@ -1,6 +1,6 @@
 ---
 title: Grow your own digital garden!
-description: A digital garden is a place to cultivate your thoughts and ideas, and share it with others.
+description: A digital garden is a place to cultivate your thoughts or ideas, and share it with others.
 tags: [digital-garden, blog, tutorial]
 date: 2024-09-09
 growth: seedling
@@ -85,4 +85,7 @@ This will boot up [`astro`](https://astro.build) and the website will update as 
 
 ## Adding content
 
-To add a new blog post, you can create a new markdown file in the `src/content/blog` directory. The file name will be used as the URL slug, and the content will be parsed as markdown.
+To add a new blog post, you can create a new markdown file in the `src/content/blog` directory. Note that the file name will be used as the URL slug.
+
+> [!TIP]
+> When you have your first idea, don't wait to write it down. Come back to it later to add more content or to link it to other ideas.
