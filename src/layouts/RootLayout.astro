@@ -229,11 +229,14 @@ const { path, title, description } = Astro.props;
 <script>
     import twemoji from "twemoji";
     // Replace all emojis with Twemoji images
-    document.addEventListener("DOMContentLoaded", () => {
+    const parse = () => {
         twemoji.parse(document.body, {
             folder: "svg",
             ext: ".svg",
             base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/"
         });
-    });
+    };
+    parse();
+    document.addEventListener("DOMContentLoaded", parse);
+    document.addEventListener("astro:after-swap", parse);
 </script>
