@@ -69,7 +69,7 @@ The same goes for a computer, but with even larger numbers.
 
 ## Modulo
 
-The modulo function also plays an important role in the RSA algorithm. Modulo can be seen as "wrapping around" when a number reaches a certain value. The most common example of this in everyday life is how we use clocks: After 12PM, the clocks "resets" at 1PM and so on at 12AM.
+The modulo function also plays an important role in the RSA algorithm. Modulo can be seen as "wrapping around" when a number reaches a certain value (or the remainder of a division). The most common example of this in everyday life is how we use clocks: After 12PM, the clocks "resets" at 1PM and so on at 12AM.
 
 This can be mathematically written as:
 
@@ -140,9 +140,9 @@ Let's encrypt this message by hand !
    1. $1 = 3 - colred(2)*1$
    2. $colred(2) = 5 - 3*1 <==> 1 = 3 - colred((5-3*1))*1 <==> 1 = 2*colgreen(3) - 5$
    3. $colgreen(3) = 48 - 9*5 <==> 1 = 2 * colgreen((48-9*5)) - 5 <==> underline(48*2 + 5 * (-19) = 1)$
-   - We have $d=x=-19$, but a modular inverse needs to be positive, so we add $48$: $-19+48=29 <==> underline(d = 29 eq.triple 5^(-1) (mod 48))$
-   - Our keys are: $(n=65, d=29)$ and $(n=65, e=5)$
-6. We can start out encrypting!
+   - We have $d=x=-19$, but a modular inverse needs to be positive, so we add $48$: $-19+48=29 <==> underline(d = 29 eq.triple 5^(-1) space (mod 48))$
+   - Our keys are: $(n=65, space d=29)$ and $(n=65, space e=5)$
+6. We can start encrypting!
    1. $i = 9 ==> C eq.triple 9^5 space (mod 65) <==> 9^5 eq.triple underline(29) space space (mod 65)$
    2. $l = 12 ==> C eq.triple 12^5 space (mod 65) <==> 12^5 eq.triple underline(12) space space (mod 65)$
    3. $u = 21 ==> C eq.triple 15^5 space (mod 65) <==> 15^5 eq.triple underline(21) space space (mod 65)$
@@ -152,9 +152,10 @@ Our encrypted message is $[29, 12, 21, 42, 21]$
 
 Let's now check if everything went well by decrypting it:
 
-$$
-29 ==> M eq.triple 29^29 (mod 65) <==> 29^29 eq.triple underline(9) space (mod 65)
-$$
+- $29 ==> M eq.triple 29^29 space (mod 65) <==> 29^29 eq.triple underline(9) = i space (mod 65)$
+- $12 ==> M eq.triple 12^29 space (mod 65) <==> 12^29 eq.triple underline(12) = l space (mod 65)$
+- $21 ==> M eq.triple 21^29 space (mod 65) <==> 21^29 eq.triple underline(21) = u space (mod 65)$
+- $42 ==> M eq.triple 42^29 space (mod 65) <==> 42^29 eq.triple underline(22) = v space (mod 65)$
 
 We did it!
 
@@ -182,7 +183,14 @@ box width 150% height 120% "I love you <3"
 Other attack vectors are a bit more complex, like [timing attacks](https://en.wikipedia.org/wiki/Timing_attack) or [a few others](https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Attacks_against_plain_RSA).
 This is why it is important to use a well-tested library to implement RSA, like [OpenSSL](https://www.openssl.org/).
 
+Data is also often encrypted in blocks, which adds another layer of "security". This is called [block cipher mode of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+
 ## Proof using Fermat's little theorem
+
+But who tells us that the RSA algorithm actually works? Let's prove it!
+
+> [!WARNING]
+> This section involves a lot of math, so if you're not a fan of equations, feel free to skip it.
 
 [Fermat's little theorem](https://en.wikipedia.org/wiki/Fermat%27s_little_theorem) states that if $p$ is a prime number and $a$ is an integer not divisible by $p$, then:
 
