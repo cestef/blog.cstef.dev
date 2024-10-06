@@ -13,7 +13,7 @@ const posts = (await getCollection("blog"))
 
 <RootLayout path="/">
     <Prose>
-        <a href="/">
+        <a href="/" class="underline-offset-4 decoration-4">
             <h1>{HERO.title}</h1>
         </a>
         {typeof HERO.description === "string" ? <p>{HERO.description}</p> : HERO.description.map((line) => <p>{line}</p>)}
@@ -24,7 +24,7 @@ const posts = (await getCollection("blog"))
                     <div>
 
                         <h3 class="flex items-center gap-2 md:gap-4">
-                            <a href={`/blog/${post.slug}`} class="max-w-[70%]">{post.data.title.trim()}</a> <div class="flex-grow"/> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> <a href={`/growth/${post.data.growth}`}  class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline">{STATE_EMOJI[post.data.growth]}</a>
+                            <a href={`/blog/${post.slug}`} class="underline-offset-2 decoration-2 max-w-[70%]">{post.data.title.trim()}</a> <div class="flex-grow"/> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> <a href={`/growth/${post.data.growth}`}  class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline">{STATE_EMOJI[post.data.growth]}</a>
                         </h3>
 
                         <p>{post.data.description}</p>
