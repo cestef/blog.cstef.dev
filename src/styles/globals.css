@@ -68,8 +68,11 @@ h6#user-content-no-anchor a.anchor {
 .typst-text[fill="#000"] {
 	@apply fill-[--tw-prose-body];
 }
-.typst-shape {
-	@apply fill-[--tw-prose-body] stroke-[--tw-prose-body];
+.typst-shape[fill="#000"] {
+	@apply fill-[--tw-prose-body];
+}
+.typst-shape[stroke="#000"] {
+    @apply stroke-[--tw-prose-body];
 }
 .typst-inline {
 	@apply inline;

@@ -32,13 +32,16 @@ export default function rehypeTypst(
 			parents: any[],
 		): Promise<typeof SKIP | undefined> => {
 			const start = performance.now();
-			const classes = Array.isArray(element.properties.className)
+			const classes: ReadonlyArray<unknown> = Array.isArray(
+				element.properties.className,
+			)
 				? element.properties.className
 				: emptyClasses;
 
 			const languageMath = classes.includes("language-math");
 			const mathDisplay = classes.includes("math-display");
 			const mathInline = classes.includes("math-inline");
+
 			let displayMode = mathDisplay;
 
 			if (!languageMath && !mathDisplay && !mathInline) {
@@ -67,7 +70,10 @@ export default function rehypeTypst(
 			let result: Array<ElementContent> | string | undefined;
 
 			try {
-				result = await renderToSVGString(value, displayMode);
+				result = await renderToSVGString(
+					value,
+					displayMode ? "display" : "inline",
+				);
 			} catch (error) {
 				const cause = error as Error;
 				file.message("Could not render math with typst", {
@@ -167,13 +173,13 @@ export default function rehypeTypst(
 
 export async function renderToSVGString(
 	code: string,
-	displayMode: boolean,
+	mode: "inline" | "display" | "raw" = "inline",
 ): Promise<any> {
 	if (!compilerIns.current) {
 		compilerIns.current = NodeCompiler.create();
 	}
 	const $typst = compilerIns.current;
-	const res = renderToSVGString_($typst, code, displayMode);
+	const res = renderToSVGString_($typst, code, mode);
 	$typst.evictCache(10);
 	return res;
 }
@@ -181,43 +187,61 @@ export async function renderToSVGString(
 async function renderToSVGString_(
 	$typst: NodeCompiler,
 	code: string,
-	displayMode: boolean,
+	mode: "inline" | "display" | "raw",
 ): Promise<any> {
 	const helperFunctions = `
-    #let colred(x) = text(fill: red, $#x$)
-    #let colblue(x) = text(fill: blue, $#x$)
-    #let colgreen(x) = text(fill: green, $#x$)
-    #let colyellow(x) = text(fill: yellow, $#x$)
+#let colred(x) = text(fill: red, $#x$)
+#let colblue(x) = text(fill: blue, $#x$)
+#let colgreen(x) = text(fill: green, $#x$)
+#let colyellow(x) = text(fill: yellow, $#x$)
+    `;
+	const packages = `
+
     `;
 	const inlineMathTemplate = `
-    #set page(height: auto, width: auto, margin: 0pt)
-    #set text(14pt)
-    #let s = state("t", (:))
-    ${helperFunctions}
+#set page(height: auto, width: auto, margin: 0pt)
+#set text(13pt)
+#let s = state("t", (:))
+${helperFunctions}
+${packages}
 
-    #let pin(t) = locate(loc => {
-      style(styles => s.update(it => it.insert(t, measure(line(length: loc.position().y + 0.25em), styles).width) + it))
-    })
+#let pin(t) = context {
+    let computed = measure(
+        line(length: here().position().y)
+    )
+    s.update(it => it.insert(t, computed.width) + it)
+}
 
-    #show math.equation: it => {
-      box(it, inset: (top: 0.5em, bottom: 0.5em))
-    }
+#show math.equation: it => {
+    box(it, inset: (top: 0.5em, bottom: 0.5em))
+}
 
-    $pin("l1")${code}$
+$pin("l1")${code}$
 
-    #locate(loc => [
-      #metadata(s.final(loc).at("l1")) <label>
-    ])
+#context [
+    #metadata(s.final().at("l1")) <label>
+]
   `;
 	const displayMathTemplate = `
-    #set page(height: auto, width: auto, margin: 0pt)
-    #set text(14pt)
-    ${helperFunctions}
-    $ ${code} $
+#set page(height: auto, width: auto, margin: 0pt)
+#set text(14pt)
+${helperFunctions}
+${packages}
+$ ${code} $
   `;
-	const mainFileContent = displayMode
-		? displayMathTemplate
-		: inlineMathTemplate;
+	const rawTemplate = `
+#set page(height: auto, width: auto, margin: 0pt)
+#set text(14pt)
+${helperFunctions}
+${packages}
+${code}
+    `;
+	const mainFileContent =
+		mode === "raw"
+			? rawTemplate
+			: mode === "display"
+				? displayMathTemplate
+				: inlineMathTemplate;
 	const docRes = $typst.compile({ mainFileContent });
 	if (!docRes.result) {
 		const taken = docRes.takeDiagnostics();
@@ -225,7 +249,7 @@ async function renderToSVGString_(
 			return {};
 		}
 		const diags = $typst.fetchDiagnostics(taken);
-		console.error(diags);
+		console.error(JSON.stringify(diags, null, 2));
 		return {};
 	}
 	const doc = docRes.result;
@@ -234,8 +258,10 @@ async function renderToSVGString_(
 	const res: any = {
 		svg,
 	};
-	if (!displayMode) {
-		const query = $typst.query(doc, { selector: "<label>" });
+	if (mode === "inline") {
+		const query = $typst.query(doc, {
+			selector: "<label>",
+		});
 		res.baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
 	}
 

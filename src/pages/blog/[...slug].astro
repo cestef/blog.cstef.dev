@@ -1,40 +1,61 @@
 ---
-import { HIDE_SEEDLINGS_PROD, STATE_EMOJI } from '@/constants';
-import { getCollection } from 'astro:content';
-import Prose from '@/layouts/Prose.astro';
-import RootLayout from '@/layouts/RootLayout.astro';
+import { HIDE_SEEDLINGS_PROD, STATE_EMOJI } from "@/constants";
+import { getCollection } from "astro:content";
+import Prose from "@/layouts/Prose.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
-    const blogEntries = await getCollection('blog', (entry) => !(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === 'seedling' ));
-    return blogEntries.map(entry => ({
-        params: { slug: entry.slug }, props: { entry },
-    }));
+	const blogEntries = await getCollection(
+		"blog",
+		(entry) =>
+			!(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === "seedling"),
+	);
+	return blogEntries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
 }
 
 const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter: frontmatter } = await entry.render();
 
-const lastModified = dayjs(frontmatter.lastModified)
-  .utc()
-  .format("DD/MM/YYYY");
+const lastModified = dayjs(frontmatter.lastModified || entry.data.date)
+	.utc()
+	.format("DD/MM/YYYY");
 ---
 
-<RootLayout path={`/blog/${entry.slug}`} title={entry.data.title} description={entry.data.description}>
-    <Prose>
-        <h1>{entry.data.title}</h1>
-        <p class="text-muted-foreground">{lastModified} · {frontmatter.minutesRead} · <a href={`/growth/${entry.data.growth}`} class="no-underline bg-accent text-accent-foreground px-2 py-1 rounded-md w-fit text-sm">{entry.data.growth} {STATE_EMOJI[entry.data.growth]}</a></p>
-        <div>
-            {entry.data.tags.map((tag, i) => (
-                <>
-                    <a href={`/tag/${tag}`}><div class="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm">{tag}</div></a>
-                </>
-            ))}
-        </div>
+<RootLayout
+	path={`/blog/${entry.slug}`}
+	title={entry.data.title}
+	description={entry.data.description}
+>
+	<Prose>
+		<h1>{entry.data.title}</h1>
+		<p class="text-muted-foreground">
+			{lastModified} · {frontmatter.minutesRead} · <a
+				href={`/growth/${entry.data.growth}`}
+				class="no-underline bg-accent text-accent-foreground px-2 py-1 rounded-md w-fit text-sm"
+				>{entry.data.growth} {STATE_EMOJI[entry.data.growth]}</a
+			>
+		</p>
+		<div>
+			{
+				entry.data.tags.map((tag, i) => (
+					<>
+						<a href={`/tag/${tag}`}>
+							<div class="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm">
+								{tag}
+							</div>
+						</a>
+					</>
+				))
+			}
+		</div>
 
-        <Content />
-    </Prose>
+		<Content />
+	</Prose>
 </RootLayout>
