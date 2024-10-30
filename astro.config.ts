@@ -22,6 +22,7 @@ import icon from "astro-icon";
 import { remarkReadingTime } from "./plugins/reading-time";
 import rehypeCopy from "./plugins/copy";
 import { remarkModifiedTime } from "./plugins/modified";
+import { rehypeTypstRaw } from "./plugins/raw-typst";
 
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
@@ -40,6 +41,7 @@ export default defineConfig({
 			rehypeCallouts,
 			rehypePikchr,
 			rehypeTypst,
+			rehypeTypstRaw,
 			[
 				rehypePrettyCode,
 				{
