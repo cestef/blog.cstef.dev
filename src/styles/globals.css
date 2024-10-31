@@ -71,8 +71,17 @@ h6#user-content-no-anchor a.anchor {
 .typst-shape[fill="#000"] {
 	@apply fill-[--tw-prose-body];
 }
+.typst-shape[fill="#fff"] {
+	@apply fill-background;
+}
+.typst-shape[stroke="#fff"] {
+	@apply stroke-background;
+}
 .typst-shape[stroke="#000"] {
-    @apply stroke-[--tw-prose-body];
+	@apply stroke-[--tw-prose-body];
+}
+.typst-shape[stroke="#d5d5d5"] {
+	@apply stroke-muted;
 }
 .typst-inline {
 	@apply inline;

@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 	const blogEntries = await getCollection(
 		"blog",
 		(entry) =>
-			!(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === "seedling"),
+			!(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === "seedling")
 	);
 	return blogEntries.map((entry) => ({
 		params: { slug: entry.slug },
@@ -46,11 +46,12 @@ const lastModified = dayjs(frontmatter.lastModified || entry.data.date)
 			{
 				entry.data.tags.map((tag, i) => (
 					<>
-						<a href={`/tag/${tag}`}>
-							<div class="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm">
-								{tag}
-							</div>
-						</a>
+						<a
+							href={`/tag/${tag}`}
+							class="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm"
+						>
+							{tag}
+						</a>{" "}
 					</>
 				))
 			}
