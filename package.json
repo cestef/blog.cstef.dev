@@ -21,11 +21,13 @@
         "@iconify-json/octicon": "^1.2.0",
         "@microflash/rehype-figure": "^2.1.0",
         "@myriaddreamin/typst-ts-node-compiler": "0.5.0-rc8",
+        "@node-rs/xxhash": "^1.7.4",
         "astro": "^4.16.7",
         "astro-icon": "^1.1.1",
         "dayjs": "^1.11.13",
         "hast-util-from-html-isomorphic": "^2.0.0",
         "hast-util-to-text": "^4.0.2",
+        "keyv": "^5.1.2",
         "mdast-util-to-string": "^4.0.0",
         "msgpackr": "^1.11.2",
         "pikchr-wasm": "^2.0.1",
@@ -42,9 +44,7 @@
         "typescript": "^5.5.4",
         "unist-util-visit": "^5.0.0",
         "unist-util-visit-parents": "^6.0.1",
-        "zod": "^3.23.8",
-        "@node-rs/xxhash": "^1.7.4",
-        "keyv": "^5.1.2"
+        "zod": "^3.23.8"
     },
     "devDependencies": {
         "@biomejs/biome": "^1.8.3",
@@ -52,6 +52,7 @@
         "@commitlint/types": "^19.0.3",
         "@tailwindcss/typography": "^0.5.15",
         "@types/hast": "^3.0.4",
+        "@types/mdast": "^4.0.4",
         "commitlint": "^19.4.1",
         "husky": "^9.1.5",
         "katex": "^0.16.11",
