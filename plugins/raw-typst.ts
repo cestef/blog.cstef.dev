@@ -6,6 +6,7 @@ import { parseAttributes } from "./utils/attributes";
 
 import { renderToSVGString } from "./typst";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
+import { getRenderCache, setRenderCache } from "./utils/cache";
 
 export type TypstRawConfig = {
 	cache?: MapLike;
@@ -48,23 +49,35 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 			}
 
 			let result: Array<ElementContent> | string | undefined;
-
-			try {
-				result = await renderToSVGString(code, "raw");
-			} catch (error) {
-				result = [
-					{
-						type: "element",
-						tagName: "span",
-						properties: {
-							className: ["typst-error"],
-							// biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-							style: `color: #cc0000`,
-							title: String(error),
+			const cached = await getRenderCache("typst", {
+				value: code,
+				displayMode: "raw",
+			});
+			if (cached) {
+				result = cached;
+			} else {
+				try {
+					result = await renderToSVGString(code, "raw");
+					await setRenderCache(
+						"typst",
+						{ value: code, displayMode: "raw" },
+						result,
+					);
+				} catch (error) {
+					result = [
+						{
+							type: "element",
+							tagName: "span",
+							properties: {
+								className: ["typst-error"],
+								// biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+								style: `color: #cc0000`,
+								title: String(error),
+							},
+							children: [{ type: "text", value: code }],
 						},
-						children: [{ type: "text", value: code }],
-					},
-				];
+					];
+				}
 			}
 
 			if (
