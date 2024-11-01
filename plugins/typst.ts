@@ -4,6 +4,7 @@ import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import { toText } from "hast-util-to-text";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import { NodeCompiler } from "@myriaddreamin/typst-ts-node-compiler";
+import { getRenderCache, setRenderCache } from "./utils/cache";
 
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 
@@ -31,7 +32,6 @@ export default function rehypeTypst(
 			element: any,
 			parents: any[],
 		): Promise<typeof SKIP | undefined> => {
-			const start = performance.now();
 			const classes: ReadonlyArray<unknown> = Array.isArray(
 				element.properties.className,
 			)
@@ -66,35 +66,39 @@ export default function rehypeTypst(
 			if (!parent) return;
 
 			const value = toText(scope, { whitespace: "pre" });
-
 			let result: Array<ElementContent> | string | undefined;
+			const cached = await getRenderCache("typst", { value, displayMode });
+			if (cached) {
+				result = cached;
+			} else {
+				try {
+					result = await renderToSVGString(
+						value,
+						displayMode ? "display" : "inline",
+					);
+					await setRenderCache("typst", { value, displayMode }, result);
+				} catch (error) {
+					const cause = error as Error;
+					file.message("Could not render math with typst", {
+						ancestors: [...parents, element],
+						cause,
+						place: element.position,
+						source: "rehype-typst",
+					});
 
-			try {
-				result = await renderToSVGString(
-					value,
-					displayMode ? "display" : "inline",
-				);
-			} catch (error) {
-				const cause = error as Error;
-				file.message("Could not render math with typst", {
-					ancestors: [...parents, element],
-					cause,
-					place: element.position,
-					source: "rehype-typst",
-				});
-
-				result = [
-					{
-						type: "element",
-						tagName: "span",
-						properties: {
-							className: ["typst-error"],
-							style: `color:${settings.errorColor || "#cc0000"}`,
-							title: String(error),
+					result = [
+						{
+							type: "element",
+							tagName: "span",
+							properties: {
+								className: ["typst-error"],
+								style: `color:${settings.errorColor || "#cc0000"}`,
+								title: String(error),
+							},
+							children: [{ type: "text", value }],
 						},
-						children: [{ type: "text", value }],
-					},
-				];
+					];
+				}
 			}
 
 			if (
