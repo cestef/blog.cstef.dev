@@ -5,6 +5,9 @@ import { toText } from "hast-util-to-text";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import { NodeCompiler } from "@myriaddreamin/typst-ts-node-compiler";
 import { getRenderCache, setRenderCache } from "./utils/cache";
+import fs from "node:fs/promises";
+import { join } from "node:path";
+import { customCetz } from "./utils/typst-utils";
 
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 
@@ -200,7 +203,7 @@ async function renderToSVGString_(
 #let colyellow(x) = text(fill: yellow, $#x$)
     `;
 	const packages = `
-
+        ${customCetz}
     `;
 	const inlineMathTemplate = `
 #set page(height: auto, width: auto, margin: 0pt)
