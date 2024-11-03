@@ -1,14 +1,14 @@
 ---
-title: Shamir's Secret Sharing Inner Workings
+title: Elliptic Curve Cryptography for the Curious
 tags: [cryptography, maths]
-description: My journey to learning how this elegant algorithm works.
+description: My journey to learning how Elliptic Curve Cryptography works.
 date: 2024-10-30
 growth: seedling
 ---
 
 ## Introduction
 
-As I was talking about maths with a friend of mine, he mentioned modular arithmetic. Even though I had no idea what this was, the subject really seemed interesting: In the realm of $RR^n$, we typically operate with an infinite number of elements. However, what if we were to restrict ourselves to a finite set of, let's say, $256$ elements? 
+As I was talking about maths with a friend of mine, he mentioned modular arithmetic. Even though I had no idea what this was, the subject really seemed interesting: In the realm of $RR^n$, we typically operate with an infinite number of elements. However, what if we were to restrict ourselves to a finite set of, let's say, $79$ elements? 
 
 Let's take a simple equation to demonstrate this way of thinking:
 
@@ -68,13 +68,13 @@ The graph associated with this equation looks like this:
 Now let's instead consider:
 
 $$
-g(x) = x^2 + 3x - 2 space (mod space 5)
+g(x) = x^2 + 3x - 2 space (mod space 79)
 $$
 
 For $x in NN$:
 
 ```typst
-#let g1(x) = calc.rem-euclid(calc.pow(x, 2) + x - 3, 5);
+#let g1(x) = calc.rem-euclid(calc.pow(x, 2) + x - 3, 79	);
 
 #set text(size: 10pt)
 
@@ -102,10 +102,10 @@ For $x in NN$:
     plot.plot(
         size: (12, 8),
         axis-style: "school-book",
-        x-tick-step: 2,
-        y-tick-step: 1, 
+        x-tick-step: 10,
+        y-tick-step: 10, 
         y-min: 0, 
-        y-max: 5,
+        y-max: 80,
         legend: "inner-north-east",
         legend-style: (
             stroke: black,
@@ -115,9 +115,9 @@ For $x in NN$:
         ),
     
         {
-            let domain = (-10.5, 10.5)
+            let domain = (-50.5, 50.5)
             plot.add(
-                g1, 
+                range(-50, 50).map(e => (e, g1(e))), 
                 domain: domain, 
                 label: $ g(x)  $,
                 style: (
@@ -134,9 +134,9 @@ For $x in NN$:
 })
 ```
 
-We can now see $x$ oscillating between $[0;5[$ as the modulo acts as a "wrap-around" operation. Finite Field (also known as Galois Field) make extensive use of this property to ensure that every operation on two numbers $a,b in E$, e.g. $a+b$, stays in $E$. More generally, we say that any Finite Field $FF_q$ with $q = p^k | p in cal(P)$ is **isomorphic**.
+We can now see $x$ oscillating between $[0;79[$ as the modulo acts as a "wrap-around" operation. Finite Field (also known as Galois Field) make extensive use of this property to ensure that every operation on two numbers $a,b in E$, e.g. $a+b$, stays in $E$. More generally, we say that any Finite Field $FF_q$ with $q = p^k | p in cal(P)$ is **isomorphic**.
 
-The utility of this concept will later become apparent when we discuss Shamir's Secret Sharing.
+Even though I did not see any direct-application of this, I was intrigued by this new stuff, and began digging deeper into the subject, clicking Wikipedia links after Wikipedia links. This is how I stumbled upon Shamir's Secret Sharing. But before we dive into this, let's first understand underlying concepts.
 
 ### Polynomials
 
@@ -285,7 +285,7 @@ It is visually obvious that we can only draw a single line that goes through bot
 })
 ```
 
-A line is essentially just $f(x) = a x + b$, which is of degree $1$. We can guess and deduce we need at least $n$ points to describe a polynomial $P_(n-1)$.
+A line is essentially just $f(x) = a x + b$, which is of degree $1$. We can guess and deduce we need at least $n+1$ points to describe a polynomial $P_n$.
 
 The same goes if we add a third point $A_2 (0, 4)$:
 
@@ -486,13 +486,13 @@ The main principle behind this is to split the function into multiple sub-functi
 We want to construct $l_i (x)$ so that:
 
 $$
-l_i(x) = cases(
+l_i (x) = cases(
     space 1 "if" x = x_i,
-    space 0 "if" x != x_j | j!=i
+    space 0 "if" x = x_j | j!=i
 )
 $$
 
-Making a function equal to $0$ at a certain point $x_i$ is as simple as multiplying it by $(x - x_i)$. Based on this property, we can already "guess" $l_1^* (x)$:
+Making a function equal to $0$ at a certain point $x_j$ is as simple as multiplying it by $(x - x_j)$. Based on this property, we can already "guess" $l_1^* (x)$:
 
 $$
 l_1^*(x) = (x - 0)(x - 2)(x - 3)
@@ -645,7 +645,7 @@ And we effectively have $l_1 (1) = 1$. We can now repeat this process for $l_0 (
 })
 ```
 
-We can now construct the polynomial $P_3 (x)$ by summing all the $l_i (x)$ together and multiplying them by the corresponding $y_i$:
+The polynomial $P_3 (x)$ is computed by summing all the $l_i (x)$ together and multiplying them by the corresponding $y_i$:
 
 $$
 P_3 (x) &= y_0 l_0 (x) + y_1 l_1 (x) + y_2 l_2 (x) + y_3 l_3 (x) \
@@ -800,7 +800,7 @@ Which effectively goes through $A_0$, $A_1$, $A_2$ and $A_3$.
 
 ## How Shamir's Secret Sharing Works
 
-With the basics of polynomials and Lagrange interpolation in mind, we can now dive into Shamir's Secret Sharing. 
+With the basics of polynomials and Lagrange interpolation in mind, let's dive in!
 
 The main idea behind this is to split a secret $s$ into $n$ parts, such that any $k$ parts can be used to reconstruct the secret, but any $k-1$ parts are not enough to do so, and do not give any information about the secret.
 
@@ -808,7 +808,7 @@ The main idea behind this is to split a secret $s$ into $n$ parts, such that any
 
 Let's take the following example: we want to split the secret $s = 42$ into $n = 5$ parts, such that any $k = 3$ parts can be used to reconstruct the secret.
 
-The first step is to generate a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k$ such that $a_0 = s$. This gives us the property that $f(0) = s$.
+The first step is to generate a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k-1$ such that $a_0 = s$. This gives us the property that $f(0) = s$.
 
 $$
 f(x) = P_2 (x) = 42 + 5 x + 3 x^2
@@ -1016,11 +1016,67 @@ We need a way to check that the share we receive as a shareholder after the secr
 
 Instead, let's take advantage of the properties of elliptic curves to create a commitment scheme. After we have generated our polynomial $f(x)$, we can take each coefficient $a_i$ and multiply it by the generator point $G$ of the curve. This gives us a few values $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G$ that we can send to the shareholders.
 
-When a shareholder wants to verify their share $Z_i(x_i, y_i)$, they can check with the following equation:
+When a shareholder wants to verify their share $Z_i (i, f(i))$, they can check with the following equation:
 
 $$
-y_i dot G = sum_(j=0)^(k-1) (phi.alt_i dot i^j)
+f(i) dot G &= sum_(j=0)^(k-1) (phi.alt_j dot i^j) \
+          &= phi.alt_0 + phi.alt_1 i + phi.alt_2 i^2 + ... + phi.alt_(k-1) i^(k-1) \
+          &= a_0 dot G + (a_1 dot G) i + (a_2 dot G) i^2 + ... + (a_(k-1) dot G) i^(k-1) \
+          &= (a_0 + a_1 i + a_2 i^2 + ... + a_(k-1) i^(k-1)) dot G \
+          &= sum_(j=0)^(k-1) (a_j i^j) dot G \
+          &= underline(f(i) dot G)
 $$
+
+You could see this procedure as computing the "public keys" of the coefficients. This method is also called "Feldman's Verifiable Secret Sharing".
+
+One may argue that disclosing $a_0 dot G = s dot G$ could give information about the polynomial, but if we suppose that $s$ is an EC secret key, the public key $s dot G$ is supposed public and may be shared. Finding $s$ with $s dot G$ comes down to solving the discrete logarithm problem, which is supposed really hard here. 
+
+Another way the dealer could commit to the polynomial he generated without directly sharing $s dot G$, is to add a so-called "blinding polynomial", a pretty common concept in cryptography.
+
+Let's now instead take $phi.alt_i = a_i dot G + b_i dot H$ where $b_i$ comes from a randomly generated polynomial $g(x) = b_0 + b_1 x + ... + b_(k-1) x^(k-1)$, our blinding polynomial. The dealer will now needs to distribute slightly different shares $Z_i (i, f(i), g(i))$.
+
+Shareholders may now verify their shares with:
+
+$$
+f(i) dot G + g(i) dot H &= sum_(j=0)^(k-1) (phi.alt_j dot i^j) \ 
+                        &= sum_(j=0)^(k-1) ((a_i dot G + b_i dot H) dot i^j) \
+                        &= sum_(j=0)^(k-1) (a_j i^j) dot G + sum_(j=0)^(k-1) (b_j i^j) dot H \
+                        &= underline(f(i) dot G + g(i) dot H )
+$$
+
+## Shared Secrets with Elliptic Curves
+
+Sharing pre-defined secrets is cool, but what if we wanted to collectively generate one for $n$ people? Let's say we have our good old Alice, Bob and Charlie trying to communicate with eachother securely. Alice doesn't trust Charlie to generate the secret locally and share it to everyone because he's the type of guy to write his passwords on sticky notes. Bob doesn't trust Alice either because her idea of a strong password is "password123" — used across five accounts.
+
+In elliptic curves, we have the following property:
+
+$$
+(a dot G) dot b = (b dot G) dot a
+$$
+
+While this may just seem like simple associativity, it's actually pretty cool.
+
+Let's say we have $n = 2$ participants, Alice and Bob, each with their key pair $(p_i, P_i)$, where $p_i$ is the private key and $P_i$ is the public key. We can generate a shared secret $S$ by leveraging the property above:
+
+1. Alice generates a random scalar $p_a$, her private key and sends $P_a = p_a dot G$ to Bob.
+2. Bob also generates $p_b$ and sends back $P_b = p_b dot G$ to Alice.
+3. Alice computes $S = p_a dot P_b = p_a dot (p_b dot G)$.
+4. Bob computes $S = p_b dot P_a = p_b dot (p_a dot G)$.
+
+You can see that both Alice and Bob end up with the same shared secret $S$ without ever having to share their private keys.
+
+This process can also be extended to $n$ participants, let's take $n = 3$ with Alice, Bob and Charlie here for simplicity:
+
+1. Alice, Bob and Charlie generate their private keys $p_a$, $p_b$ and $p_c$ respectively.
+2. They compute their public keys $P_a = p_a dot G$, $P_b = p_b dot G$ and $P_c = p_c dot G$ and share them with eachother.
+3. Alice computes $P_(b a) = P_a dot p_b = (p_a dot p_b) dot G$, $P_(c a) = P_a dot p_c = (p_a dot p_c) dot G$ and sends them to Charlie and Bob respectively.
+4. Bob computes $P_(c b) = P_b dot p_c = (p_b dot p_c) dot G$ and sends it to Alice, he can already compute $S = P_(c a) dot p_b = (p_a dot p_c dot p_b) dot G$.
+5. Charlie computes $S = P_(b a) dot p_c = (p_a dot p_b dot p_c) dot G$.
+6. Alice computes $S = P_(c b) dot p_a = (p_b dot p_c dot p_a) dot G$
+
+And voilà! All participants now have the same shared secret $S$. I'll let figuring out the general case for $n$ participants as an exercise to the reader (not because I'm lazy, I swear).
+
+This secret can now be used as a symmetric key for encryption, a seed for a PRNG, etc.
 
 ## Rust Implementation
 
@@ -1095,7 +1151,7 @@ The curve is defined by the equation $y^2 = x^3 + 7$, represented below, even th
                 style: (
                     stroke: blue + 2pt
                 ),
-                label: $ space y^2 = x^3 - 7 $,
+                label: $ space y^2 = x^3 + 7 $,
                 (x, y) => y * y - (x * x * x + 7)
             )
         }
@@ -1405,24 +1461,17 @@ Let's get to the code!
 /// Split a secret into n shares, requiring k shares to recover the secret
 pub fn split(s: Scalar, n: u8, k: u8) -> Result<Vec<Share>> {
     ensure!(k <= n, "Cannot require (k = {k}) > (n = {n})");
-    let mut shares = vec![];
 
-    let mut poly = Polynomial::new(vec![s]);
-    // Random polynomial secret + a_1 * x^1 + ... + a_(k-1) * x^(k-1)
-    poly.fill((k - 1) as usize);
-
-    ensure!(
-        poly.coefficients.len() as u8 == k,
-        "Polynomial should have degree k"
-    );
-
-    // Compute our n shares for the current byte
-    for j in 0..n {
-        let x = Scalar::from((j + 1) as u32);
-        shares.push((x, poly.evaluate(x)));
-    }
-
-    ensure!(shares.len() as u8 == n, "Shares should be n");
+    // Random polynomial: secret + a_1 * x^1 + ... + a_(k-1) * x^(k-1)
+    let mut poly = Polynomial::new(vec![s])
+        .with_fill(k - 1);
+    // Compute our n shares
+    let shares = (1..=n)
+        .map(|i| {
+            let x = Scalar::from(i as u32);
+            (x, poly.evaluate(x))
+        })
+        .collect();
 
     Ok(shares)
 }
@@ -1432,3 +1481,8 @@ pub fn split(s: Scalar, n: u8, k: u8) -> Result<Vec<Share>> {
 
 - [conduition.io - _Issuing New Shamir Secret Shares Using Multi-Party Computation_](https://conduition.io/cryptography/shamir/)
 - [cloudflare.com - _A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography_](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
+- [Yi-Hsiu Chen and Yehuda Lindell - _Feldman’s Verifiable Secret Sharing for a
+Dishonest Majority_](https://eprint.iacr.org/2024/031.pdf)
+- [Masayuki Abe and Serge Fehr - Adaptively Secure Feldman VSS and Applications to
+Universally-Composable Threshold Cryptography](https://eprint.iacr.org/2004/119.pdf)
+- [Svetlin Nakov - _Asymmetric Key Ciphers_](https://cryptobook.nakov.com/asymmetric-key-ciphers)

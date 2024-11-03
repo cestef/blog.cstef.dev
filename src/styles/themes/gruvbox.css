@@ -1,32 +1,59 @@
 :root[data-theme="gruvbox"] {
+	/* Base colors */
 	--background: 50 13% 93%;
 	--foreground: 40 6% 20%;
-	--card: 50 13% 93%;
+
+	/* Surface variations */
+	--card: 50 13% 91%;
 	--card-foreground: 40 6% 20%;
-	--popover: 50 13% 93%;
+	--popover: 50 13% 92%;
 	--popover-foreground: 40 6% 20%;
+	--modal: 50 13% 94%;
+	--modal-foreground: 40 6% 20%;
+
+	/* Interactive elements */
 	--primary: 40 6% 20%;
 	--primary-foreground: 50 13% 93%;
+	--primary-hover: 40 6% 25%;
 	--secondary: 43 9% 86%;
 	--secondary-foreground: 40 6% 20%;
+	--secondary-hover: 43 9% 82%;
+
+	/* States and accents */
 	--muted: 43 9% 86%;
 	--muted-foreground: 40 5% 45%;
-	--accent: 43 9% 86%;
+	--accent: 43 9% 84%;
 	--accent-foreground: 40 6% 20%;
+	--accent-hover: 43 9% 80%;
+
+	/* Status colors */
 	--destructive: 0 70% 50%;
 	--destructive-foreground: 50 13% 93%;
+	--destructive-hover: 0 70% 45%;
 	--success: 95 50% 50%;
 	--success-foreground: 45 10% 20%;
+	--success-hover: 95 50% 45%;
+	--warning: 43 96% 56%;
+	--warning-foreground: 40 6% 20%;
+	--info: 200 65% 50%;
+	--info-foreground: 40 6% 20%;
+
+	/* UI elements */
 	--border: 40 6% 80%;
+	--border-hover: 40 6% 75%;
 	--input: 40 6% 80%;
+	--input-focus: 40 6% 75%;
 	--ring: 40 6% 20%;
 	--radius: 0.5rem;
+
+	/* Chart colors */
 	--chart-1: 23 65% 57%;
 	--chart-2: 66 50% 45%;
 	--chart-3: 180 29% 50%;
 	--chart-4: 6 70% 53%;
 	--chart-5: 142 30% 50%;
 
+	/* Code syntax highlighting */
 	--shiki-foreground: #3c3836;
 	--shiki-background: transparent;
 	--shiki-token-constant: #076678;
@@ -75,33 +102,61 @@
 }
 
 .dark[data-theme="gruvbox"] {
-	--background: 40 6% 20%;
+	/* Base colors - darker background */
+	--background: 40 6% 15%;
 	--foreground: 50 13% 93%;
-	--card: 40 6% 20%;
+
+	/* Surface variations */
+	--card: 40 6% 18%;
 	--card-foreground: 50 13% 93%;
-	--popover: 40 6% 20%;
+	--popover: 40 6% 17%;
 	--popover-foreground: 50 13% 93%;
+	--modal: 40 6% 16%;
+	--modal-foreground: 50 13% 93%;
+
+	/* Interactive elements */
 	--primary: 50 13% 93%;
-	--primary-foreground: 40 6% 20%;
-	--secondary: 40 5% 25%;
+	--primary-foreground: 40 6% 15%;
+	--primary-hover: 50 13% 88%;
+	--secondary: 40 5% 22%;
 	--secondary-foreground: 50 13% 93%;
-	--muted: 40 5% 25%;
+	--secondary-hover: 40 5% 25%;
+
+	/* States and accents */
+	--muted: 40 5% 22%;
 	--muted-foreground: 40 5% 70%;
-	--accent: 40 5% 25%;
+	--accent: 40 5% 22%;
 	--accent-foreground: 50 13% 93%;
+	--accent-hover: 40 5% 25%;
+
+	/* Status colors */
 	--destructive: 0 70% 40%;
 	--destructive-foreground: 50 13% 93%;
-	--success: 95 63.2% 58.4%;
-	--success-foreground: 45 22% 93.1%;
-	--border: 40 5% 25%;
-	--input: 40 5% 25%;
+	--destructive-hover: 0 70% 45%;
+	--success: 95 63% 58%;
+	--success-foreground: 45 22% 93%;
+	--success-hover: 95 63% 63%;
+	--warning: 43 96% 56%;
+	--warning-foreground: 40 6% 15%;
+	--info: 200 65% 50%;
+	--info-foreground: 40 6% 15%;
+
+	/* UI elements */
+	--border: 40 5% 22%;
+	--border-hover: 40 5% 25%;
+	--input: 40 5% 22%;
+	--input-focus: 40 5% 25%;
 	--ring: 50 13% 83%;
+	--radius: 0.5rem;
+
+	/* Chart colors */
 	--chart-1: 23 65% 57%;
 	--chart-2: 66 50% 45%;
 	--chart-3: 180 29% 50%;
 	--chart-4: 6 70% 53%;
 	--chart-5: 142 30% 50%;
 
+	/* Code syntax highlighting */
 	--shiki-foreground: #ebdbb2;
 	--shiki-background: transparent;
 	--shiki-token-constant: #83a598;
@@ -115,8 +170,8 @@
 	--shiki-token-link: #b8bb26;
 
 	/* ANSI colors */
-	--shiki-ansi-black: #282828;
-	--shiki-ansi-black-dim: #28282880;
+	--shiki-ansi-black: #1d2021;
+	--shiki-ansi-black-dim: #1d202180;
 	--shiki-ansi-red: #cc241d;
 	--shiki-ansi-red-dim: #cc241d80;
 	--shiki-ansi-green: #98971a;
