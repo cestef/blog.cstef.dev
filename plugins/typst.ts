@@ -1,12 +1,10 @@
+import { NodeCompiler } from "@myriaddreamin/typst-ts-node-compiler";
 import type { ElementContent, Root } from "hast";
-import type { VFile } from "vfile";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import { toText } from "hast-util-to-text";
 import { SKIP, visitParents } from "unist-util-visit-parents";
-import { NodeCompiler } from "@myriaddreamin/typst-ts-node-compiler";
+import type { VFile } from "vfile";
 import { getRenderCache, setRenderCache } from "./utils/cache";
-import fs from "node:fs/promises";
-import { join } from "node:path";
 import { customCetz } from "./utils/typst-utils";
 
 export const compilerIns: { current: NodeCompiler | null } = { current: null };

@@ -1,5 +1,5 @@
 ---
-import "@fontsource-variable/fira-code"
+import "@fontsource-variable/fira-code";
 import "@/styles/globals.css";
 
 import { ViewTransitions } from "astro:transitions";
@@ -8,9 +8,9 @@ import Select from "@/components/Select.astro";
 import { THEMES, STATUS_LINE } from "@/constants";
 
 export interface Props {
-    path: string;
-    title?: string;
-    description?: string;
+	path: string;
+	title?: string;
+	description?: string;
 }
 
 const { path, title, description } = Astro.props;
@@ -18,233 +18,272 @@ const { path, title, description } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-  <head>
-      <script is:inline define:vars={{ THEMES }}>
+	<head>
+		<script is:inline define:vars={{ THEMES }}>
+			const setMode = () => {
+				console.log("setMode");
+				const mode = (() => {
+					if (typeof localStorage !== "undefined" && localStorage.getItem("mode")) {
+						return localStorage.getItem("mode");
+					}
+					if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+						return "dark";
+					}
+					return "light";
+				})();
 
-          const setMode = () => {
-              console.log("setMode");
-              const mode = (() => {
-                  if (
-                      typeof localStorage !== "undefined" &&
-                      localStorage.getItem("mode")
-                    ) {
-                        return localStorage.getItem("mode");
-                    }
-                    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                        return "dark";
-                    }
-                    return "light";
-                })();
-                
-                
-                document.documentElement.classList.toggle("dark", mode === "dark");
-                
-                window.localStorage.setItem("mode", mode || "light");
-                let theme = localStorage.getItem('theme') || 'default';
-                console.log("theme", theme);
-                console.log("themes", Object.keys(THEMES));
-                if (!THEMES.find(e => e.id === theme)) {
-                    console.log("theme not found");
-                    theme = 'default';
-                }
-                document.documentElement.dataset.theme = theme;
-                const prose = document.getElementById('prose');
-                if (prose) {
-                    prose.classList.add(`prose-${theme}`);
-                }
-                localStorage.setItem('theme', theme);
-                
-                window.addEventListener("DOMContentLoaded", () => {
-                    const themeSelect = document.getElementById('theme');
-                    if (!themeSelect) return console.log("no theme select");
-                    themeSelect.dispatchEvent(new CustomEvent('select-change', { detail: { value: theme } }));
-                });
-            };
-            
-            setMode();
-            
-            document.addEventListener("astro:after-swap", setMode);
-        </script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <ViewTransitions />
-    <title>{title ? title : "cstef's Digital Garden"}</title>
-    <meta name="description" content={description} />
-  </head>
-  <body>
-    <div class="fixed top-0 left-0 w-full bg-accent flex">
-        {STATUS_LINE.user && (
-            <a href="/">
-                <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
-                    {STATUS_LINE.user}
-                </div>
-            </a>
-        )}
-        
-        {STATUS_LINE.time !== false && <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block" id="time"/>}
+				document.documentElement.classList.toggle("dark", mode === "dark");
 
-        <div class="flex-grow"/>
-        <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit appearance-none">
-            <Select id="theme" name="theme" options={THEMES.map(e => ({ label: e.name.toUpperCase(), value: e.id }))} />
-        </div>
-        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
-            <ModeSwitch />
-        </div>
-    </div>
-    <main class="mb-24">
-        <slot />
-    </main>
-    <div class="fixed bottom-0 left-0 w-full bg-accent flex">
-        {STATUS_LINE.mode && <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
-            {STATUS_LINE.mode}
-        </div>}
-        {STATUS_LINE.path !== false && <div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit truncate">
-            {path}
-        </div>}
-        <div class="flex-grow"/>
-        {STATUS_LINE.connection !== false && <div class="bg-success/70 text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black" id="connection">
-            ONLINE
-        </div>}
-        {STATUS_LINE.scroll !== false && <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black" id="scroll">
-            TOP
-        </div>}
-    </div>
-  </body>
+				window.localStorage.setItem("mode", mode || "light");
+				let theme = localStorage.getItem("theme") || "default";
+				console.log("theme", theme);
+				console.log("themes", Object.keys(THEMES));
+				if (!THEMES.find((e) => e.id === theme)) {
+					console.log("theme not found");
+					theme = "default";
+				}
+				document.documentElement.dataset.theme = theme;
+				const prose = document.getElementById("prose");
+				if (prose) {
+					prose.classList.add(`prose-${theme}`);
+				}
+				localStorage.setItem("theme", theme);
+
+				window.addEventListener("DOMContentLoaded", () => {
+					const themeSelect = document.getElementById("theme");
+					if (!themeSelect) return console.log("no theme select");
+					themeSelect.dispatchEvent(
+						new CustomEvent("select-change", { detail: { value: theme } })
+					);
+				});
+			};
+
+			setMode();
+
+			document.addEventListener("astro:after-swap", setMode);
+		</script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<ViewTransitions />
+		<title>{title ? title : "cstef's Digital Garden"}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body>
+		<div class="fixed top-0 left-0 w-full bg-accent flex">
+			{
+				STATUS_LINE.user && (
+					<a href="/">
+						<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
+							{STATUS_LINE.user}
+						</div>
+					</a>
+				)
+			}
+
+			{
+				STATUS_LINE.time !== false && (
+					<div
+						class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block"
+						id="time"
+					/>
+				)
+			}
+
+			<div class="flex-grow"></div>
+			<div
+				class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit appearance-none"
+			>
+				<Select
+					id="theme"
+					name="theme"
+					options={THEMES.map((e) => ({ label: e.name.toUpperCase(), value: e.id }))}
+				/>
+			</div>
+			<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
+				<ModeSwitch />
+			</div>
+		</div>
+		<main class="mb-24">
+			<slot />
+		</main>
+		<div class="fixed bottom-0 left-0 w-full bg-accent flex">
+			{
+				STATUS_LINE.mode && (
+					<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
+						{STATUS_LINE.mode}
+					</div>
+				)
+			}
+			{
+				STATUS_LINE.path !== false && (
+					<div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit truncate">
+						{path}
+					</div>
+				)
+			}
+			<div class="flex-grow"></div>
+			{
+				STATUS_LINE.connection !== false && (
+					<div
+						class="bg-success/70 text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black"
+						id="connection"
+					>
+						ONLINE
+					</div>
+				)
+			}
+			{
+				STATUS_LINE.scroll !== false && (
+					<div
+						class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black"
+						id="scroll"
+					>
+						TOP
+					</div>
+				)
+			}
+		</div>
+	</body>
 </html>
 
 <script is:inline define:vars={{ THEMES, STATUS_LINE }}>
-    const setScroll = () => {
-        const scroll = document.getElementById("scroll");
-        if (!scroll) return;
-        if (window.scrollY <= 0) {
-            scroll.innerText = "TOP";
-            return;
-        }
-        let percent = Math.floor((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-        // Clamp to 100
-        percent = Math.min(percent, 100);
-        if (percent === 100) {
-            scroll.innerText = "END";
-            return;
-        } else if (percent <= 0) {
-            scroll.innerText = "TOP";
-            return;
-        }
-        scroll.innerText = `${percent}%`;
-    };
+	const setScroll = () => {
+		const scroll = document.getElementById("scroll");
+		if (!scroll) return;
+		if (window.scrollY <= 0) {
+			scroll.innerText = "TOP";
+			return;
+		}
+		let percent = Math.floor(
+			(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+		);
+		// Clamp to 100
+		percent = Math.min(percent, 100);
+		if (percent === 100) {
+			scroll.innerText = "END";
+			return;
+		} else if (percent <= 0) {
+			scroll.innerText = "TOP";
+			return;
+		}
+		scroll.innerText = `${percent}%`;
+	};
 
-    if (STATUS_LINE.scroll !== false) {
-        setScroll();
-        window.addEventListener("scroll", setScroll);
-        document.addEventListener("astro:after-swap", setScroll);
-    }
-    const setTime = () => {
-        const time = document.getElementById("time");
-        if (!time) return console.log("no time");
-        time.innerText = new Date().toLocaleTimeString();
-    };
+	if (STATUS_LINE.scroll !== false) {
+		setScroll();
+		window.addEventListener("scroll", setScroll);
+		document.addEventListener("astro:after-swap", setScroll);
+	}
+	const setTime = () => {
+		const time = document.getElementById("time");
+		if (!time) return console.log("no time");
+		time.innerText = new Date().toLocaleTimeString();
+	};
 
-    if (STATUS_LINE.time !== false) {
-        setTime();
+	if (STATUS_LINE.time !== false) {
+		setTime();
 
-        setInterval(() => {
-            setTime();
-        }, 1000);
+		setInterval(() => {
+			setTime();
+		}, 1000);
 
-        window.addEventListener("astro:after-swap", setTime);
-    }
+		window.addEventListener("astro:after-swap", setTime);
+	}
 
-    const setConnection = () => {
-        const connection = document.getElementById("connection");
-        if (!connection) return;
-        connection.innerText = navigator.onLine ? "ONLINE" : "OFFLINE";
-        if (navigator.onLine) {
-            connection.classList.remove("bg-destructive/70");
-            connection.classList.add("bg-success/70");
-        } else {
-            connection.classList.remove("bg-success/70");
-            connection.classList.add("bg-destructive/70");
-        }
-    };
+	const setConnection = () => {
+		const connection = document.getElementById("connection");
+		if (!connection) return;
+		connection.innerText = navigator.onLine ? "ONLINE" : "OFFLINE";
+		if (navigator.onLine) {
+			connection.classList.remove("bg-destructive/70");
+			connection.classList.add("bg-success/70");
+		} else {
+			connection.classList.remove("bg-success/70");
+			connection.classList.add("bg-destructive/70");
+		}
+	};
 
-    if (STATUS_LINE.connection !== false) {
-        setConnection();
-        window.addEventListener("online", setConnection);
-        window.addEventListener("offline", setConnection);
-        document.addEventListener("astro:after-swap", setConnection);
-    }
+	if (STATUS_LINE.connection !== false) {
+		setConnection();
+		window.addEventListener("online", setConnection);
+		window.addEventListener("offline", setConnection);
+		document.addEventListener("astro:after-swap", setConnection);
+	}
 
-    
+	const select = document.getElementById("theme");
+	select.addEventListener("select-change", (event) => {
+		document.documentElement.dataset.theme = event.detail.value;
+		const prose = document.getElementById("prose");
+		if (prose) {
+			for (const theme of THEMES) {
+				prose.classList.remove(`prose-${theme.id}`);
+			}
+			prose.classList.add(`prose-${event.detail.value}`);
+		}
+		localStorage.setItem("theme", event.detail.value);
+	});
+	const input = select.querySelector(`input[type="hidden"]`);
+	input.value = theme;
 
-    const select = document.getElementById('theme');
-    select.addEventListener('select-change', (event) => {
-        document.documentElement.dataset.theme = event.detail.value;
-        const prose = document.getElementById('prose');
-        if (prose) {
-            for (const theme of THEMES) {
-                prose.classList.remove(`prose-${theme.id}`);
-            }
-            prose.classList.add(`prose-${event.detail.value}`);
-        }
-        localStorage.setItem('theme', event.detail.value);
-    });
-    const input = select.querySelector(`input[type="hidden"]`);
-    input.value = theme;
+	document.addEventListener("astro:after-swap", () => {
+		const theme = localStorage.getItem("theme") || "default";
 
-    document.addEventListener("astro:after-swap", () => {
-        const theme = localStorage.getItem('theme') || 'default';
+		document.documentElement.dataset.theme = theme;
+		const prose = document.getElementById("prose");
+		if (prose) {
+			for (const theme of THEMES) {
+				prose.classList.remove(`prose-${theme.id}`);
+			}
+			prose.classList.add(`prose-${theme}`);
+		}
+		const input = select.querySelector(`input[type="hidden"]`);
+		input.value = theme;
+	});
 
-        document.documentElement.dataset.theme = theme;
-        const prose = document.getElementById('prose');
-        if (prose) {
-            for (const theme of THEMES) {
-                prose.classList.remove(`prose-${theme.id}`);
-            }
-            prose.classList.add(`prose-${theme}`);
-        }
-        const input = select.querySelector(`input[type="hidden"]`);
-        input.value = theme;
-
-    });
-
-    // vim keybindings
-    document.addEventListener("keydown", (event) => {
-        switch (event.key) {
-            case "h":
-                if (window.history.length > 1) {
-                    window.history.back();
-                }
-                break;
-            case "l":
-                window.history.forward();
-                break;
-            case "j":
-                window.scrollBy(0, 100);
-                break;
-            case "k":
-                window.scrollBy(0, -100);
-                break;
-            case "g":
-                window.scrollTo(0, 0);
-                break;
-            case "G":
-                window.scrollTo(0, document.body.scrollHeight);
-                break;
-        }
-    });
+	// vim keybindings
+	document.addEventListener("keydown", (event) => {
+		switch (event.key) {
+			case "h":
+				if (window.history.length > 1) {
+					window.history.back();
+				}
+				break;
+			case "l":
+				window.history.forward();
+				break;
+			case "j":
+				window.scrollBy(0, 100);
+				break;
+			case "k":
+				window.scrollBy(0, -100);
+				break;
+			case "g":
+				window.scrollTo({
+					behavior: "smooth",
+					top: 0,
+				});
+				break;
+			case "G":
+				window.scrollTo({
+					behavior: "smooth",
+					top: document.body.scrollHeight,
+				});
+				break;
+		}
+	});
 </script>
 
 <script>
-    import twemoji from "twemoji";
-    // Replace all emojis with Twemoji images
-    const parse = () => {
-        twemoji.parse(document.body, {
-            folder: "svg",
-            ext: ".svg",
-            base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/"
-        });
-    };
-    parse();
-    document.addEventListener("DOMContentLoaded", parse);
-    document.addEventListener("astro:after-swap", parse);
+	import twemoji from "twemoji";
+	// Replace all emojis with Twemoji images
+	const parse = () => {
+		twemoji.parse(document.body, {
+			folder: "svg",
+			ext: ".svg",
+			base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/",
+		});
+	};
+	parse();
+	document.addEventListener("DOMContentLoaded", parse);
+	document.addEventListener("astro:after-swap", parse);
 </script>

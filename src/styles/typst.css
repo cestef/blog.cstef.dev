@@ -1,0 +1,55 @@
+.typst-text[fill="#000"] {
+	@apply fill-[--tw-prose-body];
+}
+.typst-shape[fill="#000"] {
+	@apply fill-[--tw-prose-body];
+}
+.typst-shape[fill="#fff"] {
+	@apply fill-background;
+}
+.typst-shape[stroke="#fff"] {
+	@apply stroke-background;
+}
+.typst-shape[stroke="#000"] {
+	@apply stroke-[--tw-prose-body];
+}
+.typst-shape[stroke="#d5d5d5"] {
+	@apply stroke-muted;
+}
+.typst-inline {
+	@apply inline;
+}
+.typst-doc:not(.typst-inline) {
+	@apply overflow-x-auto max-w-full;
+}
+
+.typst-shape[stroke="#0074d9"] {
+	@apply stroke-[--shiki-ansi-blue];
+}
+.typst-shape[stroke="#ffdc00"] {
+	@apply stroke-[--shiki-ansi-yellow];
+}
+.typst-shape[stroke="#2ecc40"] {
+	@apply stroke-[--shiki-ansi-green];
+}
+.typst-shape[stroke="#ff4136"] {
+	@apply stroke-[--shiki-ansi-red];
+}
+.typst-shape[stroke="#f012be"] {
+	@apply stroke-[--shiki-ansi-magenta];
+}
+.typst-shape[fill="#0074d9"] {
+	@apply fill-[--shiki-ansi-blue];
+}
+.typst-shape[fill="#ffdc00"] {
+	@apply fill-[--shiki-ansi-yellow];
+}
+.typst-shape[fill="#2ecc40"] {
+	@apply fill-[--shiki-ansi-green];
+}
+.typst-shape[fill="#ff4136"] {
+	@apply fill-[--shiki-ansi-red];
+}
+.typst-shape[fill="#f012be"] {
+	@apply fill-[--shiki-ansi-magenta];
+}
