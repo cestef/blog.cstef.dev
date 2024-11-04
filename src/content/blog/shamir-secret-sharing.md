@@ -1169,10 +1169,9 @@ I also made my own `Polynomial{:rs}` struct to handle the polynomial operations,
 <summary><code>polynomial.rs</code></summary>
 
 ```rust copy
-use crate::types::{Point, Scalar, GENERATOR};
+use crate::types::{Point, Scalar, GENERATOR, GENERATOR_BLINDING};
 use elliptic_curve::Field;
-use std::ops::{Mul, Neg};
-
+use std::ops::Mul;
 /// Helper struct to represent a polynomial and evaluate it
 #[derive(Clone, Debug)]
 pub struct Polynomial {
@@ -1195,7 +1194,7 @@ impl Polynomial {
 
     pub fn random<D>(degree: D) -> Self
     where
-        D: Into<u32>,
+        D: Into<usize>,
     {
         let mut rng = rand::thread_rng();
         let mut coefficients = vec![];
@@ -1205,20 +1204,34 @@ impl Polynomial {
         Self { coefficients }
     }
 
-    pub fn fill(&mut self, degree: usize) {
+    pub fn fill<U>(&mut self, degree: U)
+    where
+        U: Into<usize>,
+    {
         let mut rng = rand::thread_rng();
-        for _ in self.coefficients.len()..=degree {
+        for _ in self.coefficients.len()..=degree.into() {
             self.coefficients.push(Scalar::random(&mut rng));
         }
     }
 
-    pub fn with_fill(mut self, degree: usize) -> Self {
+    pub fn with_fill<U>(mut self, degree: U) -> Self
+    where
+        U: Into<usize>,
+    {
         self.fill(degree);
         self
     }
 
     pub fn commit(&self) -> Vec<Point> {
         self.coefficients.iter().map(|e| GENERATOR * e).collect()
+    }
+
+    pub fn zip_commit(&self, other: &Self) -> Vec<Point> {
+        self.coefficients
+            .iter()
+            .zip(other.coefficients.clone())
+            .map(|(a, b)| a * GENERATOR + b * *GENERATOR_BLINDING)
+            .collect()
     }
 
     /// Add a root at c by multiplying the polynomial by (x - c)
@@ -1258,19 +1271,14 @@ impl Polynomial {
         let degree = points.len() - 1;
         let mut result = vec![Scalar::ZERO; degree + 1];
 
+        // For each point, calculate its contribution to the final polynomial
         for (i, (x_i, y_i)) in points.iter().enumerate() {
-            // Calculate the Lagrange basis polynomial for this point
-            let mut basis_poly = vec![Scalar::ONE];
+            let mut basis_poly = vec![Scalar::ONE]; 
 
             for (j, (x_j, _)) in points.iter().enumerate() {
                 if i != j {
-                    // Multiply by (x - x_j)
-                    // When multiplying by (x - a), we need to:
-                    // - Shift all coefficients left (multiply by x)
-                    // - Subtract a times the original coefficients
                     let mut new_coeffs = vec![Scalar::ZERO];
-                    // Multiply by x
-                    new_coeffs.extend(basis_poly.iter().cloned()); 
+                    new_coeffs.extend(basis_poly.iter().cloned());
 
                     // Subtract x_j times each coefficient
                     for (k, coeff) in basis_poly.iter().enumerate() {
@@ -1295,7 +1303,6 @@ impl Polynomial {
                 *coeff *= coefficient;
             }
 
-            // Add to result
             for (k, coeff) in basis_poly.iter().enumerate() {
                 result[k] += *coeff;
             }
@@ -1306,7 +1313,6 @@ impl Polynomial {
         }
     }
 }
-
 
 impl PartialEq for Polynomial {
     fn eq(&self, other: &Self) -> bool {
@@ -1474,6 +1480,58 @@ pub fn split(s: Scalar, n: u8, k: u8) -> Result<Vec<Share>> {
         .collect();
 
     Ok(shares)
+}
+```
+
+### Verifying the Shares - Feldman's VSS
+
+```rust copy
+/// Verify a share against a set of commitments
+pub fn verify(share: Share, commitments: Vec<Point>) -> Result<()> {
+    // We need to check that share_i * G = sum_(j=0)^(t-1) i^j * commitment_j
+    let mut lhs = Point::identity();
+    let rhs = GENERATOR * share.1;
+    for (j, commitment) in commitments.iter().enumerate() {
+        lhs += commitment * share.0.pow_vartime(&Scalar::from(j as u8).to_raw());
+    }
+
+    ensure!(
+        bool::from((lhs - rhs).is_identity()),
+        "Verification failed: {:#?} != {:#?}",
+        lhs,
+        rhs
+    );
+    Ok(())
+}
+```
+
+### Verifying the Shares - Pedersen's VSS
+
+```rust copy
+lazy_static! {
+    // We need a second generator point for Pedersen's VSS - we'll just hash a random message
+    static ref GENERATOR_BLINDING: Point = G1Projective::hash::<ExpandMsgXmd<sha2::Sha256>>(
+        b"generator_blinding",
+        &[0xde, 0xad, 0xbe, 0xef]
+    );
+}
+
+/// Verify a share against a set of Pedersen commitments
+pub fn verify(share: PedersenShare, commitments: Vec<Point>) -> Result<()> {
+    // We need to check that f(i) * G + g(i) * H = sum_(j=0)^(t-1) i^j * commitment_j
+    let mut lhs = Point::identity();
+    let rhs = share.1 * GENERATOR + share.2 * *GENERATOR_BLINDING;
+    for (j, commitment) in commitments.iter().enumerate() {
+        lhs += commitment * share.0.pow_vartime(&Scalar::from(j as u8).to_raw());
+    }
+
+    ensure!(
+        bool::from((lhs - rhs).is_identity()),
+        "Verification failed: {:#?} != {:#?}",
+        lhs,
+        rhs
+    );
+    Ok(())
 }
 ```
 
