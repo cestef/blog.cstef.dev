@@ -1,10 +1,13 @@
 ---
-title: Elliptic Curve Cryptography for the Curious
+title: Elliptic Curve Cryptography for Sane People
 tags: [cryptography, maths]
-description: My journey to learning how Elliptic Curve Cryptography works.
+description: A gentle introduction to elliptic curve cryptography, without the need for a PhD in mathematics.
 date: 2024-10-30
 growth: seedling
 ---
+
+> [!INFO]
+> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, please let me know!
 
 ## Introduction
 
@@ -1078,12 +1081,39 @@ And voilà! All participants now have the same shared secret $S$. I'll let figur
 
 This secret can now be used as a symmetric key for encryption, a seed for a PRNG, etc.
 
+## Digital Signatures
+
+Elliptic curves can't make you a sandwich, but they can also be used to sign messages! Let's take a look at the Elliptic Curve Digital Signature Algorithm (ECDSA). Our goal is to output a signature $(r, s)$ for a given message $m$, so that the recipient can verify that the sender is authentic. The sender's keys are $(p, P)$, with $p$ the private key, and $P$ the public one.
+
+1. Compute the hash $h = H(m)$ where $H(x)$ is any cryptographic hash function (e.g. SHA-256).
+2. Generate a random $k$ number in in the current subgroup.
+3. Calculate the associated random point on the curve $K = k dot G$, with $G$ a generator, with $x_K$ the $x$-coordinate of this point.
+4. Calculate the signature $s = k^-1 dot (h + x_K dot p)$, where $k^-1$ is the modular inverse of $k$.
+
+By sending $(r, s)$, you confirm you know:
+
+- The content of the message $m$
+- The private key $p$ associated to $P = p dot G$
+
+The verifier may follow this procedure to check if the message $m$ that he received along with $(r,s)$ is authentic:
+
+1. Compute the hash $h = H(m)$ with the same cryptographic hash function defined before.
+2. Calculate the modular inverse of $s$: $S = s^(-1)$
+3. Recover the random point used in the signature process: $K = h S dot G + r S dot P$
+4. Check whether $x_K = r$, if so, then the message is authentic.
+
+To prove why this works, let's suppose $u_1 = h S$, $u_2 = r S$ and thus $K = u_1 dot G + u_2 dot P = (x_K, y_K)$
+
+### Kool Kids Public Key Recovery
+
+
+
 ## Rust Implementation
 
 I've been using Rust for a while now (_even though I feel like I'm a complete beginner and still can't manage to fully understand lifetimes_), so I thought it would be a good idea to implement Shamir's Secret Sharing in Rust.
 
 > [!WARNING]
-> **Disclaimer**: I'm not a cryptographer, and I'm not a security expert. This implementation is for educational purposes only and should not be used in production.
+> **Disclaimer**: Be aware that this is not suited for production use. Consider using a battle-tested cryptography instead.
 
 ### Dependencies
 
