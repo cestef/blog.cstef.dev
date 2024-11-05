@@ -1,13 +1,13 @@
 ---
 title: Elliptic Curve Cryptography for Sane People
 tags: [cryptography, maths]
-description: A gentle introduction to elliptic curve cryptography, without the need for a PhD in mathematics.
+description: A gentle introduction to elliptic curve cryptography and a few concepts around it, without the need for a PhD in mathematics.
 date: 2024-10-30
-growth: seedling
+growth: sapling
 ---
 
 > [!INFO]
-> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, please let me know!
+> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
 
 ## Introduction
 
@@ -1088,7 +1088,7 @@ Elliptic curves can't make you a sandwich, but they can also be used to sign mes
 1. Compute the hash $h = H(m)$ where $H(x)$ is any cryptographic hash function (e.g. SHA-256).
 2. Generate a random $k$ number in in the current subgroup.
 3. Calculate the associated random point on the curve $K = k dot G$, with $G$ a generator, with $x_K$ the $x$-coordinate of this point.
-4. Calculate the signature $s = k^-1 dot (h + x_K dot p)$, where $k^-1$ is the modular inverse of $k$.
+4. Calculate the signature $s = k^(-1) dot (h + x_K dot p)$, where $k^(-1)$ is the modular inverse of $k$.
 
 By sending $(r, s)$, you confirm you know:
 
@@ -1102,11 +1102,46 @@ The verifier may follow this procedure to check if the message $m$ that he recei
 3. Recover the random point used in the signature process: $K = h S dot G + r S dot P$
 4. Check whether $x_K = r$, if so, then the message is authentic.
 
-To prove why this works, let's suppose $u_1 = h S$, $u_2 = r S$ and thus $K = u_1 dot G + u_2 dot P = (x_K, y_K)$
+To prove this works, let's start with the definition of the signature $s$:
+
+$$
+    & s = k^(-1) dot (h + x_K dot p) \
+<==>& s dot k = h + x_K dot p \
+<==>& underbrace(s dot k = h + r dot p, (a))
+$$
+
+Incorporate $(a)$ into $K$:
+
+$$
+K &= h S dot G + r S dot P \
+  &= h s^(-1) dot G + r s^(-1) dot (p dot G) \
+  &= s^(-1) (h dot G + r dot (p dot G)) \
+  &= s^(-1) underbrace((h + r dot p), (a)) dot G \
+  &= underbrace(s^(-1) s, = 1) dot k dot G \
+  &= underline(k dot G)
+$$
+
+Which is just our definition of $K$ when generating the signature.
 
 ### Kool Kids Public Key Recovery
 
+Let's suppose you are talking through a [Tin can telephone](https://en.wikipedia.org/wiki/Tin_can_telephone) with your friend and every byte you send matters. You don't want to send the public key $P$ along with the signature $(r, s)$ because that's just too much data. Instead, you can recover the public key from the signature and the message.
 
+Given $x_K$, there are typically **two** candidate points $K'_i$ that fit. And since we know that $K = h S dot G + r S dot P$, which we just verified works, it can be rearranged to isolate the public key $P$:
+
+$$
+    K'_i &= h S dot G + r S dot P_i \
+<==> P_i &= s^(-1)(h G + r K'_i)
+$$
+
+To choose which one is the correct one, we need to verify the signature with each $P_i$:
+
+$$
+K_i = h S dot G + r S dot P_i = (x_K, y_K) \
+x_K =^? r
+$$
+
+This ambiguity is often removed by adding a single bit $b in {0,1}$ into the signature message: $(r, s, b)$
 
 ## Rust Implementation
 
@@ -1117,7 +1152,69 @@ I've been using Rust for a while now (_even though I feel like I'm a complete be
 
 ### Dependencies
 
-Because working with elliptic curves is a bit tricky, we'll use [`k256`](https://lib.rs/k256), which is a Rust implementation of the [secp256k1](https://en.bitcoin.it/wiki/Secp256k1) curve. This abstracts a lot of the complexity and allows us to focus on the actual implementation of the algorithm.
+Because working with elliptic curves is a bit tricky, we'll use [`bls12_381_plus`](https://lib.rs/bls12_381_plus), which is a Rust implementation of the [BLS12-381](https://hackmd.io/@benjaminion/bls12-381) curve. This abstracts a lot of the complexity and allows us to focus on the actual implementation of the algorithm. 
+
+```typst
+#set text(size: 10pt)
+
+#canvas({
+    import draw: *
+
+    // Set-up a thin axis style
+    set-style(
+        axes: (
+            stroke: .5pt, 
+            tick: (
+                stroke: .5pt
+            )
+        ),
+        legend: (
+            stroke: none, 
+            orientation: ttb, 
+            item: (
+                spacing: .3
+            ), 
+            scale: 80%
+        ),
+    )
+
+    plot.plot(
+        name: "plot",
+        size: (12, 8),
+        axis-style: "school-book",
+        x-tick-step: 3,
+        y-tick-step: 2, 
+        legend: "inner-north-east",
+        legend-style: (
+            stroke: black,
+            fill: none,
+            radius: 5pt,
+            padding: .5em,
+        ),
+    
+        {
+            add-contour(
+                x-domain: (-6, 6),
+                y-domain: (-5, 5),
+                op: "<",
+                z: 0,
+                x-samples: 50,
+                y-samples: 50,
+                style: (
+                    stroke: blue + 2pt
+                ),
+                label: $ space y^2 = x^3 + 4 $,
+                (x, y) => y * y - (x * x * x + 4)
+            )
+        }
+    )
+})
+
+```
+
+<figcaption>Representation of the BLS12-381 curve</figcaption>
+
+You could also have used any other elliptic curve, such as [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1).
 
 <details>
 
@@ -1189,7 +1286,7 @@ The curve is defined by the equation $y^2 = x^3 + 7$, represented below, even th
 })
 
 ```
-
+<figcaption>Representation of the Secp256k1 curve</figcaption>
 </details>
 
 I also made my own `Polynomial{:rs}` struct to handle the polynomial operations, such as addition, multiplication, evaluation, etc.
@@ -1486,6 +1583,29 @@ impl std::ops::Sub for Polynomial {
         self + rhs * Scalar::ONE.neg()
     }
 }
+```
+</details>
+
+
+
+<details>
+
+<summary><code>types.rs</code></summary>
+
+```rust copy
+use bls12_381_plus::{G1Projective, Scalar as BLSScalar};
+use elliptic_curve::hash2curve::ExpandMsgXmd;
+use lazy_static::lazy_static;
+
+pub type Scalar = BLSScalar;
+/// A share of a secret
+pub type Share = (Scalar, Scalar); // (i, f(i))
+pub type PedersenShare = (Scalar, Scalar, Scalar); // (i, f(i), g(i))
+
+/// Wrapper type for a commitment
+pub type Point = G1Projective;
+
+pub const GENERATOR: Point = G1Projective::GENERATOR;
 ```
 </details>
 

@@ -92,7 +92,7 @@ figure:hover > #copy-button {
 }
 
 details {
-	@apply border rounded-md border-muted py-2 px-4 bg-card/50;
+	@apply border rounded-md border-muted py-2 px-4 bg-card/50 my-4;
 }
 
 summary {
