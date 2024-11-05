@@ -137,7 +137,7 @@ For $x in NN$:
 })
 ```
 
-We can now see $x$ oscillating between $[0;79[$ as the modulo acts as a "wrap-around" operation. Finite Field (also known as Galois Field) make extensive use of this property to ensure that every operation on two numbers $a,b in E$, e.g. $a+b$, stays in $E$. More generally, we say that any Finite Field $FF_q$ with $q = p^k | p in cal(P)$ is **isomorphic**.
+We can now see $x$ oscillating between $[0;79[$ as the modulo acts as a "wrap-around" operation. Finite Fields (also known as Galois Fields) make extensive use of this property to ensure that every operation on two numbers $a,b in E$, e.g. $a+b$, stays in $E$. More generally, we say that any Finite Field $FF_q$ with $q = p^k | p in cal(P)$ is **isomorphic**.
 
 Even though I did not see any direct-application of this, I was intrigued by this new stuff, and began digging deeper into the subject, clicking Wikipedia links after Wikipedia links. This is how I stumbled upon Shamir's Secret Sharing. But before we dive into this, let's first understand underlying concepts.
 
