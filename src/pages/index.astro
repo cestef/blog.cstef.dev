@@ -2,61 +2,98 @@
 import { HERO, STATE_EMOJI } from "@/constants";
 import { HIDE_SEEDLINGS_PROD } from "@/constants";
 import Prose from "@/layouts/Prose.astro";
-import RootLayout from "@/layouts/RootLayout.astro"
-import { getCollection } from "astro:content"
+import RootLayout from "@/layouts/RootLayout.astro";
+import { getCollection } from "astro:content";
 
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
-    .filter(e => isProd && HIDE_SEEDLINGS_PROD ? e.data.growth !== "seedling" : true)
-    .sort((a,b) => b.data.date.getTime() - a.data.date.getTime());
+	.filter((e) => (isProd && HIDE_SEEDLINGS_PROD ? e.data.growth !== "seedling" : true))
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <RootLayout path="/">
-    <Prose>
-        <a href="/" class="underline-offset-4 decoration-4">
-            <h1>{HERO.title}</h1>
-        </a>
-        {typeof HERO.description === "string" ? <p>{HERO.description}</p> : HERO.description.map((line) => <p>{line}</p>)}
-        <h2>Latest plants</h2>
-        {posts.length > 0 ? <ul>
-            {posts.map((post) => (
-                <li>
-                    <div>
+	<Prose>
+		<a href="/" class="underline-offset-4 decoration-4">
+			<h1>{HERO.title}</h1>
+		</a>
+		{
+			typeof HERO.description === "string" ? (
+				<p>{HERO.description}</p>
+			) : (
+				HERO.description.map((line) => <p>{line}</p>)
+			)
+		}
+		<h2>Latest plants</h2>
+		{
+			posts.length > 0 ? (
+				<ul>
+					{posts.map((post) => (
+						<li>
+							<div>
+								<h3 class="flex items-center gap-2 md:gap-4">
+									<a
+										href={`/post/${post.slug}`}
+										class="underline-offset-2 decoration-2 max-w-[70%]"
+									>
+										{post.data.title.trim()}
+									</a>{" "}
+									<div class="flex-grow" />{" "}
+									<span class="text-sm text-muted-foreground">
+										{post.data.date.toLocaleDateString()}
+									</span>{" "}
+									<a
+										href={`/growth/${post.data.growth}`}
+										class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline"
+									>
+										{STATE_EMOJI[post.data.growth]}
+									</a>
+								</h3>
 
-                        <h3 class="flex items-center gap-2 md:gap-4">
-                            <a href={`/blog/${post.slug}`} class="underline-offset-2 decoration-2 max-w-[70%]">{post.data.title.trim()}</a> <div class="flex-grow"/> <span class="text-sm text-muted-foreground">{post.data.date.toLocaleDateString()}</span> <a href={`/growth/${post.data.growth}`}  class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline">{STATE_EMOJI[post.data.growth]}</a>
-                        </h3>
-
-                        <p>{post.data.description}</p>
-                    </div>
-                </li>
-            ))}
-        </ul> : <p>No posts yet. Check back later!</p>}
-    </Prose>
+								<p>{post.data.description}</p>
+							</div>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p>No posts yet. Check back later!</p>
+			)
+		}
+	</Prose>
 </RootLayout>
 
 <script is:inline>
-const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-let konamiIndex = 0;
+	const konamiCode = [
+		"ArrowUp",
+		"ArrowUp",
+		"ArrowDown",
+		"ArrowDown",
+		"ArrowLeft",
+		"ArrowRight",
+		"ArrowLeft",
+		"ArrowRight",
+		"b",
+		"a",
+	];
+	let konamiIndex = 0;
 
-function setupKonamiCodeRickroll() {
-    document.addEventListener('keydown', (e) => {
-        if (e.key === konamiCode[konamiIndex]) {
-            konamiIndex++;
-            if (konamiIndex === konamiCode.length) {
-                rickroll();
-                konamiIndex = 0;
-            }
-        } else {
-            konamiIndex = 0;
-        }
-    });
-}
+	function setupKonamiCodeRickroll() {
+		document.addEventListener("keydown", (e) => {
+			if (e.key === konamiCode[konamiIndex]) {
+				konamiIndex++;
+				if (konamiIndex === konamiCode.length) {
+					rickroll();
+					konamiIndex = 0;
+				}
+			} else {
+				konamiIndex = 0;
+			}
+		});
+	}
 
-function rickroll() {
-    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
-}
+	function rickroll() {
+		window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+	}
 
-// Call this function to set up the Konami Code listener
-setupKonamiCodeRickroll();
+	// Call this function to set up the Konami Code listener
+	setupKonamiCodeRickroll();
 </script>
