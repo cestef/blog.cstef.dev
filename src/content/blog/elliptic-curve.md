@@ -807,6 +807,11 @@ With the basics of polynomials and Lagrange interpolation in mind, let's dive in
 
 The main idea behind this is to split a secret $s$ into $n$ parts, such that any $k$ parts can be used to reconstruct the secret, but any $k-1$ parts are not enough to do so, and do not give any information about the secret.
 
+> [!INFO]
+> If you are not confortable with the concept of Finite Fields, I recommend you to read some of the [resources](#references--suggested-readings) I listed at the end of this article.
+>
+> It is supposed that we are working in $FF_q$ when not specified.
+
 ### Splitting the Secret
 
 Let's take the following example: we want to split the secret $s = 42$ into $n = 5$ parts, such that any $k = 3$ parts can be used to reconstruct the secret.
