@@ -29,7 +29,7 @@ The graph associated with this equation looks like this:
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -84,7 +84,7 @@ For $x in NN$:
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -179,7 +179,7 @@ We have two points $A_0 (1, 2)$ and $A_1 (-2, -3)$. We can represent them as fol
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -236,7 +236,7 @@ It is visually obvious that we can only draw a single line that goes through bot
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -299,7 +299,7 @@ The same goes if we add a third point $A_2 (0, 4)$:
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -364,7 +364,7 @@ If we did not add this third point and still tried to find a polynomial $P_2 (x)
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -428,7 +428,7 @@ Let's take the following points $A_0 (0, 1)$, $A_1 (1, 3)$, $A_2 (2, 2)$ and $A_
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -507,7 +507,7 @@ $$
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -584,7 +584,7 @@ And we effectively have $l_1 (1) = 1$. We can now repeat this process for $l_0 (
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -664,7 +664,7 @@ $$
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -737,7 +737,7 @@ And we have our polynomial $P_3 (x)$:
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -843,7 +843,6 @@ Let's now plot the polynomial $f(x)$:
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
     set-style(
         axes: (
             stroke: .5pt, 
@@ -928,7 +927,7 @@ Based on the shares we generated earlier, let's take $Z_1(1, 50)$, $Z_3(3, 84)$ 
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -1136,7 +1135,7 @@ Given $x_K$, there are typically **two** candidate points $K'_i$ that fit. And s
 
 $$
     K'_i &= h S dot G + r S dot P_i \
-<==> P_i &= s^(-1)(h G + r K'_i)
+<==> P_i &= s^(-1)(r K'_i - h G)
 $$
 
 To choose which one is the correct one, we need to verify the signature with each $P_i$:
@@ -1165,7 +1164,7 @@ Because working with elliptic curves is a bit tricky, we'll use [`bls12_381_plus
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
@@ -1240,7 +1239,7 @@ The curve is defined by the equation $y^2 = x^3 + 7$, represented below, even th
 #canvas({
     import draw: *
 
-    // Set-up a thin axis style
+    
     set-style(
         axes: (
             stroke: .5pt, 
