@@ -23,6 +23,7 @@ import { remarkReadingTime } from "./plugins/reading-time";
 import rehypeCopy from "./plugins/copy";
 import { remarkModifiedTime } from "./plugins/modified";
 import { rehypeTypstRaw } from "./plugins/raw-typst";
+import rehypeRaw from "rehype-raw";
 
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
@@ -36,6 +37,7 @@ export default defineConfig({
 	integrations: [tailwind(), sitemap(), mdx(), icon()],
 	markdown: {
 		rehypePlugins: [
+			rehypeRaw,
 			rehypeCopy,
 			rehypeSlug,
 			rehypeCallouts,

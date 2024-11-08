@@ -1,17 +1,20 @@
 ---
-import rawCopyButton from "../components/CopyButton.html?raw"
+import rawButtonGroup from "../components/ButtonGroup.html?raw";
 ---
 
 <article class="prose dark:prose-invert mx-auto lg:prose-lg" id="prose">
-    <slot />
+	<slot />
 </article>
 
-<script is:inline define:vars={{ rawCopyButton }}>
-    // Add a copy button to each figure with data-copy attribute
-    document.querySelectorAll('figure[data-copy="true"]').forEach((figure) => {
-        figure.style.position = 'relative'
-        const button = document.createElement('button')
-        figure.appendChild(button)
-        button.outerHTML = rawCopyButton
-    })
+<script is:inline define:vars={{ rawButtonGroup }}>
+	document.querySelectorAll("figure").forEach((figure) => {
+		figure.style.position = "relative";
+		let buttonGroup = figure.querySelector("#button-group");
+		if (!buttonGroup) {
+			buttonGroup = document.createElement("div");
+			figure.appendChild(buttonGroup);
+			buttonGroup.outerHTML = rawButtonGroup;
+			console.log("created button group", buttonGroup);
+		}
+	});
 </script>
