@@ -31,6 +31,10 @@ article {
 	@apply prose-figcaption:!text-muted-foreground prose-figcaption:text-center;
 }
 
+.prose {
+    @apply xl:max-w-[70ch];
+}
+
 article,
 article img {
 	margin-left: auto;
