@@ -35,6 +35,17 @@ article {
     @apply xl:max-w-[70ch];
 }
 
+figure:has(pre) {
+    @apply lg:-mx-4;
+}
+
+details figure:has(pre) {
+    @apply lg:mx-0;
+}
+figure[data-copy="true"] #copy-button {
+    @apply block;
+}
+
 article,
 article img {
 	margin-left: auto;
@@ -98,8 +109,18 @@ body {
 	@apply !transition-colors duration-300;
 }
 
-figure:hover > #copy-button {
+figure:hover #copy-button,
+figure:hover #wrap-button {
 	@apply opacity-100;
+}
+
+#wrap-button,
+#copy-button {
+    @apply opacity-0;
+}
+
+#wrap-button {
+    @apply md:hidden;
 }
 
 details {

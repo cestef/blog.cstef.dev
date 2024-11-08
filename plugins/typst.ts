@@ -25,7 +25,7 @@ export default function rehypeTypst(
 		const start = performance.now();
 		const matches: [any, any[]][] = [];
 		// @ts-ignore
-		visitParents(tree, "element", (...args: [any, any[]]) => {
+		visitParents(tree, null, (...args: [any, any[]]) => {
 			matches.push(args);
 			return tree;
 		});
@@ -35,7 +35,7 @@ export default function rehypeTypst(
 			parents: any[],
 		): Promise<typeof SKIP | undefined> => {
 			const classes: ReadonlyArray<unknown> = Array.isArray(
-				element.properties.className,
+				element.properties?.className,
 			)
 				? element.properties.className
 				: emptyClasses;
@@ -45,7 +45,6 @@ export default function rehypeTypst(
 			const mathInline = classes.includes("math-inline");
 
 			let displayMode = mathDisplay;
-
 			if (!languageMath && !mathDisplay && !mathInline) {
 				return;
 			}
