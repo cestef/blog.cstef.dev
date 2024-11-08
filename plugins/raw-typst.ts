@@ -42,6 +42,7 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 		salt,
 		language: "typst",
 		code: async ({ code, meta }) => {
+			const start = performance.now();
 			const attributes = TypstRawAttributesSchema.parse(parseAttributes(meta));
 
 			if (attributes.doNotRender) {

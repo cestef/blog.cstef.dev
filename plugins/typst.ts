@@ -22,6 +22,7 @@ export default function rehypeTypst(
 	const settings = options || emptyOptions;
 
 	return async (tree: Root, file: VFile): Promise<void> => {
+		const start = performance.now();
 		const matches: [any, any[]][] = [];
 		// @ts-ignore
 		visitParents(tree, "element", (...args: [any, any[]]) => {
@@ -173,6 +174,8 @@ export default function rehypeTypst(
 			await visitor(...args);
 		});
 		await Promise.all(promises);
+		const end = performance.now();
+		console.log(`Typst took ${end - start}ms`);
 	};
 }
 
