@@ -8,6 +8,8 @@ growth: sapling
 
 > [!INFO]
 > I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
+>
+> The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
 
 ## Introduction
 
@@ -816,7 +818,7 @@ The main idea behind this is to split a secret $s$ into $n$ parts, such that any
 
 Let's take the following example: we want to split the secret $s = 42$ into $n = 5$ parts, such that any $k = 3$ parts can be used to reconstruct the secret.
 
-The first step is to generate a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k-1$ such that $a_0 = s$. This gives us the property that $f(0) = s$.
+The first step is to sample a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k-1$ such that $a_0 = s$. This gives us the property that $f(0) = s$.
 
 $$
 f(x) = P_2 (x) = 42 + 5 x + 3 x^2
@@ -1150,21 +1152,60 @@ This ambiguity is often removed by adding a single bit $b in {0,1}$ into the sig
 
 Schnorr signatures are a bit like ECDSA, but faster and simpler. We are going to use the same keys $(p, P)$ as before, with $p$ the private key and $P$ the public one. We'll first see the procedure and then discuss the mathematical proof of why this works.
 
-1. Sample a random none $r <- ZZ_n$
+1. Sample a random nonce $r <- ZZ_n$
 2. Multiply it by the generator: $R = r G$
-3. We can now compute the challenge $e = H(R || P || m)$
-4. And the signature: $s = r + e p$
+3. We can now compute the challenge $h = H(R || P || m)$
+4. And the signature: $s = r + h p$
 
 The final signature is $(R, s)$.
 
 Once the signature has been emitted, verifying it is as easy as multiplying both sides of the signature equation by $G$:
 
 $$
-s dot G &= (r + e p) dot G \
-        &= R + e P
+s dot G &= (r + h p) dot G \
+        &= R + h P
 $$
 
-To know $e$, the verifier needs to know the message $m$, the public key $P$. In some cases, you might not need to include the public key into the challenge and simply hash $e = H(R || m)$
+To know $h$, the verifier needs to know the message $m$, the public key $P$. In some cases, you might not need to include the public key into the challenge and simply hash $e = H(R || m)$.
+
+### Why it Works
+
+There isn't really a proof needed for the verifying step as it's just factoring out $G$ again, but here you are:
+
+$$
+    & s dot G = R + h P \
+<==>& s dot G = underbrace(r G, R) + h underbrace(p G, P) \
+<==>& s dot G = (r + h p) dot G \
+$$
+
+One trickier part is to explain why we are adding a random nonce $r$ to both the signature and the challenge. This value **has** to be sampled randomly and **must not** be reused. If it is, the private key can be recovered. Let's first take the case where no $r$ is used:
+
+$$
+    & s = h p \
+<==>& p = s^(-1) h
+$$
+
+Recovering the private key is as simple as multiplying the hash $h$ by the modular inverse of $s$. Not good.
+
+Now, let's take the case where $r$ is reused, with two messages $m_1$ and $m_2$, along with their respective signatures $(R, s_1)$ and $(R, s_2)$:
+
+$$
+cases(
+    space s_1 = r + h_1 p <==> r = (s_1 - h_1 p) space script((a)),
+    space s_2 = r + h_2 p <==> r = (s_2 - h_2 p) space script((b))
+)
+$$
+
+Combining $(a)$ and $(b)$:
+
+$$
+    & r = (s_1 - h_1 p) = (s_2 - h_2 p) \
+<==>& h_1 p - h_2 p = s_1 - s_2 \
+<==>& p dot (h_1 - h_2) = s_1 - s_2 \
+<==>& p = (s_1 - s_2) / (h_1 - h_2)
+$$
+
+You may see $r$ as an additional unknown variable that is used to prevent the linear equation system from being solved, because for $n$ messages, you have $n$ equations and $n+1$ unknowns, which is unsolvable in our case. 
 
 ## Rust Implementation
 
