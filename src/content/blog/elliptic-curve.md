@@ -981,7 +981,6 @@ Based on the shares we generated earlier, let's take $Z_1(1, 50)$, $Z_3(3, 84)$ 
                 ),
                 line: "spline",
             )
-
             plot.add(
                 l3, 
                 domain: domain, 
@@ -1085,7 +1084,7 @@ And voilà! All participants now have the same shared secret $S$. I'll let figur
 
 This secret can now be used as a symmetric key for encryption, a seed for a PRNG, etc.
 
-## Digital Signatures
+## ECDSA Signatures
 
 Elliptic curves can't make you a sandwich, but they can also be used to sign messages! Let's take a look at the Elliptic Curve Digital Signature Algorithm (ECDSA). Our goal is to output a signature $(r, s)$ for a given message $m$, so that the recipient can verify that the sender is authentic. The sender's keys are $(p, P)$, with $p$ the private key, and $P$ the public one.
 
@@ -1146,6 +1145,26 @@ x_K =^? r
 $$
 
 This ambiguity is often removed by adding a single bit $b in {0,1}$ into the signature message: $(r, s, b)$
+
+## Schnorr Signatures
+
+Schnorr signatures are a bit like ECDSA, but faster and simpler. We are going to use the same keys $(p, P)$ as before, with $p$ the private key and $P$ the public one. We'll first see the procedure and then discuss the mathematical proof of why this works.
+
+1. Sample a random none $r <- ZZ_n$
+2. Multiply it by the generator: $R = r G$
+3. We can now compute the challenge $e = H(R || P || m)$
+4. And the signature: $s = r + e p$
+
+The final signature is $(R, s)$.
+
+Once the signature has been emitted, verifying it is as easy as multiplying both sides of the signature equation by $G$:
+
+$$
+s dot G &= (r + e p) dot G \
+        &= R + e P
+$$
+
+To know $e$, the verifier needs to know the message $m$, the public key $P$. In some cases, you might not need to include the public key into the challenge and simply hash $e = H(R || m)$
 
 ## Rust Implementation
 
@@ -1213,7 +1232,6 @@ Because working with elliptic curves is a bit tricky, we'll use [`bls12_381_plus
         }
     )
 })
-
 ```
 
 <figcaption>Representation of the BLS12-381 curve</figcaption>
@@ -1692,9 +1710,8 @@ pub fn verify(share: PedersenShare, commitments: Vec<Point>) -> Result<()> {
 ## References / Suggested readings
 
 - [conduition.io - _Issuing New Shamir Secret Shares Using Multi-Party Computation_](https://conduition.io/cryptography/shamir/)
+- [condution.io - _A Dive Into the Math Behind Bitcoin Schnorr Signatures_](https://conduition.io/cryptography/schnorr/)
 - [cloudflare.com - _A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography_](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
-- [Yi-Hsiu Chen and Yehuda Lindell - _Feldman’s Verifiable Secret Sharing for a
-Dishonest Majority_](https://eprint.iacr.org/2024/031.pdf)
-- [Masayuki Abe and Serge Fehr - Adaptively Secure Feldman VSS and Applications to
-Universally-Composable Threshold Cryptography](https://eprint.iacr.org/2004/119.pdf)
+- [Yi-Hsiu Chen and Yehuda Lindell - _Feldman’s Verifiable Secret Sharing for a Dishonest Majority_](https://eprint.iacr.org/2024/031.pdf)
+- [Masayuki Abe and Serge Fehr - Adaptively Secure Feldman VSS and Applications to Universally-Composable Threshold Cryptography](https://eprint.iacr.org/2004/119.pdf)
 - [Svetlin Nakov - _Asymmetric Key Ciphers_](https://cryptobook.nakov.com/asymmetric-key-ciphers)
