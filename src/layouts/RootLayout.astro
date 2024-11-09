@@ -17,7 +17,7 @@ const { path, title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:animate="none">
 	<head>
 		<script is:inline define:vars={{ THEMES }}>
 			const setMode = () => {
@@ -69,7 +69,7 @@ const { path, title, description } = Astro.props;
 		<meta name="description" content={description} />
 	</head>
 	<body>
-		<div class="fixed top-0 left-0 w-full bg-accent flex">
+		<div class="fixed top-0 left-0 w-full bg-accent flex z-10">
 			{
 				STATUS_LINE.user && (
 					<a href="/">
@@ -105,7 +105,7 @@ const { path, title, description } = Astro.props;
 				<ModeSwitch transition:persist />
 			</div>
 		</div>
-		<main class="mb-24">
+		<main class="mb-24" transition:animate="slide">
 			<slot />
 		</main>
 		<div class="fixed bottom-0 left-0 w-full bg-accent flex">

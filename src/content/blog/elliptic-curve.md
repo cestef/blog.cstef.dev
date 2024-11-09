@@ -1298,6 +1298,34 @@ $$
 
 Carol just wiped everyone else from the signing key, and is now in full control of the signature. How can we prevent that ?
 
+### Multi-Signatures, don't trust, verify
+
+The most common way to prevent this is to force everyone to provide a proof that their public key is honest. This is done by providing a Proof of Knowledge for the private key, proving that they know the privte key associated to the public key they provided.
+
+Let's take the case of a prover Patricia and a verifier Victor. Patricia wants to prove that she knows the private key $p$ associated to the public key $P = p dot G$. The proof is done in four steps:
+
+1. Patricia samples $r <- ZZ_n$ at random and sends $u = r dot G$ to Victor.
+2. Victor sends a challenge $c <- ZZ_n$ to Patricia.
+3. Patricia computes $z = r + c p$ and sends it to Victor.
+4. Victor verifies that $z dot G = u + c P$.
+
+This works because:
+
+$$
+z       &= r + c p \
+z dot G &= (r + c p) dot G \
+        &= r dot G + c p dot G \
+        &= u + c P
+$$
+
+But what if Patricia doesn't know the associated private key but still wants to prove that her key is honest ? Remember commitment schemes ? We can use them here. In our case, every participant will commit to their public key before disclosing it. Think of it as putting you public key in an envelope, sealing it and waiting for everyone to do the same before opening it. Let's get back to our group $S = {a,b,c}$:
+
+1. Each participant $i$ hashes their public key $P_i$ and sends $H(P_i)$ to everyone.
+2. Once everyone has sent their hash, they disclose their public key $P_i$.
+3. Everyone verifies that the hash they received matches the public key.
+
+This way, everyone can be sure that the public keys are honest and that no one is trying to pull a fast one.
+
 ## Rust Implementation
 
 I've been using Rust for a while now (_even though I feel like I'm a complete beginner and still can't manage to fully understand lifetimes_), so I thought it would be a good idea to implement Shamir's Secret Sharing in Rust.
