@@ -1221,6 +1221,83 @@ $$
 
 You may see $r$ as an additional unknown variable that is used to prevent the linear equation system from being solved, because for $n$ messages, you have $n$ equations and $n+1$ unknowns, which is unsolvable in our case. 
 
+### Aggregating Signatures
+
+Schnorr signatures have the nice property that they can be aggregated, this means that a group of people can sign a message $m$ together and the signature can be verified as if it was signed by a single person. Let's consider our signing group $S = {a,b,c}$ for Alice, Bob and Charlie respectively.
+
+$$
+&underline("Alice") &&underline("Bob") &&underline("Charlie") \
+&R_a = r_a dot G quad  &&R_b = r_b dot G quad &&R_c = r_c dot G \
+$$
+
+The aggregated nonce is simply the sum of all nonces:
+
+$$
+R &= sum_(i in S) R_i \
+  &= R_a + R_b + R_c \
+  &= (r_a + r_b + r_c) dot G
+$$
+
+Likewise for the public key:
+
+$$
+P &= sum_(i in S) P_i \
+  &= P_a + P_b + P_c \
+  &= (p_a + p_b + p_c) dot G
+$$
+
+Each of them computes the challenge $e$ along with the final signature $s_i$ with the parameters just agreed upon:
+
+$$
+e = H(R || P || m) \
+s_i = e p_i + r_i
+$$
+
+Aggregate again:
+
+$$
+s = sum_(i in S) s_i
+$$
+
+The final signature that can be sent to others is $(R, s)$.
+
+Because we are just adding signatures parts together, we can group the nonces and the private keys in our final signature:
+
+$$
+s &= sum_(i in S) s_i \
+  &= sum_(i in S) (e p_i + r_i) \
+  &= e p_a + r_a + e p_b + r_b + e p_c + r_c \
+  &= underbrace(r_a + r_b + r_c, "Nonces") + e underbrace((p_a + p_b + p_c), "Private Keys") \
+  &= sum_(i in S) r_i + e dot sum_(i in S) p_i
+$$
+
+In the verifying step, multiplying each side by $G$:
+
+$$
+s G &= sum_(i in S) r_i dot G + e dot sum_(i in S) p_i dot G \
+    &= sum_(i in S) R_i + e dot sum_(i in S) P_i \
+    &= R + e P
+$$
+
+### But wait!
+
+At no point in this procedure, we ever check if the nonces or the public keys provided are honest. What if Charlie provided a malicious key $P^*_c$ in the sharing step ? Because everyone doesn't send their public key at the exact same time, Carol could wait for everyone to send theirs, and compute:
+
+$$
+P^*_c = P_c - P_a - P_b \
+$$
+
+The aggregated key will look like:
+
+$$
+P &= sum_(i in S) P_i \
+  &= P_a + P_b + P^*_c \
+  &= P_a + P_b + (P_c - P_a - P_b) \
+  &= P_c
+$$
+
+Carol just wiped everyone else from the signing key, and is now in full control of the signature. How can we prevent that ?
+
 ## Rust Implementation
 
 I've been using Rust for a while now (_even though I feel like I'm a complete beginner and still can't manage to fully understand lifetimes_), so I thought it would be a good idea to implement Shamir's Secret Sharing in Rust.
