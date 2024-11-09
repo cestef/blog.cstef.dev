@@ -85,6 +85,7 @@ const { path, title, description } = Astro.props;
 					<div
 						class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block"
 						id="time"
+						transition:persist
 					/>
 				)
 			}
@@ -97,10 +98,11 @@ const { path, title, description } = Astro.props;
 					id="theme"
 					name="theme"
 					options={THEMES.map((e) => ({ label: e.name.toUpperCase(), value: e.id }))}
+					transition:persist
 				/>
 			</div>
 			<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
-				<ModeSwitch />
+				<ModeSwitch transition:persist />
 			</div>
 		</div>
 		<main class="mb-24">
