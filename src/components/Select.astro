@@ -1,125 +1,132 @@
 ---
 interface Option {
-  value: string;
-  label: string;
+	value: string;
+	label: string;
 }
 
 interface Props {
-  options: Option[];
-  name: string;
-  defaultValue?: string;
-  id: string;
+	options: Option[];
+	name: string;
+	defaultValue?: string;
+	id: string;
 }
 
 const { options, name, defaultValue, id } = Astro.props;
 
-const defaultOption = options.find(option => option.value === defaultValue);
+const defaultOption = options.find((option) => option.value === defaultValue);
 const defaultLabel = defaultOption ? defaultOption.label : "";
 ---
 
-<div class="relative custom-select h-full w-full" data-name={name} id={id}>
-  <button
-    type="button"
-    class="w-full text-left cursor-default sm:text-sm h-full flex items-center justify-center outline-none"
-    aria-haspopup="listbox"
-  >
-    <span class="block truncate">{defaultLabel}</span>
-  </button>
+<div class="relative custom-select h-full w-full" data-name={name} id={id} transition:persist>
+	<button
+		type="button"
+		class="w-full text-left cursor-default sm:text-sm h-full flex items-center justify-center outline-none"
+		aria-haspopup="listbox"
+		transition:persist
+	>
+		<span class="block truncate">{defaultLabel}</span>
+	</button>
 
-  <ul
-    class="absolute z-10 mt-1 rounded-[2px] w-fit bg-background shadow-lg max-h-60 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm hidden -translate-x-1/2 left-1/2"
-    tabindex="-1"
-    role="listbox"
-  >
-    {options.map((option) => (
-      <li
-        class="bg-background text-foreground cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-secondary"
-        role="option"
-        data-value={option.value}
-      >
-        <span class="block">{option.label}</span>
-      </li>
-    ))}
-  </ul>
+	<ul
+		class="absolute z-10 mt-1 rounded-[2px] w-fit bg-background shadow-lg max-h-60 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm hidden -translate-x-1/2 left-1/2"
+		tabindex="-1"
+		role="listbox"
+		transition:persist
+	>
+		{
+			options.map((option) => (
+				<li
+					class="bg-background text-foreground cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-secondary"
+					role="option"
+					data-value={option.value}
+				>
+					<span class="block">{option.label}</span>
+				</li>
+			))
+		}
+	</ul>
 
-  <input type="hidden" name={name} value={defaultValue || ""}>
+	<input type="hidden" name={name} value={defaultValue || ""} transition:persist />
 </div>
 
 <script is:inline>
-    class CustomSelect {
-      constructor(el) {
-        this.el = el;
-        this.button = el.querySelector('button');
-        this.ul = el.querySelector('ul');
-        this.hiddenInput = el.querySelector('input[type="hidden"]');
-        this.options = el.querySelectorAll('li');
-  
-        this.button.addEventListener('click', () => this.toggleDropdown());
-        this.options.forEach(option => {
-          option.addEventListener('click', (e) => this.selectOption(e));
-        });
-        document.addEventListener('click', (e) => this.closeDropdown(e));
-        this.el.addEventListener('select-change', (e) => {
-            const { value } = e.detail;
-            const selectedOption = Array.from(this.options).find(option => option.dataset.value === value);
+	class CustomSelect {
+		constructor(el) {
+			this.el = el;
+			this.button = el.querySelector("button");
+			this.ul = el.querySelector("ul");
+			this.hiddenInput = el.querySelector('input[type="hidden"]');
+			this.options = el.querySelectorAll("li");
 
-            if (selectedOption) {
-                this.selectOption({ target: selectedOption }, false);
-            } else {
-                console.error(`Option with value ${value} not found`);
-            }
-        })
-        // Set initial selected option if defaultValue is provided
-        if (this.hiddenInput.value) {
-          const defaultOption = Array.from(this.options).find(option => option.dataset.value === this.hiddenInput.value);
-          if (defaultOption) {
-            this.selectOption({ target: defaultOption });
-          }
-        }
-      }
-  
-      toggleDropdown() {
-        this.ul.classList.toggle('hidden');
-        const expanded = this.ul.classList.contains('hidden') ? 'false' : 'true';
-        this.button.setAttribute('aria-expanded', expanded);
-      }
-  
-      closeDropdown(e) {
-        if (!this.el.contains(e.target)) {
-          this.ul.classList.add('hidden');
-          this.button.setAttribute('aria-expanded', 'false');
-        }
-      }
-  
-      selectOption(e, dispatch = true) {
-        // Ensure we are selecting the correct `li` element
-        const option = e.target.closest('li');
-        if (!option) return;
-  
-        const value = option.dataset.value;
-        const label = option.textContent.trim();
-        this.button.querySelector('span').textContent = label;
-        this.hiddenInput.value = value;
-        this.ul.classList.add('hidden');
-        this.button.setAttribute('aria-expanded', 'false');
-  
-        if (dispatch) {
-          this.dispatchChangeEvent();
-        }
-        // Dispatch custom event
-      }
-  
-      dispatchChangeEvent() {
-        const event = new CustomEvent('select-change', {
-          bubbles: true,
-          detail: { value: this.hiddenInput.value }
-        });
-        this.el.dispatchEvent(event);
-      }
-    }
-  
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.custom-select').forEach(el => new CustomSelect(el));
-    });
-  </script>
-  
+			this.button.addEventListener("click", () => this.toggleDropdown());
+			this.options.forEach((option) => {
+				option.addEventListener("click", (e) => this.selectOption(e));
+			});
+			document.addEventListener("click", (e) => this.closeDropdown(e));
+			this.el.addEventListener("select-change", (e) => {
+				const { value } = e.detail;
+				const selectedOption = Array.from(this.options).find(
+					(option) => option.dataset.value === value
+				);
+
+				if (selectedOption) {
+					this.selectOption({ target: selectedOption }, false);
+				} else {
+					console.error(`Option with value ${value} not found`);
+				}
+			});
+			// Set initial selected option if defaultValue is provided
+			if (this.hiddenInput.value) {
+				const defaultOption = Array.from(this.options).find(
+					(option) => option.dataset.value === this.hiddenInput.value
+				);
+				if (defaultOption) {
+					this.selectOption({ target: defaultOption });
+				}
+			}
+		}
+
+		toggleDropdown() {
+			this.ul.classList.toggle("hidden");
+			const expanded = this.ul.classList.contains("hidden") ? "false" : "true";
+			this.button.setAttribute("aria-expanded", expanded);
+		}
+
+		closeDropdown(e) {
+			if (!this.el.contains(e.target)) {
+				this.ul.classList.add("hidden");
+				this.button.setAttribute("aria-expanded", "false");
+			}
+		}
+
+		selectOption(e, dispatch = true) {
+			// Ensure we are selecting the correct `li` element
+			const option = e.target.closest("li");
+			if (!option) return;
+
+			const value = option.dataset.value;
+			const label = option.textContent.trim();
+			this.button.querySelector("span").textContent = label;
+			this.hiddenInput.value = value;
+			this.ul.classList.add("hidden");
+			this.button.setAttribute("aria-expanded", "false");
+
+			if (dispatch) {
+				this.dispatchChangeEvent();
+			}
+			// Dispatch custom event
+		}
+
+		dispatchChangeEvent() {
+			const event = new CustomEvent("select-change", {
+				bubbles: true,
+				detail: { value: this.hiddenInput.value },
+			});
+			this.el.dispatchEvent(event);
+		}
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
+		document.querySelectorAll(".custom-select").forEach((el) => new CustomSelect(el));
+	});
+</script>
