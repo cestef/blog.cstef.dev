@@ -4,7 +4,7 @@ import type { Plugin } from "unified";
 import { z } from "zod";
 import { parseAttributes } from "./utils/attributes";
 
-import { renderToSVGString } from "./typst";
+import { renderToPNGString, renderToSVGString } from "./typst";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import { getRenderCache, setRenderCache } from "./utils/cache";
 

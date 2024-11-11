@@ -1329,7 +1329,7 @@ This way, everyone can be sure that the public keys are honest and that no one i
 
 ### There's more!
 
-Random nonces are also aggregated, and at no point we are verifying that they are authentic. The exploit method is a bit trickier, so I'll try my best to explain it.
+Random nonces are also aggregated, and at no point we are verifying that they are authentic. The exploit method is a bit trickier, I recommend you to read [this article](https://conduition.io/cryptography/wagner/) by conduition on the subject if you want to know the details.
 
 ## Rust Implementation
 
