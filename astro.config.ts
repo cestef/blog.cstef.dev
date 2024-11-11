@@ -27,8 +27,6 @@ import rehypeRaw from "rehype-raw";
 
 import playformCompress from "@playform/compress";
 
-import playformInline from "@playform/inline";
-
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
 	variablePrefix: "--shiki-",
@@ -40,14 +38,7 @@ const shikiTheme = createCssVariablesTheme({
 export default defineConfig({
 	output: "static",
 	site: "https://blog.cstef.dev",
-	integrations: [
-		tailwind(),
-		sitemap(),
-		mdx(),
-		icon(),
-		playformCompress(),
-		playformInline({}),
-	],
+	integrations: [tailwind(), sitemap(), mdx(), icon(), playformCompress()],
 	markdown: {
 		rehypePlugins: [
 			rehypeRaw,
