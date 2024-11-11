@@ -1881,6 +1881,7 @@ pub fn verify(share: PedersenShare, commitments: Vec<Point>) -> Result<()> {
     [conduition.io](https://conduition.io/cryptography/schnorr/)
 
 - **A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography**  
+    Nick Sullivan  
     [cloudflare.com](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
 
 - **Feldman’s Verifiable Secret Sharing for a Dishonest Majority**  
