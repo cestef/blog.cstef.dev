@@ -13,7 +13,7 @@ growth: sapling
 
 ## Introduction
 
-As I was talking about maths with a friend of mine, he mentioned modular arithmetic. Even though I had no idea what this was, the subject really seemed interesting: In the realm of $RR^n$, we typically operate with an infinite number of elements. However, what if we were to restrict ourselves to a finite set of, let's say, $79$ elements? 
+While chatting about math with a friend, he brought up modular arithmetic—a concept I hadn’t heard of but was instantly intrigued by. Imagine this: instead of dealing with endless numbers, what if we worked within a closed loop, where everything resets after hitting, say, $79$? Modular arithmetic does exactly that, turning numbers into a finite, repeating cycle that unlocks surprising properties and patterns.
 
 Let's take a simple equation to demonstrate this way of thinking:
 
@@ -1318,13 +1318,18 @@ z dot G &= (r + c p) dot G \
         &= u + c P
 $$
 
-But what if Patricia doesn't know the associated private key but still wants to prove that her key is honest ? Remember commitment schemes ? We can use them here. In our case, every participant will commit to their public key before disclosing it. Think of it as putting you public key in an envelope, sealing it and waiting for everyone to do the same before opening it. Let's get back to our group $S = {a,b,c}$:
+But what if Patricia doesn't know the associated private key but still wants to prove that her key is honest ? Remember commitment schemes ? We can use them here. In our case, every participant will commit to their public key before disclosing it. Think of it as putting your public key in a box, sealing it and waiting for everyone to do the same before opening it. Let's get back to our group $S = {a,b,c}$:
 
 1. Each participant $i$ hashes their public key $P_i$ and sends $H(P_i)$ to everyone.
 2. Once everyone has sent their hash, they disclose their public key $P_i$.
 3. Everyone verifies that the hash they received matches the public key.
+4. The signing process continues as usual.
 
 This way, everyone can be sure that the public keys are honest and that no one is trying to pull a fast one.
+
+### There's more!
+
+Random nonces are also aggregated, and at no point we are verifying that they are authentic. The exploit method is a bit trickier, so I'll try my best to explain it.
 
 ## Rust Implementation
 
@@ -1869,9 +1874,23 @@ pub fn verify(share: PedersenShare, commitments: Vec<Point>) -> Result<()> {
 
 ## References / Suggested readings
 
-- [conduition.io - _Issuing New Shamir Secret Shares Using Multi-Party Computation_](https://conduition.io/cryptography/shamir/)
-- [condution.io - _A Dive Into the Math Behind Bitcoin Schnorr Signatures_](https://conduition.io/cryptography/schnorr/)
-- [cloudflare.com - _A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography_](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
-- [Yi-Hsiu Chen and Yehuda Lindell - _Feldman’s Verifiable Secret Sharing for a Dishonest Majority_](https://eprint.iacr.org/2024/031.pdf)
-- [Masayuki Abe and Serge Fehr - Adaptively Secure Feldman VSS and Applications to Universally-Composable Threshold Cryptography](https://eprint.iacr.org/2004/119.pdf)
-- [Svetlin Nakov - _Asymmetric Key Ciphers_](https://cryptobook.nakov.com/asymmetric-key-ciphers)
+- **Issuing New Shamir Secret Shares Using Multi-Party Computation**  
+    [conduition.io](https://conduition.io/cryptography/shamir/)
+
+- **A Dive Into the Math Behind Bitcoin Schnorr Signatures**  
+    [conduition.io](https://conduition.io/cryptography/schnorr/)
+
+- **A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography**  
+    [cloudflare.com](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
+
+- **Feldman’s Verifiable Secret Sharing for a Dishonest Majority**  
+    Yi-Hsiu Chen and Yehuda Lindell  
+    [eprint.iacr.org](https://eprint.iacr.org/2024/031.pdf)
+
+- **Adaptively Secure Feldman VSS and Applications to Universally-Composable Threshold Cryptography**  
+    Masayuki Abe and Serge Fehr  
+    [eprint.iacr.org](https://eprint.iacr.org/2004/119.pdf)
+
+- **Asymmetric Key Ciphers**  
+    Svetlin Nakov  
+    [cryptobook.nakov.com](https://cryptobook.nakov.com/asymmetric-key-ciphers)

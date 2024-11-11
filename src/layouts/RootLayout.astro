@@ -108,7 +108,7 @@ const { path, title, description } = Astro.props;
 		<main class="mb-24" transition:animate="slide">
 			<slot />
 		</main>
-		<div class="fixed bottom-0 left-0 w-full bg-accent flex">
+		<div class="fixed bottom-0 left-0 w-full bg-accent flex z-10">
 			{
 				STATUS_LINE.mode && (
 					<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
