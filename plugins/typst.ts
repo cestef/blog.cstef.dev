@@ -6,7 +6,7 @@ import { SKIP, visitParents } from "unist-util-visit-parents";
 import type { VFile } from "vfile";
 import { getRenderCache, setRenderCache } from "./utils/cache";
 import { customCetz } from "./utils/typst-utils";
-
+import sharp from "sharp";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 
 interface Options {
@@ -186,15 +186,34 @@ export async function renderToSVGString(
 		compilerIns.current = NodeCompiler.create();
 	}
 	const $typst = compilerIns.current;
-	const res = renderToSVGString_($typst, code, mode);
+	const res = render($typst, code, mode, "svg");
 	$typst.evictCache(10);
 	return res;
 }
 
-async function renderToSVGString_(
+export async function renderToPNGString(
+	code: string,
+	mode: "inline" | "display" | "raw" = "inline",
+): Promise<any> {
+	if (!compilerIns.current) {
+		compilerIns.current = NodeCompiler.create();
+	}
+	const $typst = compilerIns.current;
+	const res = await render($typst, code, mode, "png");
+	$typst.evictCache(10);
+	const png = `data:image/png;base64,${res.png.toString("base64")}`;
+	const img = `<img src="${png}" alt="${code}" />`;
+	return {
+		svg: img,
+		baselinePosition: res.baselinePosition,
+	};
+}
+
+async function render(
 	$typst: NodeCompiler,
 	code: string,
 	mode: "inline" | "display" | "raw",
+	output: "svg" | "png" = "svg",
 ): Promise<any> {
 	const helperFunctions = `
 #let colred(x) = text(fill: red, $#x$)
@@ -262,15 +281,23 @@ ${code}
 	const doc = docRes.result;
 
 	const svg = $typst.svg(doc);
-	const res: any = {
-		svg,
-	};
+	let baselinePosition = undefined;
 	if (mode === "inline") {
 		const query = $typst.query(doc, {
 			selector: "<label>",
 		});
-		res.baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
+		baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
+	}
+	if (output === "svg") {
+		return {
+			svg,
+			baselinePosition,
+		};
 	}
 
-	return res;
+	const png = await sharp(Buffer.from(svg)).png().toBuffer();
+	return {
+		png,
+		baselinePosition,
+	};
 }
