@@ -19,6 +19,11 @@ const { path, title, description } = Astro.props;
 <!doctype html>
 <html lang="en" transition:animate="none">
 	<head>
+		<script
+			defer
+			is:inline
+			src="https://cloud.umami.is/script.js"
+			data-website-id="74a3da64-cfd7-4913-8918-46a139df3117"></script>
 		<script is:inline define:vars={{ THEMES }}>
 			const setMode = () => {
 				console.log("setMode");
@@ -53,7 +58,7 @@ const { path, title, description } = Astro.props;
 					const themeSelect = document.getElementById("theme");
 					if (!themeSelect) return console.log("no theme select");
 					themeSelect.dispatchEvent(
-						new CustomEvent("select-change", { detail: { value: theme } })
+						new CustomEvent("select-change", { detail: { value: theme } }),
 					);
 				});
 			};
@@ -157,7 +162,7 @@ const { path, title, description } = Astro.props;
 			return;
 		}
 		let percent = Math.floor(
-			(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+			(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100,
 		);
 		// Clamp to 100
 		percent = Math.min(percent, 100);
