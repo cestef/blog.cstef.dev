@@ -34,6 +34,7 @@ const shikiTheme = createCssVariablesTheme({
 
 // https://astro.build/config
 export default defineConfig({
+	output: "static",
 	integrations: [tailwind(), sitemap(), mdx(), icon()],
 	markdown: {
 		rehypePlugins: [
