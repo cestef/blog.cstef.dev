@@ -25,6 +25,10 @@ import { remarkModifiedTime } from "./plugins/modified";
 import { rehypeTypstRaw } from "./plugins/raw-typst";
 import rehypeRaw from "rehype-raw";
 
+import playformCompress from "@playform/compress";
+
+import playformInline from "@playform/inline";
+
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
 	variablePrefix: "--shiki-",
@@ -35,7 +39,15 @@ const shikiTheme = createCssVariablesTheme({
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
-	integrations: [tailwind(), sitemap(), mdx(), icon()],
+	site: "https://blog.cstef.dev",
+	integrations: [
+		tailwind(),
+		sitemap(),
+		mdx(),
+		icon(),
+		playformCompress(),
+		playformInline({}),
+	],
 	markdown: {
 		rehypePlugins: [
 			rehypeRaw,

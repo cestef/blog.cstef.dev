@@ -8,7 +8,6 @@ export const keyv: {
 
 export const getCache = () => {
 	if (process.env.NODE_ENV !== "development") {
-		console.log("Cache disabled in production");
 		return null;
 	}
 	if (!keyv.current) {
