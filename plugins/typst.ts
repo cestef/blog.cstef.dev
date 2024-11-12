@@ -5,8 +5,14 @@ import { toText } from "hast-util-to-text";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import type { VFile } from "vfile";
 import { getRenderCache, setRenderCache } from "./utils/cache";
-import { customCetz } from "./utils/typst-utils";
+import {
+	customCetz,
+	customStyles,
+	gruvboxTheme,
+	gruvBoxThemeDark,
+} from "./utils/typst-utils";
 import sharp from "sharp";
+import { toHtml } from "hast-util-to-html";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 
 interface Options {
@@ -67,16 +73,24 @@ export default function rehypeTypst(
 			if (!parent) return;
 
 			const value = toText(scope, { whitespace: "pre" });
-			let result: Array<ElementContent> | string | undefined;
+			let result: any = null;
 			const cached = await getRenderCache("typst", { value, displayMode });
 			if (cached) {
 				result = cached;
 			} else {
 				try {
-					result = await renderToSVGString(
-						value,
-						displayMode ? "display" : "inline",
-					);
+					result = {
+						dark: await renderToSVGString(
+							value,
+							"dark",
+							displayMode ? "display" : "inline",
+						),
+						light: await renderToSVGString(
+							value,
+							"light",
+							displayMode ? "display" : "inline",
+						),
+					};
 					await setRenderCache("typst", { value, displayMode }, result);
 				} catch (error) {
 					const cause = error as Error;
@@ -86,6 +100,8 @@ export default function rehypeTypst(
 						place: element.position,
 						source: "rehype-typst",
 					});
+
+					console.error(error);
 
 					result = [
 						{
@@ -101,55 +117,50 @@ export default function rehypeTypst(
 					];
 				}
 			}
-
-			if (
-				typeof result === "object" &&
-				"svg" in result &&
-				typeof result.svg === "string"
-			) {
-				const root = fromHtmlIsomorphic(result.svg, {
-					fragment: true,
-				});
-				const defaultEm = 11;
-				const height = Number.parseFloat(
-					// @ts-ignore
-					root.children[0].properties.dataHeight as string,
-				);
-				const width = Number.parseFloat(
-					// @ts-ignore
-					root.children[0].properties.dataWidth as string,
-				);
-				const shift = height - (result as any).baselinePosition;
-				const shiftEm = shift / defaultEm;
-				// @ts-ignore
-				root.children[0].properties.style = `vertical-align: -${shiftEm}em;`;
-				// @ts-ignore
-
-				root.children[0].properties.height = `${height / defaultEm}em`;
-				// @ts-ignore
-				root.children[0].properties.width = `${width / defaultEm}em`;
-				// @ts-ignore
-
-				if (!root.children[0].properties.className)
-					// @ts-ignore
-					root.children[0].properties.className = [];
-				if (displayMode) {
-					// @ts-ignore
-					root.children[0].properties.style +=
-						"; display: block; margin: 0 auto;";
-				} else {
-					// @ts-ignore
-					(root.children[0].properties.className as string[]).push(
-						"typst-inline",
-					);
+			if (typeof result === "object" && "dark" in result && "light" in result) {
+				const out = [];
+				for (const variant in result) {
+					const res = result[variant];
+					if (
+						typeof res === "object" &&
+						"svg" in res &&
+						typeof res.svg === "object"
+					) {
+						const root = res.svg as Root;
+						// @ts-ignore
+						const defaultEm = 11;
+						const height = res.height;
+						const width = res.width;
+						const shift = height - (res as any).baselinePosition;
+						const shiftEm = shift / defaultEm;
+						// @ts-ignore
+						root.properties.style = `vertical-align: -${shiftEm || 0}em; height: ${height / defaultEm}em; width: ${width / defaultEm}em;`;
+						// @ts-ignore
+						if (!root.properties.className)
+							// @ts-ignore
+							root.properties.className = [];
+						if (displayMode) {
+							// @ts-ignore
+							root.properties.style += "; display: block; margin: 0 auto;";
+						} else {
+							// @ts-ignore
+							(root.properties.className as string[]).push("typst-inline");
+						}
+						// @ts-ignore
+						root.properties.className.push(`typst-${variant}`);
+						out.push(root);
+					} else {
+						console.error("Unknown result", res);
+					}
 				}
-				result = root.children as Array<ElementContent>;
+				result = out;
 			}
 
 			const index = parent.children.indexOf(scope);
 			if (Array.isArray(result)) {
 				parent.children.splice(index, 1, ...(result as Array<ElementContent>));
 			} else if (typeof result === "string") {
+				console.log("result", result);
 				scope.tagName = "span";
 				scope.properties = {
 					className: ["typst-error"],
@@ -158,6 +169,7 @@ export default function rehypeTypst(
 				};
 				scope.children = [{ type: "text", value }];
 			} else {
+				console.log("result", result);
 				scope.tagName = "span";
 				scope.properties = {
 					className: ["typst-error"],
@@ -180,26 +192,47 @@ export default function rehypeTypst(
 
 export async function renderToSVGString(
 	code: string,
+	theme: "dark" | "light",
 	mode: "inline" | "display" | "raw" = "inline",
 ): Promise<any> {
 	if (!compilerIns.current) {
 		compilerIns.current = NodeCompiler.create();
 	}
 	const $typst = compilerIns.current;
-	const res = render($typst, code, mode, "svg");
+	const res = await render($typst, code, mode, theme, "svg");
 	$typst.evictCache(10);
-	return res;
+	const height = Number.parseFloat(
+		// @ts-ignore
+		res.svg.children[0].properties.dataHeight as string,
+	);
+	const width = Number.parseFloat(
+		// @ts-ignore
+		res.svg.children[0].properties.dataWidth as string,
+	);
+	const svgString = toHtml(res.svg);
+	const img = fromHtmlIsomorphic(
+		`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" />`,
+		{ fragment: true },
+	).children[0];
+
+	return {
+		svg: img,
+		baselinePosition: res.baselinePosition,
+		height,
+		width,
+	};
 }
 
 export async function renderToPNGString(
 	code: string,
+	theme: "dark" | "light",
 	mode: "inline" | "display" | "raw" = "inline",
 ): Promise<any> {
 	if (!compilerIns.current) {
 		compilerIns.current = NodeCompiler.create();
 	}
 	const $typst = compilerIns.current;
-	const res = await render($typst, code, mode, "png");
+	const res = await render($typst, code, mode, theme, "png");
 	$typst.evictCache(10);
 	const png = `data:image/png;base64,${res.png.toString("base64")}`;
 	const img = `<img src="${png}" alt="${code}" />`;
@@ -213,6 +246,7 @@ async function render(
 	$typst: NodeCompiler,
 	code: string,
 	mode: "inline" | "display" | "raw",
+	theme: "dark" | "light",
 	output: "svg" | "png" = "svg",
 ): Promise<any> {
 	const helperFunctions = `
@@ -289,8 +323,25 @@ ${code}
 		baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
 	}
 	if (output === "svg") {
+		const root = fromHtmlIsomorphic(svg, {
+			fragment: true,
+		});
+		// Inject <style> tag into the SVG
+		const style = {
+			type: "element",
+			tagName: "style",
+			properties: {},
+			children: [
+				{
+					type: "text",
+					value: `${theme === "dark" ? gruvBoxThemeDark : gruvboxTheme} ${customStyles}`,
+				},
+			],
+		};
+		// @ts-ignore
+		root.children[0].children.unshift(style);
 		return {
-			svg,
+			svg: root,
 			baselinePosition,
 		};
 	}
