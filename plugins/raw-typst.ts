@@ -7,6 +7,7 @@ import { parseAttributes } from "./utils/attributes";
 import { renderToPNGString, renderToSVGString } from "./typst";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import { getRenderCache, setRenderCache } from "./utils/cache";
+import { toHtml } from "hast-util-to-html";
 
 export type TypstRawConfig = {
 	cache?: MapLike;
@@ -49,7 +50,7 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 				return undefined;
 			}
 
-			let result: Array<ElementContent> | string | undefined;
+			let result: any;
 			const cached = await getRenderCache("typst", {
 				value: code,
 				displayMode: "raw",
@@ -58,7 +59,10 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 				result = cached;
 			} else {
 				try {
-					result = await renderToSVGString(code, "raw");
+					result = {
+						dark: await renderToSVGString(code, "dark", "raw"),
+						light: await renderToSVGString(code, "light", "raw"),
+					};
 					await setRenderCache(
 						"typst",
 						{ value: code, displayMode: "raw" },
@@ -81,42 +85,39 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 				}
 			}
 
-			if (
-				typeof result === "object" &&
-				"svg" in result &&
-				typeof result.svg === "string"
-			) {
-				const root = fromHtmlIsomorphic(result.svg, {
-					fragment: true,
-				});
-				const defaultEm = 11;
-				const height = Number.parseFloat(
-					// @ts-ignore
-					root.children[0].properties.dataHeight as string,
-				);
-				const width = Number.parseFloat(
-					// @ts-ignore
-					root.children[0].properties.dataWidth as string,
-				);
-				const shift = height - (result as any).baselinePosition;
-				const shiftEm = shift / defaultEm;
-				// @ts-ignore
-				root.children[0].properties.style = `vertical-align: -${shiftEm}em;`;
-				// @ts-ignore
-
-				root.children[0].properties.height = `${height / defaultEm}em`;
-				// @ts-ignore
-				root.children[0].properties.width = `${width / defaultEm}em`;
-				// @ts-ignore
-				if (!root.children[0].properties.className)
-					// @ts-ignore
-					root.children[0].properties.className = [];
-				// @ts-ignore
-				root.children[0].properties.style +=
-					"; display: block; margin: 0 auto;";
-
-				return root;
+			if (typeof result === "object" && "dark" in result && "light" in result) {
+				const out = [];
+				for (const variant in result) {
+					const res = result[variant];
+					if (
+						typeof res === "object" &&
+						"svg" in res &&
+						typeof res.svg === "object"
+					) {
+						const root = res.svg as Root;
+						// @ts-ignore
+						const defaultEm = 11;
+						const height = res.height;
+						const width = res.width;
+						const shift = height - (res as any).baselinePosition;
+						const shiftEm = shift / defaultEm;
+						// @ts-ignore
+						root.properties.style = `vertical-align: -${shiftEm || 0}em; height: ${height / defaultEm}em; width: ${width / defaultEm}em;`;
+						// @ts-ignore
+						if (!root.properties.className)
+							// @ts-ignore
+							root.properties.className = [];
+						// @ts-ignore
+						root.properties.className.push(`typst-${variant}`);
+						out.push(root);
+					} else {
+						console.error("Unknown result", res);
+					}
+				}
+				result = out;
 			}
+
+			return toHtml(result);
 		},
 	});
 };

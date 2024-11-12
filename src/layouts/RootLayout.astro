@@ -17,8 +17,13 @@ const { path, title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" transition:animate="none">
+<html lang="en" transition:animate="none" data-theme="gruvbox">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta charset="utf-8" />
+
+		<title>{title ? title : "cstef's Digital Garden"}</title>
+		<meta name="description" content={description} />
 		<script
 			defer
 			is:inline
@@ -40,38 +45,13 @@ const { path, title, description } = Astro.props;
 				document.documentElement.classList.toggle("dark", mode === "dark");
 
 				window.localStorage.setItem("mode", mode || "light");
-				let theme = localStorage.getItem("theme") || "default";
-				console.log("theme", theme);
-				console.log("themes", Object.keys(THEMES));
-				if (!THEMES.find((e) => e.id === theme)) {
-					console.log("theme not found");
-					theme = "default";
-				}
-				document.documentElement.dataset.theme = theme;
-				const prose = document.getElementById("prose");
-				if (prose) {
-					prose.classList.add(`prose-${theme}`);
-				}
-				localStorage.setItem("theme", theme);
-
-				window.addEventListener("DOMContentLoaded", () => {
-					const themeSelect = document.getElementById("theme");
-					if (!themeSelect) return console.log("no theme select");
-					themeSelect.dispatchEvent(
-						new CustomEvent("select-change", { detail: { value: theme } }),
-					);
-				});
 			};
 
 			setMode();
 
 			document.addEventListener("astro:after-swap", setMode);
 		</script>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<ViewTransitions />
-		<title>{title ? title : "cstef's Digital Garden"}</title>
-		<meta name="description" content={description} />
 	</head>
 	<body>
 		<div class="fixed top-0 left-0 w-full bg-accent flex z-10">
@@ -96,16 +76,6 @@ const { path, title, description } = Astro.props;
 			}
 
 			<div class="flex-grow"></div>
-			<div
-				class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit appearance-none"
-			>
-				<Select
-					id="theme"
-					name="theme"
-					options={THEMES.map((e) => ({ label: e.name.toUpperCase(), value: e.id }))}
-					transition:persist
-				/>
-			</div>
 			<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
 				<ModeSwitch transition:persist />
 			</div>
@@ -216,21 +186,6 @@ const { path, title, description } = Astro.props;
 		window.addEventListener("offline", setConnection);
 		document.addEventListener("astro:after-swap", setConnection);
 	}
-
-	const select = document.getElementById("theme");
-	select.addEventListener("select-change", (event) => {
-		document.documentElement.dataset.theme = event.detail.value;
-		const prose = document.getElementById("prose");
-		if (prose) {
-			for (const theme of THEMES) {
-				prose.classList.remove(`prose-${theme.id}`);
-			}
-			prose.classList.add(`prose-${event.detail.value}`);
-		}
-		localStorage.setItem("theme", event.detail.value);
-	});
-	const input = select.querySelector(`input[type="hidden"]`);
-	input.value = theme;
 
 	document.addEventListener("astro:after-swap", () => {
 		const theme = localStorage.getItem("theme") || "default";

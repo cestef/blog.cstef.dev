@@ -21,8 +21,8 @@ importers:
         specifier: ^5.1.2
         version: 5.1.2(astro@4.16.7(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))(tailwindcss@3.4.10)
       '@beoe/rehype-code-hook':
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: 0.0.2
+        version: 0.0.2
       '@fontsource-variable/fira-code':
         specifier: ^5.0.19
         version: 5.0.19
@@ -56,6 +56,9 @@ importers:
       hast-util-from-html-isomorphic:
         specifier: ^2.0.0
         version: 2.0.0
+      hast-util-to-html:
+        specifier: ^9.0.3
+        version: 9.0.3
       hast-util-to-text:
         specifier: ^4.0.2
         version: 4.0.2
@@ -65,6 +68,9 @@ importers:
       mdast-util-to-string:
         specifier: ^4.0.0
         version: 4.0.0
+      mini-svg-data-uri:
+        specifier: ^1.4.4
+        version: 1.4.4
       msgpackr:
         specifier: ^1.11.2
         version: 1.11.2
@@ -326,8 +332,8 @@ packages:
     resolution: {integrity: sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==}
     engines: {node: '>=6.9.0'}
 
-  '@beoe/rehype-code-hook@0.0.1':
-    resolution: {integrity: sha512-mH7HZIqOXL+PrfcbXwl1o+TjuFC8qIGZrKa0yMItvEo/R4peaU76x+AmtK+SkEwJDAtqHcmnLjIvATTv79ofEw==}
+  '@beoe/rehype-code-hook@0.0.2':
+    resolution: {integrity: sha512-+jpkaKR4SFIUDLPbh7amJ6oTz90uBDcoRV6Grcc7Rm+aI4oXD5DevX0ls3WQA5iZYj0Oaa+DnoFsKV/OVVZBug==}
 
   '@biomejs/biome@1.8.3':
     resolution: {integrity: sha512-/uUV3MV+vyAczO+vKrPdOW0Iaet7UnJMU4bNMinggGJTAnBPjCoLEYcyYtYHNnUNYlv4xZMH6hVIQCAozq8d5w==}
@@ -2569,6 +2575,10 @@ packages:
     resolution: {integrity: sha512-VP79XUPxV2CigYP3jWwAUFSku2aKqBH7uTAapFWCBqutsbmDo96KY5o8uh6U+/YSIn5OxJnXp73beVkpqMIGhA==}
     engines: {node: '>=18'}
 
+  mini-svg-data-uri@1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
+
   minimatch@9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -3877,7 +3887,7 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@beoe/rehype-code-hook@0.0.1':
+  '@beoe/rehype-code-hook@0.0.2':
     dependencies:
       '@types/hast': 3.0.4
       hast-util-from-html-isomorphic: 2.0.0
@@ -6499,6 +6509,8 @@ snapshots:
   mimic-fn@4.0.0: {}
 
   mimic-function@5.0.1: {}
+
+  mini-svg-data-uri@1.4.4: {}
 
   minimatch@9.0.5:
     dependencies:
