@@ -38,11 +38,11 @@ const lastModified = dayjs(frontmatter.lastModified || entry.data.date)
 		<p class="text-muted-foreground">
 			{lastModified} · {frontmatter.minutesRead} · <a
 				href={`/growth/${entry.data.growth}`}
-				class="no-underline bg-accent text-accent-foreground px-2 py-1 rounded-md w-fit text-sm"
+				class="no-underline bg-accent text-accent-foreground px-2 py-1 rounded-md w-fit text-sm whitespace-nowrap"
 				>{entry.data.growth} {STATE_EMOJI[entry.data.growth]}</a
 			>
 		</p>
-		<div>
+		<div class="flex gap-2">
 			{
 				entry.data.tags.map((tag, i) => (
 					<>
