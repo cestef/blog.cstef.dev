@@ -210,8 +210,9 @@ export async function renderToSVGString(
 		res.svg.children[0].properties.dataWidth as string,
 	);
 	const svgString = toHtml(res.svg);
+	const alt = code.slice(0, 50);
 	const img = fromHtmlIsomorphic(
-		`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" />`,
+		`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" alt="${alt}" />`,
 		{ fragment: true },
 	).children[0];
 
@@ -235,7 +236,8 @@ export async function renderToPNGString(
 	const res = await render($typst, code, mode, theme, "png");
 	$typst.evictCache(10);
 	const png = `data:image/png;base64,${res.png.toString("base64")}`;
-	const img = `<img src="${png}" alt="${code}" />`;
+	const alt = code.slice(0, 50);
+	const img = `<img src="${png}" alt="${alt}" />`;
 	return {
 		svg: img,
 		baselinePosition: res.baselinePosition,
