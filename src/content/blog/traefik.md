@@ -3,6 +3,7 @@ title: Oh, so you want to work at Traefik?
 description: A pretty unusual way to apply for a developer job at Traefik...
 tags: [ctf,kubernetes]
 date: 2024-11-12
+growth: sapling
 ---
 
 ## Introduction
