@@ -187,21 +187,6 @@ const { path, title, description } = Astro.props;
 		document.addEventListener("astro:after-swap", setConnection);
 	}
 
-	document.addEventListener("astro:after-swap", () => {
-		const theme = localStorage.getItem("theme") || "default";
-
-		document.documentElement.dataset.theme = theme;
-		const prose = document.getElementById("prose");
-		if (prose) {
-			for (const theme of THEMES) {
-				prose.classList.remove(`prose-${theme.id}`);
-			}
-			prose.classList.add(`prose-${theme}`);
-		}
-		const input = select.querySelector(`input[type="hidden"]`);
-		input.value = theme;
-	});
-
 	// vim keybindings
 	document.addEventListener("keydown", (event) => {
 		switch (event.key) {
