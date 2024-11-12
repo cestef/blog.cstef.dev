@@ -118,6 +118,10 @@ h6#user-content-no-anchor a.anchor {
     @apply !hidden dark:!inline;
 }
 
+.typst-dark, .typst-light {
+    @apply pointer-events-none;
+}
+
 body {
 	@apply !transition-colors duration-300;
 }
