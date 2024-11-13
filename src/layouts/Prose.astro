@@ -7,14 +7,18 @@ import rawButtonGroup from "../components/CodeButtons.html?raw";
 </article>
 
 <script is:inline define:vars={{ rawButtonGroup }}>
-	document.querySelectorAll("figure").forEach((figure) => {
-		figure.style.position = "relative";
-		let buttonGroup = figure.querySelector("#button-group");
-		if (!buttonGroup) {
-			buttonGroup = document.createElement("div");
-			figure.appendChild(buttonGroup);
-			buttonGroup.outerHTML = rawButtonGroup;
-			// console.log("created button group", buttonGroup);
-		}
-	});
+	const applyCodeButtons = () => {
+		document.querySelectorAll("figure").forEach((figure) => {
+			figure.style.position = "relative";
+			let buttonGroup = figure.querySelector("#button-group");
+			if (!buttonGroup) {
+				buttonGroup = document.createElement("div");
+				figure.appendChild(buttonGroup);
+				buttonGroup.outerHTML = rawButtonGroup;
+				// console.log("created button group", buttonGroup);
+			}
+		});
+	};
+	document.addEventListener("astro:after-swap", applyCodeButtons);
+	applyCodeButtons();
 </script>
