@@ -147,7 +147,7 @@ Even though I did not see any direct-application of this, I was intrigued by thi
 
 One of the most, if not *the* most important property of polynomials, is that each one of them can uniquely be described by $n+1$ points for a polynomial of degree $n$, noted $P_n (x)$.
 
-The most straightfoward way of seeing this is by setting an equation for each point $A_i (x_i, y_i)$ we have:
+The most straightforward way of seeing this is by setting an equation for each point $A_i (x_i, y_i)$ we have:
 $$
 P_n (x) = u_0 + u_1 x + ... + u_n x^n = f(x) \
 
@@ -810,7 +810,7 @@ With the basics of polynomials and Lagrange interpolation in mind, let's dive in
 The main idea behind this is to split a secret $s$ into $n$ parts, such that any $k$ parts can be used to reconstruct the secret, but any $k-1$ parts are not enough to do so, and do not give any information about the secret.
 
 > [!INFO]
-> If you are not confortable with the concept of Finite Fields, I recommend you to read some of the [resources](#references--suggested-readings) I listed at the end of this article.
+> If you are not comfortable with the concept of Finite Fields, I recommend you to read some of the [resources](#references--suggested-readings) I listed at the end of this article.
 >
 > It is supposed that we are working in $FF_q$ when not specified.
 
@@ -1054,7 +1054,7 @@ $$
 
 ## Shared Secrets with Elliptic Curves
 
-Sharing pre-defined secrets is cool, but what if we wanted to collectively generate one for $n$ people? Let's say we have our good old Alice, Bob and Charlie trying to communicate with eachother securely. Alice doesn't trust Charlie to generate the secret locally and share it to everyone because he's the type of guy to write his passwords on sticky notes. Bob doesn't trust Alice either because her idea of a strong password is "password123" — used across five accounts.
+Sharing pre-defined secrets is cool, but what if we wanted to collectively generate one for $n$ people? Let's say we have our good old Alice, Bob and Charlie trying to communicate with each other securely. Alice doesn't trust Charlie to generate the secret locally and share it to everyone because he's the type of guy to write his passwords on sticky notes. Bob doesn't trust Alice either because her idea of a strong password is "password123" — used across five accounts.
 
 In elliptic curves, we have the following property:
 
@@ -1076,7 +1076,7 @@ You can see that both Alice and Bob end up with the same shared secret $S$ witho
 This process can also be extended to $n$ participants, let's take $n = 3$ with Alice, Bob and Charlie here for simplicity:
 
 1. Alice, Bob and Charlie generate their private keys $p_a$, $p_b$ and $p_c$ respectively.
-2. They compute their public keys $P_a = p_a dot G$, $P_b = p_b dot G$ and $P_c = p_c dot G$ and share them with eachother.
+2. They compute their public keys $P_a = p_a dot G$, $P_b = p_b dot G$ and $P_c = p_c dot G$ and share them with each other.
 3. Alice computes $P_(b a) = P_a dot p_b = (p_a dot p_b) dot G$, $P_(c a) = P_a dot p_c = (p_a dot p_c) dot G$ and sends them to Charlie and Bob respectively.
 4. Bob computes $P_(c b) = P_b dot p_c = (p_b dot p_c) dot G$ and sends it to Alice, he can already compute $S = P_(c a) dot p_b = (p_a dot p_c dot p_b) dot G$.
 5. Charlie computes $S = P_(b a) dot p_c = (p_a dot p_b dot p_c) dot G$.
@@ -1300,7 +1300,7 @@ Carol just wiped everyone else from the signing key, and is now in full control 
 
 ### Multi-Signatures, don't trust, verify
 
-The most common way to prevent this is to force everyone to provide a proof that their public key is honest. This is done by providing a Proof of Knowledge for the private key, proving that they know the privte key associated to the public key they provided.
+The most common way to prevent this is to force everyone to provide a proof that their public key is honest. This is done by providing a Proof of Knowledge for the private key, proving that they know the private key associated to the public key they provided.
 
 Let's take the case of a prover Patricia and a verifier Victor. Patricia wants to prove that she knows the private key $p$ associated to the public key $P = p dot G$. The proof is done in four steps:
 
