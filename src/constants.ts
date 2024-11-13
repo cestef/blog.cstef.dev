@@ -12,7 +12,6 @@ export const HERO: IHero = {
 
 export const STATUS_LINE: IStatusLine = {
 	user: "cstef",
-	mode: "VIS",
 };
 
 export type IHero = {
@@ -22,10 +21,7 @@ export type IHero = {
 
 export type IStatusLine = {
 	user: string | false;
-	time?: boolean;
-	mode: string | false;
 	path?: boolean;
-	connection?: boolean;
 	scroll?: boolean;
 };
 

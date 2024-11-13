@@ -68,33 +68,6 @@ const { path, title, description } = Astro.props;
 					</a>
 				)
 			}
-
-			{
-				STATUS_LINE.time !== false && (
-					<div
-						class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit hidden sm:block"
-						id="time"
-						transition:persist
-					/>
-				)
-			}
-
-			<div class="flex-grow"></div>
-			<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
-				<ModeSwitch transition:persist />
-			</div>
-		</div>
-		<main class="mb-24" transition:animate="slide">
-			<slot />
-		</main>
-		<div class="fixed bottom-0 left-0 w-full bg-accent flex z-10">
-			{
-				STATUS_LINE.mode && (
-					<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
-						{STATUS_LINE.mode}
-					</div>
-				)
-			}
 			{
 				STATUS_LINE.path !== false && (
 					<div class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit truncate">
@@ -102,28 +75,25 @@ const { path, title, description } = Astro.props;
 					</div>
 				)
 			}
+
 			<div class="flex-grow"></div>
-			{
-				STATUS_LINE.connection !== false && (
-					<div
-						class="bg-success/70 text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black"
-						id="connection"
-					>
-						ONLINE
-					</div>
-				)
-			}
 			{
 				STATUS_LINE.scroll !== false && (
 					<div
-						class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black"
+						class="bg-secondary text-secondary-foreground px-4 md:py-2 py-1 w-fit font-black"
 						id="scroll"
 					>
 						TOP
 					</div>
 				)
 			}
+			<div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
+				<ModeSwitch transition:persist />
+			</div>
 		</div>
+		<main class="mb-24" transition:animate="fade">
+			<slot />
+		</main>
 	</body>
 </html>
 
