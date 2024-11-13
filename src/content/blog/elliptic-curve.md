@@ -1304,10 +1304,10 @@ The most common way to prevent this is to force everyone to provide a proof that
 
 Let's take the case of a prover Patricia and a verifier Victor. Patricia wants to prove that she knows the private key $p$ associated to the public key $P = p dot G$. The proof is done in four steps:
 
-1. Patricia samples $r <- ZZ_n$ at random and sends $u = r dot G$ to Victor.
+1. Patricia samples $r <- ZZ_n$ at random and sends $R = r dot G$ to Victor.
 2. Victor sends a challenge $c <- ZZ_n$ to Patricia.
 3. Patricia computes $z = r + c p$ and sends it to Victor.
-4. Victor verifies that $z dot G = u + c P$.
+4. Victor verifies that $z dot G = R + c P$.
 
 This works because:
 
@@ -1315,7 +1315,7 @@ $$
 z       &= r + c p \
 z dot G &= (r + c p) dot G \
         &= r dot G + c p dot G \
-        &= u + c P
+        &= R + c P
 $$
 
 But what if Patricia doesn't know the associated private key but still wants to prove that her key is honest ? Remember commitment schemes ? We can use them here. In our case, every participant will commit to their public key before disclosing it. Think of it as putting your public key in a box, sealing it and waiting for everyone to do the same before opening it. Let's get back to our group $S = {a,b,c}$:
