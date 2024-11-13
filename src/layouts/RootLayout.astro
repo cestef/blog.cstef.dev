@@ -5,14 +5,16 @@ import "@/styles/globals.css";
 import { ViewTransitions } from "astro:transitions";
 import ModeSwitch from "@/components/ModeSwitch.astro";
 import { STATUS_LINE } from "@/constants";
+import type { MarkdownHeading } from "astro";
 
 export interface Props {
 	path: string;
 	title?: string;
 	description?: string;
+	toc?: MarkdownHeading[];
 }
 
-const { path, title, description } = Astro.props;
+const { path, title, description, toc } = Astro.props;
 ---
 
 <!doctype html>
@@ -91,6 +93,25 @@ const { path, title, description } = Astro.props;
 				<ModeSwitch transition:persist />
 			</div>
 		</div>
+		{
+			toc && (
+				<nav class="hidden md:block fixed right-6 top-16 w-fit p-4 rounded-md z-10 text-right">
+					<h2 class="text-lg font-bold">Table of Contents</h2>
+					<ul>
+						{toc
+							.filter((e) => e.depth <= 3)
+							.map((item) => (
+								<li
+									class={`mr-${item.depth * 2} mt-2`}
+									style={`font-size: ${2 - item.depth * 0.4}rem; color: hsl(0, 0%, ${100 - (item.depth - 2) * 30}%);`}
+								>
+									<a href={`#${item.slug}`}>{item.text}</a>
+								</li>
+							))}
+					</ul>
+				</nav>
+			)
+		}
 		<main class="mb-24" transition:animate="fade">
 			<slot />
 		</main>
