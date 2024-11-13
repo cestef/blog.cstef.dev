@@ -1168,55 +1168,55 @@ If the curve's cofactor $h$ is 1, then $n$ is the order of the curve. If $h$ is 
 </details>
 
 1. Multiply it by the generator: $R = r G$
-2. We can now compute the challenge $h = H(R || P || m)$
-3. And the signature: $s = r + h p$
+2. We can now compute the challenge $e = H(R || P || m)$
+3. And the signature: $s = r + e p$
 
 The final signature is $(R, s)$.
 
 Once the signature has been emitted, verifying it is as easy as multiplying both sides of the signature equation by $G$:
 
 $$
-s dot G &= (r + h p) dot G \
-        &= R + h P
+s dot G &= (r + e p) dot G \
+        &= R + e P
 $$
 
-To know $h$, the verifier needs to know the message $m$, the public key $P$. In some cases, you might not need to include the public key into the challenge and simply hash $e = H(R || m)$.
+To know $e$, the verifier needs to know the message $m$, the public key $P$. In some cases, you might not need to include the public key into the challenge and simply hash $e = H(R || m)$.
 
 ### Why it Works
 
 There isn't really a proof needed for the verifying step as it's just factoring out $G$ again, but here you are:
 
 $$
-    & s dot G = R + h P \
+    & s dot G = R + e P \
 <==>& s dot G = underbrace(r G, R) + h underbrace(p G, P) \
-<==>& s dot G = (r + h p) dot G \
+<==>& s dot G = (r + e p) dot G \
 $$
 
 One trickier part is to explain why we are adding a random nonce $r$ to both the signature and the challenge. This value **has** to be sampled randomly and **must not** be reused. If it is, the private key can be recovered. Let's first take the case where no $r$ is used:
 
 $$
-    & s = h p \
-<==>& p = s^(-1) h
+    & s = e p \
+<==>& p = s^(-1) e
 $$
 
-Recovering the private key is as simple as multiplying the hash $h$ by the modular inverse of $s$. Not good.
+Recovering the private key is as simple as multiplying the challenge $e$ by the modular inverse of $s$. Not good.
 
 Now, let's take the case where $r$ is reused, with two messages $m_1$ and $m_2$, along with their respective signatures $(R, s_1)$ and $(R, s_2)$:
 
 $$
 cases(
-    space s_1 = r + h_1 p <==> r = (s_1 - h_1 p) space script((a)),
-    space s_2 = r + h_2 p <==> r = (s_2 - h_2 p) space script((b))
+    space s_1 = r + e_1 p <==> r = (s_1 - e_1 p) space script((a)),
+    space s_2 = r + e_2 p <==> r = (s_2 - e_2 p) space script((b))
 )
 $$
 
 Combining $(a)$ and $(b)$:
 
 $$
-    & r = (s_1 - h_1 p) = (s_2 - h_2 p) \
-<==>& h_1 p - h_2 p = s_1 - s_2 \
-<==>& p dot (h_1 - h_2) = s_1 - s_2 \
-<==>& p = (s_1 - s_2) / (h_1 - h_2)
+    & r = (s_1 - e_1 p) = (s_2 - e_2 p) \
+<==>& e_1 p - e_2 p = s_1 - s_2 \
+<==>& p dot (e_1 - e_2) = s_1 - s_2 \
+<==>& p = (s_1 - s_2) / (e_1 - e_2)
 $$
 
 You may see $r$ as an additional unknown variable that is used to prevent the linear equation system from being solved, because for $n$ messages, you have $n$ equations and $n+1$ unknowns, which is unsolvable in our case. 
