@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 	const blogEntries = await getCollection(
 		"blog",
 		(entry) =>
-			!(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === "seedling")
+			!(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === "seedling"),
 	);
 	return blogEntries.map((entry) => ({
 		params: { slug: entry.slug },
@@ -22,6 +22,11 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter: frontmatter } = await entry.render();
+
+const StubContent = (...args: any[]) => {
+	console.log("StubContent", args);
+	return null;
+};
 
 const lastModified = dayjs(frontmatter.lastModified || entry.data.date)
 	.utc()
