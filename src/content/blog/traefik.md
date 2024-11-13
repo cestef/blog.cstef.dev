@@ -42,7 +42,7 @@ kubectl run traefik-jobs -it --image=traefik/jobs --restart=Never
 
 Still getting an error message, but this time it was different:
 
-```
+```text
 It seems I do need more permissions... May I be promoted cluster-admin? 🙏
 Hmmmm, it seems Helmsman deployment has an issue 😒
 ```
@@ -52,7 +52,9 @@ I was now sure that I was on the right track.
 The image was kindly asking us to give it more permissions, so I naturally gave it the `cluster-admin` role.
 (I know, I know, it's not a good practice, but it's just for a CTF, right?)
 
-```yml copy title="service-account.yml"
+```yml copy
+# service-account.yml
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -81,7 +83,9 @@ kubectl apply -f service-account.yml
 
 We now have a service account with the `cluster-admin` role, so let's set it to the pod.
 
-```yml copy title="pod.yml"
+```yml copy
+# pod.yml
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -121,7 +125,9 @@ Look at me by the 8888 ingress 🚪
 
 Setting up an ingress on port `8888` should do the trick.
 
-```yml copy title="ingress.yml"
+```yml copy 
+# ingress.yml
+
 ---
 apiVersion: v1
 kind: Service
@@ -189,7 +195,9 @@ Well, well, well... Let's create a Traefik Proxy. I followed the [quick-start gu
 
 Various resources are created:
 
-```yml copy title="traefik/00-role.yml"
+```yml copy
+# traefik/00-role.yml
+
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -225,14 +233,18 @@ rules:
           - update
 ```
 
-```yml copy title="traefik/00-account.yml"
+```yml copy
+# traefik/00-account.yml
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
     name: traefik-account
 ```
 
-```yml copy title="traefik/01-role-binding.yml"
+```yml copy
+# traefik/01-role-binding.yml
+
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -250,7 +262,9 @@ subjects:
 
 The Traefik deployment itself:
 
-```yml copy title="traefik/02-traefik.yml"
+```yml copy
+# traefik/02-traefik.yml
+
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -284,7 +298,9 @@ spec:
 
 And finally, the service:
 
-```yml copy title="traefik/02-traefik-services.yml"
+```yml copy
+# traefik/02-traefik-services.yml
+
 apiVersion: v1
 kind: Service
 metadata:
