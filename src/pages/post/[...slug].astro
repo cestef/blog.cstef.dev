@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content, remarkPluginFrontmatter: frontmatter } = await entry.render();
+const { Content, remarkPluginFrontmatter: frontmatter, headings } = await entry.render();
 
 const StubContent = (...args: any[]) => {
 	console.log("StubContent", args);
@@ -37,6 +37,7 @@ const lastModified = dayjs(frontmatter.lastModified || entry.data.date)
 	path={`/blog/${entry.slug}`}
 	title={entry.data.title}
 	description={entry.data.description}
+	toc={headings}
 >
 	<Prose>
 		<h1>{entry.data.title}</h1>
