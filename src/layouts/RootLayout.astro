@@ -93,9 +93,12 @@ const { path, title, description, toc } = Astro.props;
 				<ModeSwitch transition:persist />
 			</div>
 		</div>
-		{
+		<!-- {
 			toc && (
-				<nav class="hidden md:block fixed right-6 top-16 w-fit p-4 rounded-md z-10 text-right">
+				<nav
+					class="hidden 2xl:block fixed right-6 top-16 bg-card border border-accent p-4 rounded-md z-10 text-right"
+					style="width: calc((90% - 70ch) / 2)"
+				>
 					<h2 class="text-lg font-bold">Table of Contents</h2>
 					<ul>
 						{toc
@@ -103,7 +106,7 @@ const { path, title, description, toc } = Astro.props;
 							.map((item) => (
 								<li
 									class={`mr-${item.depth * 2} mt-2`}
-									style={`font-size: ${2 - item.depth * 0.4}rem; color: hsl(0, 0%, ${100 - (item.depth - 2) * 30}%);`}
+									style={`font-size: ${1.5 - item.depth * 0.2}rem; color: hsl(0, 0%, ${100 - (item.depth - 2) * 30}%);`}
 								>
 									<a href={`#${item.slug}`}>{item.text}</a>
 								</li>
@@ -111,7 +114,7 @@ const { path, title, description, toc } = Astro.props;
 					</ul>
 				</nav>
 			)
-		}
+		} -->
 		<main class="mb-24" transition:animate="fade">
 			<slot />
 		</main>
@@ -127,7 +130,7 @@ const { path, title, description, toc } = Astro.props;
 			return;
 		}
 		let percent = Math.floor(
-			(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100,
+			(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
 		);
 		// Clamp to 100
 		percent = Math.min(percent, 100);
