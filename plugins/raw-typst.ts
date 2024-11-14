@@ -60,8 +60,8 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 			} else {
 				try {
 					result = {
-						dark: await renderToSVGString(code, "dark", "raw"),
-						light: await renderToSVGString(code, "light", "raw"),
+						dark: await renderToSVGString(code, "raw", "dark"),
+						light: await renderToSVGString(code, "raw", "dark"),
 					};
 					await setRenderCache(
 						"typst",

@@ -734,3 +734,53 @@ export const themes = (() => {
 		{} as Record<string, (typeof themes)[number]>,
 	);
 })();
+
+export const helperFunctions = `
+#let colred(x) = text(fill: red, $#x$)
+#let colblue(x) = text(fill: blue, $#x$)
+#let colgreen(x) = text(fill: green, $#x$)
+#let colyellow(x) = text(fill: yellow, $#x$)
+`;
+
+export const packages = `
+${customCetz}
+`;
+
+export const inlineMathTemplate = (code: string) => `
+#set page(height: auto, width: auto, margin: 0pt)
+#set text(13pt)
+#let s = state("t", (:))
+${helperFunctions}
+${packages}
+
+#let pin(t) = context {
+    let computed = measure(
+        line(length: here().position().y)
+    )
+    s.update(it => it.insert(t, computed.width) + it)
+}
+
+#show math.equation: it => {
+    box(it, inset: (top: 0.5em, bottom: 0.5em))
+}
+
+$pin("l1")${code}$
+
+#context [
+    #metadata(s.final().at("l1")) <label>
+]
+  `;
+export const displayMathTemplate = (code: string) => `
+#set page(height: auto, width: auto, margin: 0pt)
+#set text(14pt)
+${helperFunctions}
+${packages}
+$ ${code} $
+  `;
+export const rawTemplate = (code: string) => `
+#set page(height: auto, width: auto, margin: 0pt)
+#set text(14pt)
+${helperFunctions}
+${packages}
+${code}
+    `;
