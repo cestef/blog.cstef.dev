@@ -5,7 +5,16 @@ import { toText } from "hast-util-to-text";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import type { VFile } from "vfile";
 import { getRenderCache, setRenderCache } from "./utils/cache";
-import { customCetz, customStyles, themes } from "./utils/typst-utils";
+import {
+	customCetz,
+	customStyles,
+	displayMathTemplate,
+	helperFunctions,
+	inlineMathTemplate,
+	packages,
+	rawTemplate,
+	themes,
+} from "./utils/typst-utils";
 import sharp from "sharp";
 import { toHtml } from "hast-util-to-html";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
@@ -74,18 +83,10 @@ export default function rehypeTypst(
 				result = cached;
 			} else {
 				try {
-					result = {
-						dark: await renderToSVGString(
-							value,
-							"dark",
-							displayMode ? "display" : "inline",
-						),
-						light: await renderToSVGString(
-							value,
-							"light",
-							displayMode ? "display" : "inline",
-						),
-					};
+					result = await renderToSVGString(
+						value,
+						displayMode ? "display" : "inline",
+					);
 					await setRenderCache("typst", { value, displayMode }, result);
 				} catch (error) {
 					const cause = error as Error;
@@ -149,6 +150,51 @@ export default function rehypeTypst(
 					}
 				}
 				result = out;
+			} else if (
+				typeof result === "object" &&
+				"svg" in result &&
+				typeof result.svg === "string"
+			) {
+				const root = fromHtmlIsomorphic(result.svg, {
+					fragment: true,
+				});
+				// console.log("root", root);
+				const defaultEm = 11;
+				const height = Number.parseFloat(
+					// @ts-ignore
+					root.children[0].properties.dataHeight as string,
+				);
+				const width = Number.parseFloat(
+					// @ts-ignore
+					root.children[0].properties.dataWidth as string,
+				);
+				const shift = height - (result as any).baselinePosition;
+				const shiftEm = shift / defaultEm;
+				// @ts-ignore
+				root.children[0].properties.style = `vertical-align: -${shiftEm}em;`;
+				// @ts-ignore
+
+				root.children[0].properties.height = `${height / defaultEm}em`;
+				// @ts-ignore
+				root.children[0].properties.width = `${width / defaultEm}em`;
+				// @ts-ignore
+
+				if (!root.children[0].properties.className)
+					// @ts-ignore
+					root.children[0].properties.className = [];
+				if (displayMode) {
+					// @ts-ignore
+					root.children[0].properties.style +=
+						"; display: block; margin: 0 auto;";
+				} else {
+					// @ts-ignore
+					(root.children[0].properties.className as string[]).push(
+						"typst-inline",
+					);
+				}
+				result = root.children as Array<ElementContent>;
+			} else {
+				console.error("Unknown result", result);
 			}
 
 			const index = parent.children.indexOf(scope);
@@ -187,48 +233,56 @@ export default function rehypeTypst(
 
 export async function renderToSVGString(
 	code: string,
-	theme: "dark" | "light",
 	mode: "inline" | "display" | "raw" = "inline",
+	theme?: "dark" | "light",
 ): Promise<any> {
 	if (!compilerIns.current) {
 		compilerIns.current = NodeCompiler.create();
 	}
 	const $typst = compilerIns.current;
-	const res = await render($typst, code, mode, theme, "svg");
+	const res = await render($typst, code, mode, "svg", theme);
+	// console.log("res", res);
 	$typst.evictCache(10);
-	const height = Number.parseFloat(
-		// @ts-ignore
-		res.svg.children[0].properties.dataHeight as string,
-	);
-	const width = Number.parseFloat(
-		// @ts-ignore
-		res.svg.children[0].properties.dataWidth as string,
-	);
-	const svgString = toHtml(res.svg);
-	const alt = code.slice(0, 50);
-	const img = fromHtmlIsomorphic(
-		`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" alt="${alt}" />`,
-		{ fragment: true },
-	).children[0];
+	if (mode === "raw") {
+		const height = Number.parseFloat(
+			// @ts-ignore
+			res.svg.children[0].properties.dataHeight as string,
+		);
+		const width = Number.parseFloat(
+			// @ts-ignore
+			res.svg.children[0].properties.dataWidth as string,
+		);
+		const svgString = toHtml(res.svg);
+		const alt = code.slice(0, 50);
+		const img = fromHtmlIsomorphic(
+			`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" alt="${alt}" />`,
+			{ fragment: true },
+		).children[0];
+
+		return {
+			svg: img,
+			baselinePosition: res.baselinePosition,
+			height,
+			width,
+		};
+	}
 
 	return {
-		svg: img,
+		svg: res.svg,
 		baselinePosition: res.baselinePosition,
-		height,
-		width,
 	};
 }
 
 export async function renderToPNGString(
 	code: string,
-	theme: "dark" | "light",
 	mode: "inline" | "display" | "raw" = "inline",
+	theme?: "dark" | "light",
 ): Promise<any> {
 	if (!compilerIns.current) {
 		compilerIns.current = NodeCompiler.create();
 	}
 	const $typst = compilerIns.current;
-	const res = await render($typst, code, mode, theme, "png");
+	const res = await render($typst, code, mode, "png", theme);
 	$typst.evictCache(10);
 	const png = `data:image/png;base64,${res.png.toString("base64")}`;
 	const alt = code.slice(0, 50);
@@ -243,62 +297,17 @@ async function render(
 	$typst: NodeCompiler,
 	code: string,
 	mode: "inline" | "display" | "raw",
-	theme: "dark" | "light",
 	output: "svg" | "png" = "svg",
+	theme?: "dark" | "light",
 ): Promise<any> {
-	const helperFunctions = `
-#let colred(x) = text(fill: red, $#x$)
-#let colblue(x) = text(fill: blue, $#x$)
-#let colgreen(x) = text(fill: green, $#x$)
-#let colyellow(x) = text(fill: yellow, $#x$)
-    `;
-	const packages = `
-        ${customCetz}
-    `;
-	const inlineMathTemplate = `
-#set page(height: auto, width: auto, margin: 0pt)
-#set text(13pt)
-#let s = state("t", (:))
-${helperFunctions}
-${packages}
-
-#let pin(t) = context {
-    let computed = measure(
-        line(length: here().position().y)
-    )
-    s.update(it => it.insert(t, computed.width) + it)
-}
-
-#show math.equation: it => {
-    box(it, inset: (top: 0.5em, bottom: 0.5em))
-}
-
-$pin("l1")${code}$
-
-#context [
-    #metadata(s.final().at("l1")) <label>
-]
-  `;
-	const displayMathTemplate = `
-#set page(height: auto, width: auto, margin: 0pt)
-#set text(14pt)
-${helperFunctions}
-${packages}
-$ ${code} $
-  `;
-	const rawTemplate = `
-#set page(height: auto, width: auto, margin: 0pt)
-#set text(14pt)
-${helperFunctions}
-${packages}
-${code}
-    `;
-	const mainFileContent =
+	const mainFileContent = (
 		mode === "raw"
 			? rawTemplate
 			: mode === "display"
 				? displayMathTemplate
-				: inlineMathTemplate;
+				: inlineMathTemplate
+	)(code);
+
 	const docRes = $typst.compile({ mainFileContent });
 	if (!docRes.result) {
 		const taken = docRes.takeDiagnostics();
@@ -320,26 +329,32 @@ ${code}
 		baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
 	}
 	if (output === "svg") {
-		const root = fromHtmlIsomorphic(svg, {
-			fragment: true,
-		});
-		const typstTheme = themes.nord;
-		// Inject <style> tag into the SVG
-		const style = {
-			type: "element",
-			tagName: "style",
-			properties: {},
-			children: [
-				{
-					type: "text",
-					value: `${theme === "dark" ? typstTheme.darkTheme : typstTheme.lightTheme} ${customStyles}`,
-				},
-			],
-		};
-		// @ts-ignore
-		root.children[0].children.unshift(style);
+		if (mode === "raw") {
+			const root = fromHtmlIsomorphic(svg, {
+				fragment: true,
+			});
+			const typstTheme = themes.nord;
+			// Inject <style> tag into the SVG
+			const style = {
+				type: "element",
+				tagName: "style",
+				properties: {},
+				children: [
+					{
+						type: "text",
+						value: `${theme === "dark" ? typstTheme.darkTheme : typstTheme.lightTheme} ${customStyles}`,
+					},
+				],
+			};
+			// @ts-ignore
+			root.children[0].children.unshift(style);
+			return {
+				svg: root,
+				baselinePosition,
+			};
+		}
 		return {
-			svg: root,
+			svg,
 			baselinePosition,
 		};
 	}
