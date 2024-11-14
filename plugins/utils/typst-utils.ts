@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 export const customCetz = `#import "@preview/cetz:0.3.1": *
 #import "@preview/cetz-plot:0.1.0": plot
 
@@ -636,212 +639,6 @@ export const customCetz = `#import "@preview/cetz:0.3.1": *
   ),)
 }`;
 
-export const gruvboxTheme = `:root {
-	/* Base colors */
-	--background: 50 13% 93%;
-	--foreground: 40 6% 20%;
-
-	/* Surface variations */
-	--card: 50 13% 91%;
-	--card-foreground: 40 6% 20%;
-	--popover: 50 13% 92%;
-	--popover-foreground: 40 6% 20%;
-	--modal: 50 13% 94%;
-	--modal-foreground: 40 6% 20%;
-
-	/* Interactive elements */
-	--primary: 40 6% 20%;
-	--primary-foreground: 50 13% 93%;
-	--primary-hover: 40 6% 25%;
-	--secondary: 43 9% 86%;
-	--secondary-foreground: 40 6% 20%;
-	--secondary-hover: 43 9% 82%;
-
-	/* States and accents */
-	--muted: 43 9% 86%;
-	--muted-foreground: 40 5% 45%;
-	--accent: 43 9% 84%;
-	--accent-foreground: 40 6% 20%;
-	--accent-hover: 43 9% 80%;
-
-	/* Status colors */
-	--destructive: 0 70% 50%;
-	--destructive-foreground: 50 13% 93%;
-	--destructive-hover: 0 70% 45%;
-	--success: 95 50% 50%;
-	--success-foreground: 45 10% 20%;
-	--success-hover: 95 50% 45%;
-	--warning: 43 96% 56%;
-	--warning-foreground: 40 6% 20%;
-	--info: 200 65% 50%;
-	--info-foreground: 40 6% 20%;
-
-	/* UI elements */
-	--border: 40 6% 80%;
-	--border-hover: 40 6% 75%;
-	--input: 40 6% 80%;
-	--input-focus: 40 6% 75%;
-	--ring: 40 6% 20%;
-	--radius: 0.5rem;
-
-	/* Chart colors */
-	--chart-1: 23 65% 57%;
-	--chart-2: 66 50% 45%;
-	--chart-3: 180 29% 50%;
-	--chart-4: 6 70% 53%;
-	--chart-5: 142 30% 50%;
-
-	/* Code syntax highlighting */
-	--shiki-foreground: #3c3836;
-	--shiki-background: transparent;
-	--shiki-token-constant: #076678;
-	--shiki-token-string: #79740e;
-	--shiki-token-comment: #928374;
-	--shiki-token-keyword: #9d0006;
-	--shiki-token-parameter: #3c3836;
-	--shiki-token-function: #8f3f71;
-	--shiki-token-string-expression: #79740e;
-	--shiki-token-punctuation: #3c3836;
-	--shiki-token-link: #79740e;
-
-	/* ANSI colors */
-	--shiki-ansi-black: #3c3836;
-	--shiki-ansi-black-dim: #3c383680;
-	--shiki-ansi-red: #9d0006;
-	--shiki-ansi-red-dim: #9d000680;
-	--shiki-ansi-green: #79740e;
-	--shiki-ansi-green-dim: #79740e80;
-	--shiki-ansi-yellow: #b57614;
-	--shiki-ansi-yellow-dim: #b5761480;
-	--shiki-ansi-blue: #076678;
-	--shiki-ansi-blue-dim: #07667880;
-	--shiki-ansi-magenta: #8f3f71;
-	--shiki-ansi-magenta-dim: #8f3f7180;
-	--shiki-ansi-cyan: #427b58;
-	--shiki-ansi-cyan-dim: #427b5880;
-	--shiki-ansi-white: #928374;
-	--shiki-ansi-white-dim: #92837480;
-	--shiki-ansi-bright-black: #7c6f64;
-	--shiki-ansi-bright-black-dim: #7c6f6480;
-	--shiki-ansi-bright-red: #cc241d;
-	--shiki-ansi-bright-red-dim: #cc241d80;
-	--shiki-ansi-bright-green: #98971a;
-	--shiki-ansi-bright-green-dim: #98971a80;
-	--shiki-ansi-bright-yellow: #d79921;
-	--shiki-ansi-bright-yellow-dim: #d7992180;
-	--shiki-ansi-bright-blue: #458588;
-	--shiki-ansi-bright-blue-dim: #45858880;
-	--shiki-ansi-bright-magenta: #b16286;
-	--shiki-ansi-bright-magenta-dim: #b1628680;
-	--shiki-ansi-bright-cyan: #689d6a;
-	--shiki-ansi-bright-cyan-dim: #689d6a80;
-	--shiki-ansi-bright-white: #a89984;
-	--shiki-ansi-bright-white-dim: #a8998480;
-}
-`;
-export const gruvBoxThemeDark = `:root {
-	/* Base colors - darker background */
-	--background: 40 6% 15%;
-	--foreground: 50 13% 93%;
-
-	/* Surface variations */
-	--card: 40 6% 18%;
-	--card-foreground: 50 13% 93%;
-	--popover: 40 6% 17%;
-	--popover-foreground: 50 13% 93%;
-	--modal: 40 6% 16%;
-	--modal-foreground: 50 13% 93%;
-
-	/* Interactive elements */
-	--primary: 50 13% 93%;
-	--primary-foreground: 40 6% 15%;
-	--primary-hover: 50 13% 88%;
-	--secondary: 40 5% 22%;
-	--secondary-foreground: 50 13% 93%;
-	--secondary-hover: 40 5% 25%;
-
-	/* States and accents */
-	--muted: 40 5% 22%;
-	--muted-foreground: 40 5% 70%;
-	--accent: 40 5% 22%;
-	--accent-foreground: 50 13% 93%;
-	--accent-hover: 40 5% 25%;
-
-	/* Status colors */
-	--destructive: 0 70% 40%;
-	--destructive-foreground: 50 13% 93%;
-	--destructive-hover: 0 70% 45%;
-	--success: 95 63% 58%;
-	--success-foreground: 45 22% 93%;
-	--success-hover: 95 63% 63%;
-	--warning: 43 96% 56%;
-	--warning-foreground: 40 6% 15%;
-	--info: 200 65% 50%;
-	--info-foreground: 40 6% 15%;
-
-	/* UI elements */
-	--border: 40 5% 22%;
-	--border-hover: 40 5% 25%;
-	--input: 40 5% 22%;
-	--input-focus: 40 5% 25%;
-	--ring: 50 13% 83%;
-	--radius: 0.5rem;
-
-	/* Chart colors */
-	--chart-1: 23 65% 57%;
-	--chart-2: 66 50% 45%;
-	--chart-3: 180 29% 50%;
-	--chart-4: 6 70% 53%;
-	--chart-5: 142 30% 50%;
-
-	/* Code syntax highlighting */
-	--shiki-foreground: #ebdbb2;
-	--shiki-background: transparent;
-	--shiki-token-constant: #83a598;
-	--shiki-token-string: #b8bb26;
-	--shiki-token-comment: #928374;
-	--shiki-token-keyword: #fb4934;
-	--shiki-token-parameter: #ebdbb2;
-	--shiki-token-function: #d3869b;
-	--shiki-token-string-expression: #b8bb26;
-	--shiki-token-punctuation: #ebdbb2;
-	--shiki-token-link: #b8bb26;
-
-	/* ANSI colors */
-	--shiki-ansi-black: #1d2021;
-	--shiki-ansi-black-dim: #1d202180;
-	--shiki-ansi-red: #cc241d;
-	--shiki-ansi-red-dim: #cc241d80;
-	--shiki-ansi-green: #98971a;
-	--shiki-ansi-green-dim: #98971a80;
-	--shiki-ansi-yellow: #d79921;
-	--shiki-ansi-yellow-dim: #d7992180;
-	--shiki-ansi-blue: #458588;
-	--shiki-ansi-blue-dim: #45858880;
-	--shiki-ansi-magenta: #b16286;
-	--shiki-ansi-magenta-dim: #b1628680;
-	--shiki-ansi-cyan: #689d6a;
-	--shiki-ansi-cyan-dim: #689d6a80;
-	--shiki-ansi-white: #a89984;
-	--shiki-ansi-white-dim: #a8998480;
-	--shiki-ansi-bright-black: #928374;
-	--shiki-ansi-bright-black-dim: #92837480;
-	--shiki-ansi-bright-red: #fb4934;
-	--shiki-ansi-bright-red-dim: #fb493480;
-	--shiki-ansi-bright-green: #b8bb26;
-	--shiki-ansi-bright-green-dim: #b8bb2680;
-	--shiki-ansi-bright-yellow: #fabd2f;
-	--shiki-ansi-bright-yellow-dim: #fabd2f80;
-	--shiki-ansi-bright-blue: #83a598;
-	--shiki-ansi-bright-blue-dim: #83a59880;
-	--shiki-ansi-bright-magenta: #d3869b;
-	--shiki-ansi-bright-magenta-dim: #d3869b80;
-	--shiki-ansi-bright-cyan: #8ec07c;
-	--shiki-ansi-bright-cyan-dim: #8ec07c80;
-	--shiki-ansi-bright-white: #ebdbb2;
-	--shiki-ansi-bright-white-dim: #ebdbb280;
-}`;
-
 export const customStyles = `
 .typst-text[fill="#000"] {
     fill: var(--shiki-foreground);
@@ -900,3 +697,40 @@ export const customStyles = `
     fill: var(--shiki-ansi-magenta);
 }
 `;
+
+// :root[data-theme="..."]
+const LIGHT_THEME_REGEX = /:root\[data-theme="(.+?)"\] *{(?:\n|.)*}/;
+// .dark[data-theme="..."]
+const DARK_THEME_REGEX = /\.dark\[data-theme="(?:.+?)"\] *{(?:\n|.)*}/;
+
+export const themes = (() => {
+	const files = fs
+		.readdirSync(
+			path.join(import.meta.dirname, "../..", "src", "styles", "themes"),
+		)
+		.filter((file) => file.endsWith(".css"));
+
+	const themes = files.map((file) => {
+		const name = path.basename(file, ".css");
+		const content = fs.readFileSync(
+			path.join(import.meta.dirname, "../..", "src", "styles", "themes", file),
+			"utf-8",
+		);
+		const lightTheme = (LIGHT_THEME_REGEX.exec(content)?.[0] ?? "").replace(
+			/:root\[data-theme="(.+?)"\] */,
+			":root ",
+		);
+		const darkTheme = (DARK_THEME_REGEX.exec(content)?.[0] ?? "").replace(
+			/\.dark\[data-theme="(.+?)"\] */,
+			":root ",
+		);
+		return { name, content, lightTheme, darkTheme };
+	});
+	return themes.reduce(
+		(acc, theme) => {
+			acc[theme.name] = theme;
+			return acc;
+		},
+		{} as Record<string, (typeof themes)[number]>,
+	);
+})();

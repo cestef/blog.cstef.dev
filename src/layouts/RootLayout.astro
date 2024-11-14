@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 
 import { ViewTransitions } from "astro:transitions";
 import ModeSwitch from "@/components/ModeSwitch.astro";
-import { STATUS_LINE } from "@/constants";
+import { STATUS_LINE, THEME } from "@/constants";
 import type { MarkdownHeading } from "astro";
 
 export interface Props {
@@ -18,7 +18,7 @@ const { path, title, description, toc } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" transition:animate="none" data-theme="gruvbox">
+<html lang="en" transition:animate="none" data-theme={THEME}>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta charset="utf-8" />
