@@ -5,12 +5,7 @@ import { toText } from "hast-util-to-text";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import type { VFile } from "vfile";
 import { getRenderCache, setRenderCache } from "./utils/cache";
-import {
-	customCetz,
-	customStyles,
-	gruvboxTheme,
-	gruvBoxThemeDark,
-} from "./utils/typst-utils";
+import { customCetz, customStyles, themes } from "./utils/typst-utils";
 import sharp from "sharp";
 import { toHtml } from "hast-util-to-html";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
@@ -328,6 +323,7 @@ ${code}
 		const root = fromHtmlIsomorphic(svg, {
 			fragment: true,
 		});
+		const typstTheme = themes.nord;
 		// Inject <style> tag into the SVG
 		const style = {
 			type: "element",
@@ -336,7 +332,7 @@ ${code}
 			children: [
 				{
 					type: "text",
-					value: `${theme === "dark" ? gruvBoxThemeDark : gruvboxTheme} ${customStyles}`,
+					value: `${theme === "dark" ? typstTheme.darkTheme : typstTheme.lightTheme} ${customStyles}`,
 				},
 			],
 		};

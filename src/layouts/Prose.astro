@@ -1,8 +1,9 @@
 ---
+import { THEME } from "@/constants";
 import rawButtonGroup from "../components/CodeButtons.html?raw";
 ---
 
-<article class="prose dark:prose-invert mx-auto lg:prose-lg prose-gruvbox" id="prose">
+<article class={`prose dark:prose-invert mx-auto lg:prose-lg prose-${THEME}`} id="prose">
 	<slot />
 </article>
 

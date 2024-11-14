@@ -2,6 +2,8 @@ import type { BlogEntry } from "./content/config.ts";
 
 export const HIDE_SEEDLINGS_PROD = true;
 
+export const THEME = "nord";
+
 export const HERO: IHero = {
 	title: "blog.cstef.dev",
 	description: [
