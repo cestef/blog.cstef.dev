@@ -1647,7 +1647,7 @@ Random nonces are also aggregated, and at no point we are verifying that they ar
 
 ## Rust Implementation
 
-I've been using Rust for a while now (_even though I feel like I'm a complete beginner and still can't manage to fully understand lifetimes_), so I thought it would be a good idea to implement Shamir's Secret Sharing in Rust.
+I've been using Rust for a while now (_even though I feel like I'm a complete beginner and still can't manage to fully understand lifetimes_), so I thought it would be a good idea to implement Shamir's Secret Sharing and other algorithms in Rust.
 
 > [!WARNING]
 > **Disclaimer**: Be aware that this is not suited for production use. Consider using a battle-tested cryptography instead.
@@ -2183,6 +2183,56 @@ pub fn verify(share: PedersenShare, commitments: Vec<Point>) -> Result<()> {
         rhs
     );
     Ok(())
+}
+```
+
+### Reconstructing the Secret
+
+```rust copy
+// See the Polynomial struct for the implementation of the Lagrange interpolation
+pub fn recover(shares: Vec<Share>) -> Scalar {
+    Polynomial::lagrange(shares).evaluate(Scalar::ZERO)
+}
+```
+
+### Schnorr Signatures
+
+For this part, I used the Secp256k1 curve, _via_ the really cool [`secp`](https://lib.rs/secp) crate. The implementation is quite similar to the one I described earlier.
+
+```rust copy
+use rand::rngs::OsRng;
+use secp::{Point, Scalar, G};
+use sha2::{Digest, Sha256};
+
+fn compute_challenge(public_nonce: Point, public_key: Point, message: impl AsRef<str>) -> Scalar {
+    // H(R || P || m)
+    let challenge: [u8; 32] = Sha256::new()
+        .chain_update((public_nonce).serialize())
+        .chain_update((public_key).serialize())
+        .chain_update(message.as_ref().as_bytes())
+        .finalize()
+        .into();
+    Scalar::reduce_from(&challenge)
+}
+
+fn sign(message: impl AsRef<str>, key: Scalar) -> Result<Signature> {
+    // Enabled via the `rand` feature of the `secp` crate
+    let nonce = Scalar::random(&mut OsRng); // r
+
+    let public_nonce = nonce * G; // R
+    let public_key = key * G; // P
+
+    let challenge = compute_challenge(public_nonce, public_key, message); // e
+    // s = r + e * p
+    let signature = (nonce + challenge * key).not_zero()?;
+
+    Ok((public_nonce, signature))
+}
+
+fn verify(message: impl AsRef<str>, public_key: Point, signature: Signature) -> Result<bool> {
+    let challenge = compute_challenge(signature.0, public_key, message);
+    // s * G =? R + e * P
+    Ok(signature.1 * G == (signature.0 + challenge * public_key).not_inf()?)
 }
 ```
 
