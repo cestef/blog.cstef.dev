@@ -42,10 +42,6 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 		...options,
 		salt,
 		language: "typst",
-		cache: {
-			get: (key) => getRenderCache("typst", { value: key, displayMode: "raw" }),
-			set: (key, value) => setRenderCache("typst", key, value),
-		},
 		code: async ({ code, meta }) => {
 			const start = performance.now();
 			const attributes = TypstRawAttributesSchema.parse(parseAttributes(meta));
