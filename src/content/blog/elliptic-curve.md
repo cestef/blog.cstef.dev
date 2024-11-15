@@ -1024,6 +1024,322 @@ We need a way to check that the share we receive as a shareholder after the secr
 
 Instead, let's take advantage of the properties of elliptic curves to create a commitment scheme. After we have generated our polynomial $f(x)$, we can take each coefficient $a_i$ and multiply it by the generator point $G$ of the curve. This gives us a few values $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G$ that we can send to the shareholders.
 
+<details>
+
+<summary>Point operations in an elliptic curve</summary>
+
+The trapdoor function (very easy to do one way, hard the other) of an elliptic curve is the multiplication of a point $P$ by a scalar $n$. This consists of adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$.
+
+Let's start out by graphically representing the addition of two points $G$ and $A$ in an elliptic curve.
+
+One easy way to think of the addition is to draw a line that goes through $G$ and $A$, and find the third point of intersection with the curve. The symmetrical point is the result of the addition of $G$ and $A$. This is because elliptic curve have the property that any line between two points intersects the curve at most one more time.
+
+In the case where there is no third point of intersection (i.e. the line is vertical), we define the result of the addition as the point at infinity, denoted as $cal(O)$.
+
+```typst
+#set text(size: 10pt)
+
+#let point(x) = (x, calc.sqrt(x*x*x + 7))
+#let opposite(x) = (x, -calc.sqrt(x*x*x + 7))
+
+
+#canvas({
+    import draw: *
+
+    
+    set-style(
+        axes: (
+            stroke: .5pt, 
+            tick: (
+                stroke: .5pt
+            )
+        ),
+        legend: (
+            stroke: none, 
+            orientation: ttb, 
+            item: (
+                spacing: .3
+            ), 
+            scale: 80%
+        ),
+        mark: (
+          transform-shape: false,
+          fill: color.darken(gray, 30%)
+        )
+    )
+
+    plot.plot(
+        name: "plot",
+        size: (12, 8),
+        axis-style: "school-book",
+        x-tick-step: 3,
+        y-tick-step: 2, 
+        legend: "inner-north-east",
+        legend-style: (
+            stroke: black,
+            fill: none,
+            radius: 5pt,
+            padding: .5em,
+        ),
+    
+        {
+            add-contour(
+                x-domain: (-5, 7),
+                y-domain: (-6, 6),
+                op: "<",
+                z: 0,
+                x-samples: 50,
+                y-samples: 50,
+                style: (
+                    stroke: blue + 2pt
+                ),
+                label: $ space y^2 = x^3 + 7 $,
+                (x, y) => y * y - (x * x * x + 7)
+            )
+            plot.add-anchor("G", point(-1.85))
+            plot.add-anchor("A", point(0.5))
+            plot.add-anchor("B", point(2))
+            plot.add-anchor("C", opposite(2))
+        }
+    )
+
+    line("plot.G", "plot.B", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    line("plot.B", "plot.C", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    let display_point(name, anchor: "north-west") = {
+      circle("plot."+name, radius: 0.1, fill: black, name:name)
+      content(name, [= $#name$], anchor: anchor, padding: 0.1)
+    }
+    display_point("G")
+    display_point("A")
+    display_point("B")
+    display_point("C", anchor: "south-west")
+})
+```
+
+The resulting point $B = G + A$ is then reflected to $C$ over the x-axis. This symmetry property is easily explained by the fact that the curve's $y$ coordinates are squared, so for a given $x$ coordinate, there are two possible $y$ coordinates, $y$ and $-y$.
+
+The operation can then be done over and over again to find subsequent points.
+
+```typst
+#set text(size: 10pt)
+
+#let point(x) = (x, calc.sqrt(x*x*x + 7))
+#let opposite(x) = (x, -calc.sqrt(x*x*x + 7))
+
+
+#canvas({
+    import draw: *
+
+    
+    set-style(
+        axes: (
+            stroke: .5pt, 
+            tick: (
+                stroke: .5pt
+            )
+        ),
+        legend: (
+            stroke: none, 
+            orientation: ttb, 
+            item: (
+                spacing: .3
+            ), 
+            scale: 80%
+        ),
+        mark: (
+          transform-shape: false,
+          fill: color.darken(gray, 30%)
+        )
+    )
+
+    plot.plot(
+        name: "plot",
+        size: (12, 8),
+        axis-style: "school-book",
+        x-tick-step: 3,
+        y-tick-step: 2, 
+        legend: "inner-north-east",
+        legend-style: (
+            stroke: black,
+            fill: none,
+            radius: 5pt,
+            padding: .5em,
+        ),
+    
+        {
+            add-contour(
+                x-domain: (-5, 7),
+                y-domain: (-6, 6),
+                op: "<",
+                z: 0,
+                x-samples: 50,
+                y-samples: 50,
+                style: (
+                    stroke: blue + 2pt
+                ),
+                label: $ space y^2 = x^3 + 7 $,
+                (x, y) => y * y - (x * x * x + 7)
+            )
+            plot.add-anchor("G", point(-1.85))
+            plot.add-anchor("A", point(0.5))
+            plot.add-anchor("B", point(2))
+            plot.add-anchor("C", opposite(2))
+            plot.add-anchor("D", opposite(1.2))
+            plot.add-anchor("E", point(1.2))
+            
+        }
+    )
+
+    // line("plot.G", "plot.B", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    // line("plot.B", "plot.C", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    line("plot.C", "plot.G", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    line("plot.D", "plot.E", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    
+    let display_point(name, anchor: "north-west") = {
+      circle("plot."+name, radius: 0.1, fill: black, name:name)
+      content(name, [= $#name$], anchor: anchor, padding: 0.1)
+    }
+    display_point("G", anchor: "south-east")
+    // display_point("A")
+    // display_point("B")
+    display_point("C", anchor: "south-west")
+    display_point("D", anchor: "south-west")
+    display_point("E")
+    
+})
+```
+
+In the case where $G = A$, we can't really draw a line between the two points, so we take the tangent to the curve at $G$ and find the third point of intersection. This is the result of the addition of $G$ and $G$, denoted as $2 dot G$.
+
+To find the tangent at $G(x_G, y_G)$, we need to find the slope $m = (d y)/(d x) = y'(x)$.
+
+Differentiating both sides with respect to $x$, $y^2$, which actually depends on $x$ can be written as  $y(x)^2$ for clarity:
+
+$$
+(y(x)^2)' &= 2y(x) dot y'(x)
+$$
+
+See this as if we were differentiating $u^2$, where $u = y(x)$.
+
+The right side is just a function of $x$, so we can just differentiate it as we would with any other function:
+
+$$
+(x^3 + 7)' = 3x^2 
+$$
+
+Our differentiated equation is:
+
+$$
+2y dot y'(x) = 3x^2 
+$$
+
+Solving for $m = y'(x)$:
+
+$$
+y'(x) = (3x^2)/(2y) = m 
+$$
+
+Notice that the tangent's slope depends on both $x$ and $y$, which makes sense because we'd have two different slopes otherwise:
+
+$$
+(3x^2)/(2y) = plus.minus (3x^2)/(2sqrt(x^3 + 7))
+$$
+
+And we have our tangent equation for $x_G$ and $y_G$:
+
+$$
+t: y &= m(x - x_G) + y_G \
+     &= (3x_G^2)/(2y_G) (x - x_G) + y_G
+$$
+
+
+```typst
+#set text(size: 10pt)
+
+#let point(x) = (x, calc.sqrt(x*x*x + 7))
+#let opposite(x) = (x, -calc.sqrt(x*x*x + 7))
+#let slope(x,y) = (3*x*x)/(2*y)
+#let tangent(xi, yi) = (x) => slope(xi, yi)* (x - xi) + yi
+
+#canvas({
+    import draw: *
+
+    
+    set-style(
+        axes: (
+            stroke: .5pt, 
+            tick: (
+                stroke: .5pt
+            )
+        ),
+        legend: (
+            stroke: none, 
+            orientation: ttb, 
+            item: (
+                spacing: .3
+            ), 
+            scale: 80%
+        ),
+        mark: (
+          transform-shape: false,
+          fill: color.darken(gray, 30%)
+        )
+    )
+
+    plot.plot(
+        name: "plot",
+        size: (12, 8),
+        axis-style: "school-book",
+        x-tick-step: 3,
+        y-tick-step: 2,
+        y-min: -6, y-max: 6,
+        legend: "inner-north-east",
+        legend-style: (
+            stroke: black,
+            fill: white,
+            radius: 5pt,
+            padding: .5em,
+        ),
+        {
+            add-contour(
+                x-domain: (-5, 7),
+                y-domain: (-6, 6),
+                op: "<",
+                z: 0,
+                x-samples: 50,
+                y-samples: 50,
+                style: (
+                    stroke: blue + 2pt
+                ),
+                label: $ space y^2 = x^3 + 7 $,
+                (x, y) => y * y - (x * x * x + 7)
+            )
+            let G = point(-.75)
+            let t1 = tangent(G.at(0), G.at(1))
+            let t2 = tangent(1.6, opposite(1.6).at(1))
+            plot.add-anchor("G", G)
+            plot.add-anchor("2G", point(1.6))
+            plot.add-anchor("2G'", opposite(1.6))
+            plot.add(t1, domain: (-5, 7), style: (stroke: green + 2pt, dash: "dashed"), label: $space t_G (x)$)
+            plot.add(t2, domain: (-5, 7), style: (stroke: red + 2pt, dash: "dashed"), label: $space t_(2 G) (x)$)
+            plot.add-anchor("3G", point(-1.87))
+        }
+    )
+    line("plot.2G", "plot.2G'", stroke: (dash: "dashed", paint: color.darken(gray, 30%)))
+    
+    let display_point(name, anchor: "north-west", display: none) = {
+      circle("plot."+name, radius: 0.1, fill: black, name:name)
+      content(name, if (display != none){[#display]}else[= $#name$], anchor: anchor, padding: 0.1)
+    }
+    display_point("G", anchor: "south-east")
+    display_point("2G", anchor: "south-east", display: [= $2 dot G$])
+    display_point("2G'", anchor: "south-west", display: [= $(2 dot G)'$])
+    display_point("3G", anchor: "south-west", display: [= $space 3 dot G$])
+})
+```
+
+</details>
+
 When a shareholder wants to verify their share $Z_i (i, f(i))$, they can check with the following equation:
 
 $$
