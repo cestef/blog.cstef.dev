@@ -912,7 +912,7 @@ Let's now plot the polynomial $f(x)$:
 
 ### Reconstructing the Secret
 
-Based on what we just learnt earlier and Lagrange interpolation, we know that $n+1$ points $Z_i(x_i, y_i) | i in S$ will suffice to construct the polynonial $P_n(x)$ of degree $n$. 
+Based on what we just learnt earlier and Lagrange interpolation, we know that $n+1$ points $Z_i (x_i, y_i) | i in S$ will suffice to construct the polynonial $P_n(x)$ of degree $n$. 
 
 In our case, $deg(f(x)) = k-1$, so we need $(k-1)+1 = k$ points to restore $f(x)$, just as described in the beginning.
 
