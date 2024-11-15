@@ -1211,48 +1211,6 @@ The operation can then be done over and over again to find subsequent points.
 
 In the case where $G = A$, we can't really draw a line between the two points, so we take the tangent to the curve at $G$ and find the third point of intersection. This is the result of the addition of $G$ and $G$, denoted as $2 dot G$.
 
-To find the tangent at $G(x_G, y_G)$, we need to find the slope $m = (d y)/(d x) = y'(x)$.
-
-Differentiating both sides with respect to $x$, $y^2$, which actually depends on $x$ can be written as  $y(x)^2$ for clarity:
-
-$$
-(y(x)^2)' &= 2y(x) dot y'(x)
-$$
-
-See this as if we were differentiating $u^2$, where $u = y(x)$.
-
-The right side is just a function of $x$, so we can just differentiate it as we would with any other function:
-
-$$
-(x^3 + 7)' = 3x^2 
-$$
-
-Our differentiated equation is:
-
-$$
-2y dot y'(x) = 3x^2 
-$$
-
-Solving for $m = y'(x)$:
-
-$$
-y'(x) = (3x^2)/(2y) = m 
-$$
-
-Notice that the tangent's slope depends on both $x$ and $y$, which makes sense because we'd have two different slopes otherwise:
-
-$$
-(3x^2)/(2y) = plus.minus (3x^2)/(2sqrt(x^3 + 7))
-$$
-
-And we have our tangent equation for $x_G$ and $y_G$:
-
-$$
-t: y &= m(x - x_G) + y_G \
-     &= (3x_G^2)/(2y_G) (x - x_G) + y_G
-$$
-
-
 ```typst
 #set text(size: 10pt)
 
@@ -1338,6 +1296,47 @@ $$
 })
 ```
 
+To find the tangent at $G(x_G, y_G)$, we need to find the slope $m = (d y)/(d x) = y'(x)$.
+
+Differentiating both sides with respect to $x$, $y^2$, which actually depends on $x$ can be written as  $y(x)^2$ for clarity:
+
+$$
+(y(x)^2)' &= 2y(x) dot y'(x)
+$$
+
+See this as if we were differentiating $u^2$, where $u = y(x)$.
+
+The right side is just a function of $x$, so we can differentiate it as we would with any other function:
+
+$$
+(x^3 + 7)' = 3x^2 
+$$
+
+Our differentiated equation is:
+
+$$
+2y dot y'(x) = 3x^2 
+$$
+
+Solving for $m = y'(x)$:
+
+$$
+y'(x) = (3x^2)/(2y) = m 
+$$
+
+Notice that the tangent's slope depends on both $x$ and $y$, which makes sense because we'd have two different slopes otherwise:
+
+$$
+(3x^2)/(2y) = plus.minus (3x^2)/(2sqrt(x^3 + 7))
+$$
+
+And we have our tangent equation for $x_G$ and $y_G$:
+
+$$
+t: y &= m(x - x_G) + y_G \
+     &= (3x_G^2)/(2y_G) (x - x_G) + y_G
+$$
+
 </details>
 
 When a shareholder wants to verify their share $Z_i (i, f(i))$, they can check with the following equation:
@@ -1404,7 +1403,7 @@ This secret can now be used as a symmetric key for encryption, a seed for a PRNG
 
 ## ECDSA Signatures
 
-Elliptic curves can't make you a sandwich, but they can also be used to sign messages! Let's take a look at the Elliptic Curve Digital Signature Algorithm (ECDSA). Our goal is to output a signature $(r, s)$ for a given message $m$, so that the recipient can verify that the sender is authentic. The sender's keys are $(p, P)$, with $p$ the private key, and $P$ the public one.
+Elliptic curves may not write your emails, but they can help prove **you** sent them. Let's take a look at the Elliptic Curve Digital Signature Algorithm (ECDSA). Our goal is to output a signature $(r, s)$ for a given message $m$, so that the recipient can verify that the sender is authentic. The sender's keys are $(p, P)$, with $p$ the private key, and $P$ the public one.
 
 1. Compute the hash $h = H(m)$ where $H(x)$ is any cryptographic hash function (e.g. SHA-256).
 2. Generate a random $k$ number in in the current subgroup.
