@@ -138,8 +138,8 @@ Let's encrypt this message by hand !
    4. $2 eq.triple 0 space (mod 1)$
    - $gcd(48, 5)$ is effectively 1, we can find $48*x + 5*y = 1$ by simplifying the steps backwards:
    1. $1 = 3 - colred(2)*1$
-   2. $colred(2) = 5 - 3*1 <==> 1 = 3 - colred((5-3*1))*1 <==> 1 = 2*colgreen(3) - 5$
-   3. $colgreen(3) = 48 - 9*5 <==> 1 = 2 * colgreen((48-9*5)) - 5 <==> underline(48*2 + 5 * (-19) = 1)$
+   2. $$ colred(2) = 5 - 3*1 \ <==> 1 = 3 - colred((5-3*1))*1 \ <==> 1 = 2*colgreen(3) - 5$$
+   3. $$ colgreen(3) = 48 - 9*5 \ <==> 1 = 2 * colgreen((48-9*5)) - 5 \ <==> underline(48*2 + 5 * (-19) = 1)$$
    - We have $d=x=-19$, but a modular inverse needs to be positive, so we add $48$: $-19+48=29 <==> underline(d = 29 eq.triple 5^(-1) space (mod 48))$
    - Our keys are: $(n=65, space d=29)$ and $(n=65, space e=5)$
 6. We can start encrypting!
