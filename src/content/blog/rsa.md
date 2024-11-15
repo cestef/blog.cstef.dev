@@ -100,7 +100,7 @@ The procedure to generate the private ($n$, $d$) and public ($n$, $e$) keys is t
 4. Choose the encryption exponent $e$ so that it is prime with, and smaller than $phi.alt(n)$
 5. Compute the decryption exponent $d$, the inverse of $e$ modulo $phi.alt(n)$, $d eq.triple e^(-1) (mod phi.alt(n))$
     - A quick and easy solution here is to use Euler's extended algorithm, which we know will work because $e < phi.alt(n)$ and is $e$ is prime to $phi.alt(n)$, which means $gcd(e, phi.alt(n)) = 1$
-    - We then get $e*d + phi.alt(n)*y = 1 <==> d eq.triple e^(-1) (mod phi.alt(n))$
+    - We then get $$e*d + phi.alt(n)*y = 1 \ <==> d eq.triple e^(-1) (mod phi.alt(n))$$
 
 The alorithm's security relies on the following equivalence: $(m^e)^d eq.triple (mod n)$
 
@@ -129,7 +129,7 @@ Let's encrypt this message by hand !
 
 1. We choose $p = bold(5)$ and $q = bold(13)$
 2. $n = p * q = bold(65)$
-3. $phi.alt(n) = phi.alt(65) = (p-1)*(q-1) = 4*12 = bold(48)$
+3. $$phi.alt(n) = phi.alt(65) &= (p-1)*(q-1) \ &= 4*12 = bold(48)$$
 4. Let's take $e = bold(5)$
 5. We apply Euler's Extended algorithm for $phi.alt(n) = 48$ and $e = 5$ to find $d$
    1. $48 eq.triple 3 space (mod 5)$
@@ -140,22 +140,22 @@ Let's encrypt this message by hand !
    1. $1 = 3 - colred(2)*1$
    2. $$ colred(2) = 5 - 3*1 \ <==> 1 = 3 - colred((5-3*1))*1 \ <==> 1 = 2*colgreen(3) - 5$$
    3. $$ colgreen(3) = 48 - 9*5 \ <==> 1 = 2 * colgreen((48-9*5)) - 5 \ <==> underline(48*2 + 5 * (-19) = 1)$$
-   - We have $d=x=-19$, but a modular inverse needs to be positive, so we add $48$: $-19+48=29 <==> underline(d = 29 eq.triple 5^(-1) space (mod 48))$
+   - We have $d=x=-19$, but a modular inverse needs to be positive, so we add $48$: $$ -19+48=29 \ <==> underline(d = 29 eq.triple 5^(-1) space (mod 48))$$
    - Our keys are: $(n=65, space d=29)$ and $(n=65, space e=5)$
 6. We can start encrypting!
-   1. $i = 9 ==> C eq.triple 9^5 space (mod 65) <==> 9^5 eq.triple underline(29) space space (mod 65)$
-   2. $l = 12 ==> C eq.triple 12^5 space (mod 65) <==> 12^5 eq.triple underline(12) space space (mod 65)$
-   3. $u = 21 ==> C eq.triple 15^5 space (mod 65) <==> 15^5 eq.triple underline(21) space space (mod 65)$
-   4. $v = 22 ==> C eq.triple 22^5 space (mod 65) <==> 22^5 eq.triple underline(42) space space (mod 65)$
+   1. $$i = 9 ==> C eq.triple 9^5 space (mod 65)   \ <==> 9^5 eq.triple underline(29) space space (mod 65)   $$
+   2. $$l = 12 ==> C eq.triple 12^5 space (mod 65) \ <==> 12^5 eq.triple underline(12) space space (mod 65)$$
+   3. $$u = 21 ==> C eq.triple 15^5 space (mod 65) \ <==> 15^5 eq.triple underline(21) space space (mod 65)$$
+   4. $$v = 22 ==> C eq.triple 22^5 space (mod 65) \ <==> 22^5 eq.triple underline(42) space space (mod 65)$$
 
 Our encrypted message is $[29, 12, 21, 42, 21]$
 
 Let's now check if everything went well by decrypting it:
 
-- $29 ==> M eq.triple 29^29 space (mod 65) <==> 29^29 eq.triple underline(9) = i space (mod 65)$
-- $12 ==> M eq.triple 12^29 space (mod 65) <==> 12^29 eq.triple underline(12) = l space (mod 65)$
-- $21 ==> M eq.triple 21^29 space (mod 65) <==> 21^29 eq.triple underline(21) = u space (mod 65)$
-- $42 ==> M eq.triple 42^29 space (mod 65) <==> 42^29 eq.triple underline(22) = v space (mod 65)$
+- $$29 ==> M eq.triple 29^29 space (mod 65) \ <==> 29^29 eq.triple underline(9) = i space (mod 65) $$
+- $$12 ==> M eq.triple 12^29 space (mod 65) \ <==> 12^29 eq.triple underline(12) = l space (mod 65)$$
+- $$21 ==> M eq.triple 21^29 space (mod 65) \ <==> 21^29 eq.triple underline(21) = u space (mod 65)$$
+- $$42 ==> M eq.triple 42^29 space (mod 65) \ <==> 42^29 eq.triple underline(22) = v space (mod 65)$$
 
 We did it!
 
