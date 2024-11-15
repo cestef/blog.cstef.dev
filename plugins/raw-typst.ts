@@ -103,7 +103,7 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 						const shift = height - (res as any).baselinePosition;
 						const shiftEm = shift / defaultEm;
 						// @ts-ignore
-						root.properties.style = `vertical-align: -${shiftEm || 0}em; height: ${height / defaultEm}em; width: ${width / defaultEm}em;`;
+						root.properties.style = `vertical-align: -${shiftEm || 0}em; width: ${width / defaultEm}em;`;
 						// @ts-ignore
 						if (!root.properties.className)
 							// @ts-ignore
@@ -118,7 +118,16 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 				result = out;
 			}
 
-			return toHtml(result);
+			const root_div = {
+				type: "element" as const,
+				tagName: "div",
+				properties: {
+					className: ["typst-raw"],
+				},
+				children: result,
+			};
+
+			return toHtml(root_div);
 		},
 	});
 };
