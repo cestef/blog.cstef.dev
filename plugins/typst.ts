@@ -80,6 +80,7 @@ export default function rehypeTypst(
 			let result: any = null;
 			const cached = await getRenderCache("typst", { value, displayMode });
 			if (cached) {
+				console.log("Typst raw cache hit", performance.now() - start);
 				result = cached;
 			} else {
 				try {
