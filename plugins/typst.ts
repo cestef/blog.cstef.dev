@@ -1,22 +1,19 @@
 import { NodeCompiler } from "@myriaddreamin/typst-ts-node-compiler";
 import type { ElementContent, Root } from "hast";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
+import { toHtml } from "hast-util-to-html";
 import { toText } from "hast-util-to-text";
+import sharp from "sharp";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import type { VFile } from "vfile";
 import { getRenderCache, setRenderCache } from "./utils/cache";
 import {
-	customCetz,
 	customStyles,
 	displayMathTemplate,
-	helperFunctions,
 	inlineMathTemplate,
-	packages,
 	rawTemplate,
 	themes,
 } from "./utils/typst-utils";
-import sharp from "sharp";
-import { toHtml } from "hast-util-to-html";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 
 interface Options {

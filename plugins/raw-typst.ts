@@ -1,13 +1,12 @@
 import { rehypeCodeHook, type MapLike } from "@beoe/rehype-code-hook";
-import type { ElementContent, Root } from "hast";
+import type { Root } from "hast";
 import type { Plugin } from "unified";
 import { z } from "zod";
 import { parseAttributes } from "./utils/attributes";
 
-import { renderToPNGString, renderToSVGString } from "./typst";
-import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
-import { getRenderCache, setRenderCache } from "./utils/cache";
 import { toHtml } from "hast-util-to-html";
+import { renderToSVGString } from "./typst";
+import { getRenderCache, setRenderCache } from "./utils/cache";
 
 export type TypstRawConfig = {
 	cache?: MapLike;
