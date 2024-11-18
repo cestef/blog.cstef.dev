@@ -55,7 +55,7 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 				displayMode: "raw",
 			});
 			if (cached) {
-				console.log("Typst raw cache hit", performance.now() - start);
+				// console.log("Typst raw cache hit", performance.now() - start);
 				result = cached;
 			} else {
 				try {
