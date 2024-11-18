@@ -20,7 +20,7 @@
 	@apply inline;
 }
 .typst-doc:not(.typst-inline) {
-	@apply overflow-x-auto max-w-full;
+	@apply overflow-x-auto max-w-full !my-2;
 }
 
 .typst-shape[stroke="#0074d9"] {
@@ -55,17 +55,17 @@
 }
 
 .typst-text[fill="#0074d9"] {
-    @apply fill-[--shiki-ansi-blue];
+	@apply fill-[--shiki-ansi-blue];
 }
 .typst-text[fill="#ffdc00"] {
-    @apply fill-[--shiki-ansi-yellow];
+	@apply fill-[--shiki-ansi-yellow];
 }
 .typst-text[fill="#2ecc40"] {
-    @apply fill-[--shiki-ansi-green];
+	@apply fill-[--shiki-ansi-green];
 }
 .typst-text[fill="#ff4136"] {
-    @apply fill-[--shiki-ansi-red];
+	@apply fill-[--shiki-ansi-red];
 }
 .typst-text[fill="#f012be"] {
-    @apply fill-[--shiki-ansi-magenta];
+	@apply fill-[--shiki-ansi-magenta];
 }

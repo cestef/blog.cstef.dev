@@ -1,5 +1,5 @@
 ---
-title: Elliptic Curve Cryptography for Sane People
+title: Elliptic Curve and Shenanigans for Sane People
 tags: [cryptography, maths]
 description: A gentle introduction to elliptic curve cryptography and a few concepts around it, without the need for a PhD in mathematics.
 date: 2024-10-30
@@ -73,13 +73,13 @@ The graph associated with this equation looks like this:
 Now let's instead consider:
 
 $$
-g(x) = x^2 + 3x - 2 space (mod space 79)
+g(x) = x^2 + x - 3 space (mod space 79)
 $$
 
 For $x in NN$:
 
 ```typst
-#let g1(x) = calc.rem-euclid(calc.pow(x, 2) + x - 3, 79	);
+#let g1(x) = calc.rem-euclid(calc.pow(x, 2) + x - 3, 79);
 
 #set text(size: 10pt)
 
@@ -1450,29 +1450,74 @@ $$
 
 Another angle to tackle this problem from is to re-use Secret Sharing _inside_ our Secret Sharing scheme (Inception, anyone?).
 
-Let's say we have our recovery group $R$ and our new shareholders $N$, for convenience $A = R union N$.
+Let's say we have our recovery group $R$, our new shareholders $N$ and $A = R union N$ for convenience. 
 
 1. Each shareholder $i in R$ generates a random polynomial $g_i (x)$ of degree $k-1$.
 2. They each compute the auxiliary shares $d_(i,j) = g_i (j)$ for $j in A$.
 3. Every shareholder $j in A$ receives the auxiliary shares $d_(i,j)$ from the recovery group.
-4. Each shareholder $j in R$ computes the aggregated share $u_j = z_j + sum_(i in R) d_(i,j)$ and shares it to everyone in $N$.
-5. Each future bearer $j in N$ can interpolate the polynomial $H(x)$ from the shares $u_j$ and compute their share $z_j = H(j) - sum_(i in R) d_(i,j)$.
+4. Each shareholder $j in R$ computes the aggregated share $H(j) = u_j = z_j + sum_(i in R) d_(i,j)$ and shares it to everyone in $N$.
+5. Each future bearer $j in N$ can interpolate the polynomial $H(x)$ from the shares $u_j$ and compute their share 
+   $$
+   z_j = H(j) - sum_(i in R) d_(i,j) = u_j - sum_(i in R) d_(i,j)
+   $$
 
-You may be wondering why we're subtracting the auxiliary shares from the interpolated polynomial. Let's take a look at the math:
+Let's take a look at the math:
 
 $$
-z_ell &= (H(ell) - sum_(i in S) d_(i, ell)) | ell in N \
-      &= underbrace(sum_(i in S) (z_i + sum_(k in S) g_k (i)) dot product_(j in S, j!=i) (ell-j)/(i-j), H(ell)) - sum_(i in S) g_i (ell)\
-      &= underbrace(sum_(i in S) (z_i dot product_(j in S, j!=i) (ell-j)/(i-j)), f(ell)) + sum_(i in S)(sum_(k in S) g_k (i)dot product_(j in S, j!=i) (ell-j)/(i-j))  - sum_(i in S) g_i (ell)\
-      &= f(ell) + sum_(k in S)underbrace(sum_(i in S) g_k (i)dot product_(j in S, j!=i) (ell-j)/(i-j), g_k (ell))  - sum_(i in S) g_i (ell)\
-      &= f(ell) + underbrace(sum_(k in S) g_k (ell)  - sum_(i in S) g_i (ell), = space 0) \
+z_ell &= (H(ell) - sum_(i in R) d_(i, ell)) | ell in N \
+      &= underbrace(sum_(i in R) (z_i + sum_(k in R) g_k (i)) dot product_(j in R, j!=i) (ell-j)/(i-j), H(ell)) - sum_(i in R) g_i (ell)\
+      &= underbrace(sum_(i in R) (z_i dot product_(j in R, j!=i) (ell-j)/(i-j)), f(ell)) + sum_(i in R)(sum_(k in R) g_k (i)dot product_(j in R, j!=i) (ell-j)/(i-j))  - sum_(i in R) g_i (ell)\
+      &= f(ell) + sum_(k in R)underbrace(sum_(i in R) g_k (i)dot product_(j in R, j!=i) (ell-j)/(i-j), g_k (ell))  - sum_(i in R) g_i (ell)\
+      &= f(ell) + underbrace(sum_(k in R) g_k (ell)  - sum_(i in R) g_i (ell), = space 0) \
       &= f(ell)
 $$
+
+But wait! We just learnt how to implement a secure, verifiable secret sharing scheme and we aren't even using it!
+
+### Verifiable Inception
+
+Let's review the protocol, this time including relevant checks to ensure the data we're receiving is genuine. We assume the original dealer was a good guy and already used Feldman's VSS, providing the commitments $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G$ for the OG polynomial $f(x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ to everyone.
+
+1. Each shareholder $i in R$ generates a random polynomial $g_i (x) = b_(i,0) + b_(i,1) x + ... + b_(i,k-1) x^(k-1)$ of degree $k-1$.
+2. They also compute and share for $j in R$ to see their commitments: 
+   $$
+   Gamma_i = {psi_(i,0), psi_(i, 1), ..., psi_(i, k-1)} | psi_(i,j) = b_(i,j) dot G
+   $$
+3. They each compute the auxiliary shares $d_(i,j) = g_i (j)$ for $j in A$, and shares them **once they have received all other $Gamma_i | i in R$**
+4. Every shareholder $j in A$ receives the auxiliary shares $d_(i,j)$ from $i in R$ and checks whether they match $Gamma_i$
+   $$
+   d_(i,j) dot G &= sum_(m=0)^(k-1) psi_(i,m) dot j^m 
+                  = sum_(m=0)^(k-1) b_(i,m) dot G dot j^m \
+                 &= sum_(m=0)^(k-1) (b_(i,m) dot j^m), g_i(j) dot G \
+                 &= g_i(j) dot G 
+   $$
+5. Before computing anything else, each shareholder $j in R$ commits to the upcoming $H(x)$ polynomial and sends it to $i in A$:
+   $$
+   T = {theta_i}_(i in R) | theta_i = sum_(k in R) psi_(i, k)
+   $$
+6. Each shareholder $j in R$ computes the aggregated share $H(j) = u_j = z_j + sum_(i in R) d_(i,j)$.
+7. Each inductee $i in N$ first waits to receive all $T$, checks that they are the same from everyone, and then receives $u_j | j in R$. 
+8. Each future shareholder $i in N$ checks whether each given $u_j | j in R$ is genuine:
+   $$
+   u_j dot G &= sum_(i=0)^(k-1) phi.alt_i + sum_(i in R) theta_i \
+             &= sum_(i=0)^(k-1) a_i j^i dot G + sum_(i in R) sum_(m in R) psi_(i, m) \
+             &= sum_(i=0)^(k-1) a_i j^i dot G + sum_(i in R) sum_(m in R) b_(i,m) j^m dot G \
+             &= (sum_(i=0)^(k-1) a_i j^i + sum_(i in R) sum_(m in R) b_(i,m) j^m) dot G \
+             &= (f(j) + sum_(i in R) g_i(j)) dot G 
+              = (z_j + sum_(i in R) d_(i,j)) dot G \
+             &= H(j) dot G = u_j dot G
+   $$
+9.  Each future bearer $j in N$ can interpolate the polynomial $H(x)$ from the shares $u_j$ and compute their share 
+    $$
+    z_j = H(j) - sum_(i in R) d_(i,j) = u_j - sum_(i in R) d_(i,j)
+    $$
+
+### Single share issuing
 
 In the case where we only want to issue a single share, [conduition](https://conduition.io/cryptography/shamir/#Issuing-a-New-Share) proposed a clever way to remove the subtracting step at the end by adding a root at $ell | {ell} = N$ to the blinding polynomial. This way, we have:
 
 $$
-g_i (x) = (x - ell) dot P_(k-2)(x) <- FF_q [x] | i in S\
+g_i (x) = (x - ell) dot (P_(k-2)(x) <- FF_q [x]) | i in S\
 $$
 
 When interpolating $H(ell)$, the blinding polynomials $g_i (ell) | i in S$ cancel out and we directly get $z_ell$:
@@ -1486,7 +1531,10 @@ z_ell &= H(ell) \
       &= z_ell
 $$
 
-Note that we could try to add multiple roots: $(x- ell_1)(x-ell_2) dot g_i (x)$, but then all the new shareholders would have access to the new shares.  
+<small>Note that we could try to add multiple roots: $(x- ell_1)(x-ell_2) dot g_i (x)$, but then all the new shareholders would have access to the new shares.</small>
+
+You could also apply the same verifying scheme as before to this method.
+
 
 ## Shared Secrets with Elliptic Curves
 
@@ -1564,7 +1612,7 @@ $$
 
 Which is just our definition of $K$ when generating the signature.
 
-### Kool Kids Public Key Recovery
+### Cool Kids Public Key Recovery
 
 Let's suppose you are talking through a [Tin can telephone](https://en.wikipedia.org/wiki/Tin_can_telephone) with your friend and every byte you send matters. You don't want to send the public key $P$ along with the signature $(r, s)$ because that's just too much data. Instead, you can recover the public key from the signature and the message.
 
