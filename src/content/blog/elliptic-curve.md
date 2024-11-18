@@ -159,16 +159,34 @@ cases(
 )
 $$
 
-We can see that we have $n+1$ equations for $n+1$ factors of $x$, which could also be represented with the following matrix equation:
+We can see that we have $n+1$ equations for $n+1$ factors of $x$, noted $u_i | 0 <= i <= n$, which could also be represented with the following Vandermonde matrix equation:
 
 $$
 mat(
-    1, x_0, x_0^2, ..., x_0^(n);
-    1, x_1, x_1^2, ..., x_1^(n);
+    1, x_0, x_0^2, dots.c, x_0^(n);
+    1, x_1, x_1^2, dots.c, x_1^(n);
     dots.v, dots.v, dots.v, dots.down, dots.v;
-    1, x_n, x_n^2, ..., x_n^(n);
+    1, x_n, x_n^2, dots.c, x_n^(n);
 )
-mat(u_0; u_1; ...; u_(n)) = mat(y_0; y_1; ...; y_n)
+mat(u_0; u_1; dots.v; u_(n)) = mat(y_0; y_1; dots.v; y_n)
+$$
+
+Written as $V u = y$, we can solve this by inverting $V$: 
+
+$$
+u = V^(-1) y
+$$
+
+Which could be done by applying the [Jordan-Gauss algorithm](https://en.wikipedia.org/wiki/Gaussian_elimination) to the augmented matrix $V | I$, where $I$ is the identity matrix (diagonal filled with $1$s), until we only have pivots equal to $1$:
+
+$$
+mat(
+    1, x_0, x_0^2, dots.c, x_0^(n) space, space 1, 0,dots.c, 0;
+    1, x_1, x_1^2, dots.c, x_1^(n) space, space 0, 1, dots.c, 0;
+    dots.v, dots.v, dots.v, dots.down, dots.v space, space dots.v, dots.v ,dots.down, dots.v;
+    1, x_n, x_n^2, dots.c, x_n^(n) space, space 0, 0, dots.c, 1;
+    augment: #5
+)
 $$
 
 If you prefer to see this in a graphical way, let's consider the following example:
@@ -803,6 +821,13 @@ And we have our polynomial $P_3 (x)$:
 
 Which effectively goes through $A_0$, $A_1$, $A_2$ and $A_3$.
 
+The general formula for $P_n (x)$ is:
+
+$$
+P_n (x) &= sum_(i=0)^n y_i l_i (x) \
+        &= sum_(i=0)^n y_i product_(j=0, j!=i)^n (x - x_j) /  (x_i - x_j) 
+$$
+
 ## How Shamir's Secret Sharing Works
 
 With the basics of polynomials and Lagrange interpolation in mind, let's dive in!
@@ -1339,7 +1364,7 @@ $$
 
 </details>
 
-When a shareholder wants to verify their share $Z_i (i, f(i))$, they can check with the following equation:
+When a shareholder wants to verify their share $Z_i = (i, f(i))$, they can check with the following equation:
 
 $$
 f(i) dot G &= sum_(j=0)^(k-1) (phi.alt_j dot i^j) \
@@ -1356,7 +1381,7 @@ One may argue that disclosing $a_0 dot G = s dot G$ could give information about
 
 Another way the dealer could commit to the polynomial he generated without directly sharing $s dot G$, is to add a so-called "blinding polynomial", a pretty common concept in cryptography.
 
-Let's now instead take $phi.alt_i = a_i dot G + b_i dot H$ where $b_i$ comes from a randomly generated polynomial $g(x) = b_0 + b_1 x + ... + b_(k-1) x^(k-1)$, our blinding polynomial. The dealer will now needs to distribute slightly different shares $Z_i (i, f(i), g(i))$.
+Let's now instead take $phi.alt_i = a_i dot G + b_i dot H$ where $b_i$ comes from a randomly generated polynomial $g(x) = b_0 + b_1 x + ... + b_(k-1) x^(k-1)$, our blinding polynomial. $H != G$ is just another generator point on the curve. The dealer will now needs to distribute slightly different shares $Z_i = (i, f(i), g(i))$.
 
 Shareholders may now verify their shares with:
 
@@ -1366,6 +1391,66 @@ f(i) dot G + g(i) dot H &= sum_(j=0)^(k-1) (phi.alt_j dot i^j) \
                         &= sum_(j=0)^(k-1) (a_j i^j) dot G + sum_(j=0)^(k-1) (b_j i^j) dot H \
                         &= underline(f(i) dot G + g(i) dot H )
 $$
+
+This second method is known as **"Pedersen's Verifiable Secret Sharing"**.
+
+### Bob just got hit by a bus, what now?
+
+Our good old friend disappeared along with his share, and now other bearers are scared of losing too many shares until they can't recover the secret. They could reiterate the dealing procedure by all sending their shares to a single person which then redistributes the new ones. However this is not feasible in the case where everyone distrusts each other. We need a multi-computational way of re-issuing a new share without someone ever recovering the secret.
+
+We will need $k$ shareholders, denoted $R$ to re-issue a new share $Z_ell = (ell, f(ell)) = (ell, z_ell)$.
+
+Each shareholder begins by computing their Lagrange multiplier:
+
+$$
+l_i (ell) = product_(j in R,j!=i)(ell-j)/(i-j)
+$$
+
+After multiplying with their share's $z_i = f(i)$, they randomly split it into $k$ so-called Lagrange-parts $partial_(i,j)$ in order to distribute them to other bearers $j$:
+
+$$
+z_i dot l_i &= partial_(i,1) + partial_(i,2) + ... + partial_(i,k)
+$$
+
+The exchange matrix $E$ can be represented as:
+
+$$
+E_(k times k) = mat(
+    partial_(1,1), partial_(1,2),    dots.c, partial_(1,k);
+    partial_(2,1), partial_(2,2),    dots.c, partial_(2,k);
+           dots.v,        dots.v, dots.down,        dots.v;
+    partial_(k,1), partial_(k,2),    dots.c, partial_(k,k);
+)
+$$
+
+Where the $i$<sup>th</sup> row corresponds to the Lagrange-parts that the shareholder $i$ will **send** and the $j$<sup>th</sup> column to the Lagrange-parts the shareholder $j$ will **receive**.
+
+Each shareholder $j$ computes the partial-share:
+
+$$
+sigma_j = sum_(i in R) partial_(i,j)
+$$
+
+Where $partial_(i,j)$ is the $j$<sup>th</sup> Lagrange-part of $i$. They respectively send $sigma_j$ to the new bearer $ell$, which finally computes his share:
+
+$$
+z_ell &= sum_(i in R) sigma_j \
+$$
+
+This can be rewritten as:
+
+$$
+sum_(j in R) sigma_j &= sum_(j in R) sum_(i in R) partial_(j,i) \ 
+                     &= sum_(i in R) (sum_(j in R) partial_(j,i)) \ 
+                     &= sum_(i in R) (partial_(1,i) + partial_(2,i) + ... + partial_(3,i)) \
+                     &= sum_(i in R) z_i dot l_i = underline(f(ell)) \
+$$
+
+While this method is great and simple, it does not really allow for verifiability anywhere in the protocol. 
+
+Another angle to tackle this problem from is to re-use Secret Sharing _inside_ our Secret Sharing scheme (Inception, anyone?).
+
+TODO
 
 ## Shared Secrets with Elliptic Curves
 
@@ -2250,12 +2335,20 @@ fn verify(message: impl AsRef<str>, public_key: Point, signature: Signature) -> 
 
 - **Feldman’s Verifiable Secret Sharing for a Dishonest Majority**  
     Yi-Hsiu Chen and Yehuda Lindell  
-    [eprint.iacr.org](https://eprint.iacr.org/2024/031.pdf)
+    [eprint.iacr.org](https://eprint.iacr.org/2024/031.pdf) <small>[PDF]</small>
 
 - **Adaptively Secure Feldman VSS and Applications to Universally-Composable Threshold Cryptography**  
     Masayuki Abe and Serge Fehr  
-    [eprint.iacr.org](https://eprint.iacr.org/2004/119.pdf)
+    [eprint.iacr.org](https://eprint.iacr.org/2004/119.pdf) <small>[PDF]</small>
 
 - **Asymmetric Key Ciphers**  
     Svetlin Nakov  
     [cryptobook.nakov.com](https://cryptobook.nakov.com/asymmetric-key-ciphers)
+
+- **Novel Secret Sharing and Commitment Schemes for Cryptographic Applications**  
+    Mehrdad Nojoumian  
+    [dspacemainprd01.lib.uwaterloo.ca](https://dspacemainprd01.lib.uwaterloo.ca/server/api/core/bitstreams/e180c165-7b6c-4cfc-bc5c-62dc5af674d2/content) <small>[PDF]</small>
+
+- **A Share-Correctable Protocol for the Shamir Threshold Scheme and Its Application to Participant Enrollment**  
+    Raylin Tso, Ying Miao, Takeshi Okamoto and Eiji Okamoto  
+    [citeseerx.ist.psu.edu](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=634526d46b7c52c62582d7c6c32b79502bd631d3) <small>[PDF]</small>
