@@ -24,7 +24,7 @@ $$
 The graph associated with this equation looks like this:
 
 ```typst
-#let f1(x) = 0.5*calc.pow(x, 2) + x - 3 ;
+#let f1(x) = calc.pow(x, 2) + x - 3 ;
 
 #set text(size: 10pt)
 
