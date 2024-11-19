@@ -1053,7 +1053,7 @@ Instead, let's take advantage of the properties of elliptic curves to create a c
 
 <summary>Point operations in an elliptic curve</summary>
 
-The trapdoor function (very easy to do one way, hard the other) of an elliptic curve is the multiplication of a point $P$ by a scalar $n$. This consists of adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$.
+The trapdoor function (easy to do one way, hard the other) of an elliptic curve is the multiplication of a point $P$ by a scalar $n$. This consists of adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$.
 
 Let's start out by graphically representing the addition of two points $G$ and $A$ in an elliptic curve.
 
