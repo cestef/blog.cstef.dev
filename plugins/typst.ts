@@ -81,10 +81,14 @@ export default function rehypeTypst(
 				result = cached;
 			} else {
 				try {
-					result = await renderToSVGString(
-						value,
-						displayMode ? "display" : "inline",
-					);
+					if (displayMode) {
+						result = {
+							dark: await renderToSVGString(value, "display", "dark"),
+							light: await renderToSVGString(value, "display", "light"),
+						};
+					} else {
+						result = await renderToSVGString(value, "inline");
+					}
 					await setRenderCache("typst", { value, displayMode }, result);
 				} catch (error) {
 					const cause = error as Error;
@@ -241,7 +245,7 @@ export async function renderToSVGString(
 	const res = await render($typst, code, mode, "svg", theme);
 	// console.log("res", res);
 	$typst.evictCache(10);
-	if (mode === "raw") {
+	if (mode === "raw" || mode === "display") {
 		const height = Number.parseFloat(
 			// @ts-ignore
 			res.svg.children[0].properties.dataHeight as string,
@@ -327,7 +331,7 @@ async function render(
 		baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
 	}
 	if (output === "svg") {
-		if (mode === "raw") {
+		if (mode === "raw" || mode === "display") {
 			const root = fromHtmlIsomorphic(svg, {
 				fragment: true,
 			});
