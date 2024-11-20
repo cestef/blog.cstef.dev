@@ -143,6 +143,19 @@ We can now see $x$ oscillating between $[0;79[$ as the modulo acts as a "wrap-ar
 
 Even though I did not see any direct-application of this, I was intrigued by this new stuff, and began digging deeper into the subject, clicking Wikipedia links after Wikipedia links. This is how I stumbled upon Shamir's Secret Sharing. But before we dive into this, let's first understand underlying concepts.
 
+
+### Notations
+
+Just so we're all on the same page:
+
+|               |                                                              |
+| ------------- | ------------------------------------------------------------ |
+| $ x \| x < 1$ | $x$ _such that_ $x < 1$                                      |
+| $a \|\| b$    | Deterministic concatenation of $a$ and $b$                   |
+| $FF_q$        | Finite / Galois field of order $q$                           |
+| $a dot G$     | Multiply $a$ by the generator point $G$ of an elliptic curve |
+| $x <- ZZ_n$   | Sample $x$ from $ZZ_n$                                       |
+
 ### Polynomials
 
 One of the most, if not *the* most important property of polynomials, is that each one of them can uniquely be described by $n+1$ points for a polynomial of degree $n$, noted $P_n (x)$.
@@ -440,7 +453,7 @@ But now the question is: how do we actually find the polynomial that goes throug
 
 ### Lagrange Interpolation
 
-Let's take the following points $A_0 (0, 1)$, $A_1 (1, 3)$, $A_2 (2, 2)$ and $A_3 (3, 4)$ to demonstrate this method.
+Let's take $A_0 (0, 1)$, $A_1 (1, 3)$, $A_2 (2, 2)$ and $A_3 (3, 4)$ to demonstrate this method.
 
 ```typst
 #set text(size: 10pt)
@@ -504,7 +517,7 @@ Let's take the following points $A_0 (0, 1)$, $A_1 (1, 3)$, $A_2 (2, 2)$ and $A_
 })
 ```
 
-The main principle behind this is to split the function into multiple sub-functions $l_i (x)$, that each contribute to one given point, also called "node".
+The main principle behind this is to split the wanted function into multiple sub-functions $l_i (x)$, that each contribute to one given point, also called "node".
 
 We want to construct $l_i (x)$ so that:
 
@@ -584,6 +597,17 @@ $$
     content("a_3", [= $A_3$], anchor: "north-west", padding: 0.1)
 })
 ```
+
+<details>
+<summary> Why does multiplying by <code class="language-math math-inline">(x-x_j)</code> add a root ?</summary>
+
+For a function $f(x) = (x - x_j) dot g(x) | g(x) <- RR[x]$, when $x = x_j$:
+
+$$
+f(x_j) = (x_j - x_j) dot g(x) = 0 dot g(x) = 0
+$$
+
+</details>
 
 That's a good start! But we have a problem: $l_1^* (x)$ is not equal to $1$ at $x = 1$. We can fix this by dividing $l_1^* (x)$ by $l_1^* (1)$:
 
@@ -1517,7 +1541,7 @@ Let's review the protocol, this time including relevant checks to ensure the dat
 In the case where we only want to issue a single share, [conduition](https://conduition.io/cryptography/shamir/#Issuing-a-New-Share) proposed a clever way to remove the subtracting step at the end by adding a root at $ell | {ell} = N$ to the blinding polynomial. This way, we have:
 
 $$
-g_i (x) = (x - ell) dot (P_(k-2)(x) <- FF_q [x]) | i in S\
+g_i (x) = (x - ell) dot P_(k-2) (x) | i in S, space P_(k - 2) (x) <- FF_q [x]
 $$
 
 When interpolating $H(ell)$, the blinding polynomials $g_i (ell) | i in S$ cancel out and we directly get $z_ell$:
@@ -1640,7 +1664,7 @@ Schnorr signatures are a bit like ECDSA, but faster and simpler. We are going to
 <details>
 <summary> What the hell is <code class="language-math math-inline">ZZ_n</code>?</summary>
 
-The set $ZZ_n$ is the cyclic group of integers, isomorphic to the quotient group $ZZ slash n ZZ$. It is basically just the set of integers modulo $n$.
+The set $ZZ_n$ is a cyclic group of integers, isomorphic to the quotient group $ZZ slash n ZZ$. It is basically just the set of integers modulo $n$.
 
 $$
 ZZ_n = {0, 1, 2, ..., n-1}
@@ -2435,3 +2459,8 @@ fn verify(message: impl AsRef<str>, public_key: Point, signature: Signature) -> 
 - **A Share-Correctable Protocol for the Shamir Threshold Scheme and Its Application to Participant Enrollment**  
     Raylin Tso, Ying Miao, Takeshi Okamoto and Eiji Okamoto  
     [citeseerx.ist.psu.edu](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=634526d46b7c52c62582d7c6c32b79502bd631d3) <small>[PDF]</small>
+
+
+## Acknowledgements
+
+I wanted to thank [conduition.io](https://conduition.io) for his amazing articles on cryptography. They are a great source of inspiration and knowledge, and I highly recommend you to check them out if you want to learn more about cryptography.
