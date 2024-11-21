@@ -1535,7 +1535,6 @@ $$
 
 You could also apply the same verifying scheme as before to this method.
 
-
 ## Shared Secrets with Elliptic Curves
 
 Sharing pre-defined secrets is cool, but what if we wanted to collectively generate one for $n$ people? Let's say we have our good old Alice, Bob and Charlie trying to communicate with each other securely. Alice doesn't trust Charlie to generate the secret locally and share it to everyone because he's the type of guy to write his passwords on sticky notes. Bob doesn't trust Alice either because her idea of a strong password is "password123" — used across five accounts.
@@ -1568,7 +1567,7 @@ This process can also be extended to $n$ participants, let's take $n = 3$ with A
 
 And voilà! All participants now have the same shared secret $S$. I'll let figuring out the general case for $n$ participants as an exercise to the reader (not because I'm lazy, I swear).
 
-This secret can now be used as a symmetric key for encryption, a seed for a PRNG, etc.
+This secret can now be used as a symmetric key for encryption, a seed for a PRNG, TOTP key, etc.
 
 ## ECDSA Signatures
 
