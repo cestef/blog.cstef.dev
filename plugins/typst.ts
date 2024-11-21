@@ -145,6 +145,8 @@ export default function rehypeTypst(
 						if (displayMode) {
 							// @ts-ignore
 							root.properties.style += "; display: block; margin: 0 auto;";
+							// @ts-ignore
+							(root.properties.className as string[]).push("typst-doc");
 						} else {
 							// @ts-ignore
 							(root.properties.className as string[]).push("typst-inline");
