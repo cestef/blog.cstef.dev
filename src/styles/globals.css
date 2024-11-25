@@ -32,18 +32,18 @@ article {
 }
 
 .prose {
-    @apply xl:max-w-[70ch];
+	@apply xl:max-w-[70ch];
 }
 
 figure:has(pre) {
-    @apply lg:-mx-4;
+	@apply lg:-mx-4;
 }
 
 details figure:has(pre) {
-    @apply lg:mx-0;
+	@apply lg:mx-0;
 }
 figure[data-copy="true"] #copy-button {
-    @apply block;
+	@apply block;
 }
 
 article,
@@ -54,7 +54,7 @@ article img {
 	margin-bottom: 0px !important;
 }
 
-article img {
+article img:not(.typst-doc) {
 	@apply rounded-lg;
 }
 
@@ -106,20 +106,21 @@ h6#user-content-no-anchor a.anchor {
 }
 
 .typst-light:not(.typst-inline) {
-    @apply dark:!hidden !block;
+	@apply dark:!hidden !block;
 }
 .typst-dark:not(.typst-inline) {
-    @apply !hidden dark:!block;
+	@apply !hidden dark:!block;
 }
 .typst-light.typst-inline {
-    @apply dark:!hidden !inline;
+	@apply dark:!hidden !inline;
 }
 .typst-dark.typst-inline {
-    @apply !hidden dark:!inline;
+	@apply !hidden dark:!inline;
 }
 
-.typst-dark, .typst-light {
-    @apply pointer-events-none;
+.typst-dark,
+.typst-light {
+	@apply pointer-events-none;
 }
 
 body {
@@ -133,11 +134,11 @@ figure:hover #wrap-button {
 
 #wrap-button,
 #copy-button {
-    @apply opacity-0;
+	@apply opacity-0;
 }
 
 #wrap-button {
-    @apply md:hidden;
+	@apply md:hidden;
 }
 
 details {

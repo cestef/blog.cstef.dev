@@ -13,10 +13,6 @@ export type TypstRawConfig = {
 	class?: string;
 };
 
-const current = {
-	instanciated: false,
-};
-
 const TypstRawAttributesSchema = z.object({
 	doNotRender: z
 		.enum(["true", "false"])
