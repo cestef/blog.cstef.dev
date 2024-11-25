@@ -190,7 +190,7 @@ $$
 u = V^(-1) y
 $$
 
-Which could be done by applying the [Jordan-Gauss algorithm](https://en.wikipedia.org/wiki/Gaussian_elimination) to the augmented matrix $V | I$, where $I$ is the identity matrix (diagonal filled with $1$s), until we only have pivots equal to $1$:
+This is doable by applying the [Jordan-Gauss algorithm](https://en.wikipedia.org/wiki/Gaussian_elimination) to the augmented matrix $V | I$, where $I$ is the identity matrix (diagonal filled with $1$s), until we only have pivots equal to $1$:
 
 $$
 mat(
@@ -867,7 +867,7 @@ The main idea behind this is to split a secret $s$ into $n$ parts, such that any
 
 Let's take the following example: we want to split the secret $s = 42$ into $n = 5$ parts, such that any $k = 3$ parts can be used to reconstruct the secret.
 
-The first step is to sample a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k-1$ such that $a_0 = s$. This gives us the property that $f(0) = s$.
+The first step is to sample a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k-1$ such that $a_0 = s$. This gives us the property $f(0) = s$.
 
 $$
 f(x) = P_2 (x) = 42 + 5 x + 3 x^2
@@ -883,7 +883,7 @@ z_4 &= f(4) = 42 + 20 + 48  &=& 110 \
 z_5 &= f(5) = 42 + 25 + 75  &=& 142 \
 $$
 
-So our shares are $Z_1(1, 50)$, $Z_2(2, 64)$, $Z_3(3, 84)$, $Z_4(4, 110)$ and $Z_5(5, 142)$.
+Thus, our shares are $Z_1(1, 50)$, $Z_2(2, 64)$, $Z_3(3, 84)$, $Z_4(4, 110)$ and $Z_5(5, 142)$.
 
 Let's now plot the polynomial $f(x)$:
 
@@ -1069,7 +1069,7 @@ Based on the shares we generated earlier, let's take $Z_1(1, 50)$, $Z_3(3, 84)$ 
 
 In a perfect world where everyone is honest and where there are no transmission errors caused by cosmic rays, we could just send the shares to the participants and call it a day. But guess what? [Sh*t happens](https://en.wikipedia.org/wiki/Murphy%27s_law).
 
-We need a way to check that the share we receive as a shareholder after the secret has been split is actually a valid share. One could simply try to verify it by reconstructing the polynomial and checking if the secret is the same, but this clearly against the whole point of Shamir's Secret Sharing.
+We need a way to check that the share we receive as a shareholder after the secret has been split is actually a valid one. You could gather with other bearers and collectively verify if the recovered secret is correct, but that is just too much hassle for such a simple task.
 
 Instead, let's take advantage of the properties of elliptic curves to create a commitment scheme. After we have generated our polynomial $f(x)$, we can take each coefficient $a_i$ and multiply it by the generator point $G$ of the curve. This gives us a few values $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G$ that we can send to the shareholders.
 
@@ -1077,7 +1077,7 @@ Instead, let's take advantage of the properties of elliptic curves to create a c
 
 <summary>Point operations in an elliptic curve</summary>
 
-The trapdoor function (easy to do one way, hard the other) of an elliptic curve is the multiplication of a point $P$ by a scalar $n$. This consists of adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$.
+The trapdoor function (easy to do one way, hard the other) for an elliptic curve is the multiplication of a point $P$ by a scalar $n$. This consists of adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$.
 
 Let's start out by graphically representing the addition of two points $G$ and $A$ in an elliptic curve.
 
@@ -1430,7 +1430,7 @@ $$
 l_i (ell) = product_(j in R,j!=i)(ell-j)/(i-j)
 $$
 
-After multiplying with their share's $z_i = f(i)$, they randomly split it into $k$ so-called Lagrange-parts $partial_(i,j)$ in order to distribute them to other bearers $j$:
+After multiplying with their share $z_i = f(i)$, they randomly split it into $k$ so-called Lagrange-parts $partial_(i,j)$ in order to distribute them to other bearers $j$:
 
 $$
 z_i dot l_i &= partial_(i,1) + partial_(i,2) + ... + partial_(i,k)

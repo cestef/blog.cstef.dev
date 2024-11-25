@@ -24,7 +24,7 @@ export const getRenderCache = async (
 	if (!cache) {
 		return null;
 	}
-	const hash = xxh64(pack(value)).toString(16);
+	const hash = xxh64(new Uint8Array(pack(value))).toString(16);
 	const res = await cache.get(`${type}:${hash}`);
 	if (res) {
 		return unpack(res);
@@ -41,6 +41,6 @@ export const setRenderCache = (
 	if (!cache) {
 		return null;
 	}
-	const hash = xxh64(pack(value)).toString(16);
+	const hash = xxh64(new Uint8Array(pack(value))).toString(16);
 	return cache.set(`${type}:${hash}`, pack(result));
 };
