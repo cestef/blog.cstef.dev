@@ -1,7 +1,7 @@
 import type { BlogEntry } from "./content/config.ts";
 
 export const HIDE_SEEDLINGS_PROD = true;
-
+export const NO_TRANSITIONS = true;
 export const THEME = "nord";
 
 export const HERO: IHero = {
