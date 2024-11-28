@@ -11,7 +11,7 @@ export type CopyProps = {
  */
 export default function rehypeCopy({ defaultCopy }: CopyProps = {}) {
 	return (tree: any) => {
-		visit(tree, (node: any, index, parent) => {
+		visit(tree, (node: any, _index, parent) => {
 			if (node.type === "element" && node.tagName === "code") {
 				const meta = node.data?.meta ?? node.properties?.metastring;
 				const attributes = parseAttributes(meta);

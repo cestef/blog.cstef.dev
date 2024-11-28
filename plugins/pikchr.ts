@@ -62,8 +62,6 @@ export const rehypePikchr: Plugin<[PikchrConfig?], Root> = (options = {}) => {
 			if (attributes.doNotRender) {
 				return undefined;
 			}
-			// Get current microseconds
-			const start = performance.now();
 			const light = pikchr.render(code);
 			const dark = pikchr.render(code, undefined, PikchrFlags.PIKCHR_DARK_MODE);
 			return `<figure class="pikchr not-prose ${options.class ?? ""}"><div class="pikchr-light">${light}</div><div class="pikchr-dark">${dark}</div></figure>`;
