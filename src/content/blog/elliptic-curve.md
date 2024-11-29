@@ -148,13 +148,12 @@ Even though I did not see any direct-application of this, I was intrigued by thi
 
 Just so we're all on the same page:
 
-|               |                                                              |
-| ------------- | ------------------------------------------------------------ |
-| $ x \| x < 1$ | $x$ _such that_ $x < 1$                                      |
-| $a \|\| b$    | Deterministic concatenation of $a$ and $b$                   |
-| $FF_q$        | Finite / Galois field of order $q$                           |
-| $a dot G$     | Multiply $a$ by the generator point $G$ of an elliptic curve |
-| $x <- ZZ_n$   | Sample $x$ from $ZZ_n$                                       |
+|             |                                                              |
+| ----------- | ------------------------------------------------------------ |
+| $a \|\| b$  | Deterministic concatenation of $a$ and $b$                   |
+| $FF_q$      | Finite / Galois field of order $q$                           |
+| $a dot G$   | Multiply $a$ by the generator point $G$ of an elliptic curve |
+| $x <- ZZ_n$ | Sample $x$ from $ZZ_n$                                       |
 
 ### Polynomials
 
