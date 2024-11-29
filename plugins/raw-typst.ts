@@ -104,6 +104,8 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 							root.properties.className = [];
 						// @ts-ignore
 						root.properties.className.push(`typst-${variant}`);
+						// @ts-ignore
+						root.properties.className.push("typst-doc");
 						out.push(root);
 					} else {
 						console.error("Unknown result", res);

@@ -26,6 +26,9 @@ importers:
       '@beoe/rehype-code-hook':
         specifier: 0.0.2
         version: 0.0.2
+      '@critters-rs/astro':
+        specifier: ^1.0.2
+        version: 1.0.2(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))
       '@fontsource-variable/fira-code':
         specifier: ^5.0.19
         version: 5.0.19
@@ -53,6 +56,9 @@ importers:
       astro-icon:
         specifier: ^1.1.1
         version: 1.1.1
+      astro-purgecss:
+        specifier: ^4.9.0
+        version: 4.9.0(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))(purgecss@7.0.2)
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -80,6 +86,9 @@ importers:
       pikchr-wasm:
         specifier: ^2.0.1
         version: 2.0.1
+      purgecss:
+        specifier: ^7.0.2
+        version: 7.0.2
       reading-time:
         specifier: ^1.5.0
         version: 1.5.0
@@ -466,6 +475,44 @@ packages:
   '@commitlint/types@19.0.3':
     resolution: {integrity: sha512-tpyc+7i6bPG9mvaBbtKUeghfyZSDgWquIDfMgqYtTbmZ9Y9VzEm2je9EYcQ0aoz5o7NvGS+rcDec93yO08MHYA==}
     engines: {node: '>=v18'}
+
+  '@critters-rs/astro@1.0.2':
+    resolution: {integrity: sha512-PiG8WQDZPe0Y6yoZCF9ontOtxD0UOe+ju86/f6zla0M0FM3gnxYd0Tj/Sn56T2KGBT+ciiM6rH3CU+HpcyyhpQ==}
+    peerDependencies:
+      astro: ^4.15.9
+
+  '@critters-rs/critters-darwin-arm64@1.0.2':
+    resolution: {integrity: sha512-yv6JUf8xPmnuffsnbv6LSidH2sgTRHRBVj/DSlfFJP6wwqAy7/d59qkaOpjc6G4KZymAncIlRma06pFkpKI2yQ==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@critters-rs/critters-darwin-x64@1.0.2':
+    resolution: {integrity: sha512-g4sHfqe+g5aY85P8Mo3bvYDIExX79PUQDwE/+rysql+/HuBhXh3Pk4NqHqsMdVq5m1nlP6HPFn3SAdtlXdZqoA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@critters-rs/critters-linux-arm64-gnu@1.0.2':
+    resolution: {integrity: sha512-XUaZ4RyA3sH4RQK1yKLAn1qmQZQwRKvKgC1iv/469a+k1IGbroxuy/9lXVZ8oTug5PJkZMUcwk2C/P4vGav81Q==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@critters-rs/critters-linux-x64-gnu@1.0.2':
+    resolution: {integrity: sha512-9zq+H3honnvBdhXnARsmh2uK6PcSwml3TrL7E2qfOJMwot/9wVkbZ1tIOU2dMGg8Q5yWYnvJd9NVPOQagVN7mA==}
+    cpu: [x64]
+    os: [linux]
+
+  '@critters-rs/critters-win32-arm64-msvc@1.0.2':
+    resolution: {integrity: sha512-6XB0zmmgUA8SF9XPNf4H+45KIAnMi/GwQAOaZuoKEcL8AAW06xnhZ5cwoZIbSbDQol0mpSYb/MpHC3nzj+Zepg==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@critters-rs/critters-win32-x64-msvc@1.0.2':
+    resolution: {integrity: sha512-SWexVHyLqOkTYjP3HwVx0THkgLrGsSIJGhaileoyGIdTc+8qHP2n/rqwPxIUytKulF6DfNf+St1ZPO7Eoh5RsA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@critters-rs/critters@1.0.2':
+    resolution: {integrity: sha512-m8VX4R4SSe6+oov+5bwCXFppbm8m1tVNyNVw9tgNntOAWptLWgXkD24lzJPw/wzUaOrmlz/g/vCA5D/b7rGDKg==}
 
   '@emmetio/abbreviation@2.3.3':
     resolution: {integrity: sha512-mgv58UrU3rh4YgbE/TzgLQwJ3pFsHHhCLqY20aJq+9comytTXUDNGG/SMtSeMJdkpxgXSXunBGLD8Boka3JyVA==}
@@ -1333,6 +1380,12 @@ packages:
   astro-icon@1.1.1:
     resolution: {integrity: sha512-HKBesWk2Faw/0+klLX+epQVqdTfSzZz/9+5vxXUjTJaN/HnpDf608gRPgHh7ZtwBPNJMEFoU5GLegxoDcT56OQ==}
 
+  astro-purgecss@4.9.0:
+    resolution: {integrity: sha512-Ymio3P4kVCPqTbP2x/wpuDn4C3J0/kNYXW77BrDAZcj42CXRwVuo+9atyH9CN4i1efqTIOLvsh3JGcaalRVhHQ==}
+    peerDependencies:
+      astro: ^4.0.0
+      purgecss: ^7.0.0
+
   astro@4.16.16:
     resolution: {integrity: sha512-H1CttrV6+JFrDBQx0Mcbq5i5AeLhCbztB786+9wEu3svWL/QPNeCGqF0dgNORAYmP+rODGCPu/y9qKSh87iLuA==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
@@ -1965,6 +2018,11 @@ packages:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
 
+  glob@11.0.0:
+    resolution: {integrity: sha512-9UiX/Bl6J2yaBbxKoEBRm4Cipxgok8kQYcOPEhScPwebu2I0HoQOuYdIO6S3hLuWoZgpDpwQZMzTFxgpkyT76g==}
+    engines: {node: 20 || >=22}
+    hasBin: true
+
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
     engines: {node: '>=18'}
@@ -2189,6 +2247,10 @@ packages:
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
 
+  jackspeak@4.0.2:
+    resolution: {integrity: sha512-bZsjR/iRjl1Nk1UkjGpAzLNfQtzuijhn2g+pbZb98HQ1Gk8vM9hfbxeMBP+M2/UUdwj0RqGG3mlvk2MsAqwvEw==}
+    engines: {node: 20 || >=22}
+
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
@@ -2394,6 +2456,10 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  lru-cache@11.0.2:
+    resolution: {integrity: sha512-123qHRfJBmo2jXDbo/a5YOQrJoHF/GNQTLzQ5+IdK5pWpceK17yRc6ozlWd25FxvGKQbIUs91fDFkXmDHTKcyA==}
+    engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -2613,6 +2679,10 @@ packages:
   mini-svg-data-uri@1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
+
+  minimatch@10.0.1:
+    resolution: {integrity: sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==}
+    engines: {node: 20 || >=22}
 
   minimatch@9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
@@ -2835,6 +2905,10 @@ packages:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
 
+  path-scurry@2.0.0:
+    resolution: {integrity: sha512-ypGJsmGtdXUOeM5u93TyeIEfEhM6s+ljAhrk5vAvSx8uyY/02OvrZnA0YNGUrPXfpJMgI1ODd3nwz8Npx4O4cg==}
+    engines: {node: 20 || >=22}
+
   pathe@1.1.2:
     resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
 
@@ -2948,6 +3022,10 @@ packages:
 
   pump@3.0.0:
     resolution: {integrity: sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==}
+
+  purgecss@7.0.2:
+    resolution: {integrity: sha512-4Ku8KoxNhOWi9X1XJ73XY5fv+I+hhTRedKpGs/2gaBKU8ijUiIKF/uyyIyh7Wo713bELSICF5/NswjcuOqYouQ==}
+    hasBin: true
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -4108,6 +4186,39 @@ snapshots:
       '@types/conventional-commits-parser': 5.0.0
       chalk: 5.3.0
 
+  '@critters-rs/astro@1.0.2(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))':
+    dependencies:
+      '@critters-rs/critters': 1.0.2
+      astro: 4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4)
+      chalk: 5.3.0
+
+  '@critters-rs/critters-darwin-arm64@1.0.2':
+    optional: true
+
+  '@critters-rs/critters-darwin-x64@1.0.2':
+    optional: true
+
+  '@critters-rs/critters-linux-arm64-gnu@1.0.2':
+    optional: true
+
+  '@critters-rs/critters-linux-x64-gnu@1.0.2':
+    optional: true
+
+  '@critters-rs/critters-win32-arm64-msvc@1.0.2':
+    optional: true
+
+  '@critters-rs/critters-win32-x64-msvc@1.0.2':
+    optional: true
+
+  '@critters-rs/critters@1.0.2':
+    optionalDependencies:
+      '@critters-rs/critters-darwin-arm64': 1.0.2
+      '@critters-rs/critters-darwin-x64': 1.0.2
+      '@critters-rs/critters-linux-arm64-gnu': 1.0.2
+      '@critters-rs/critters-linux-x64-gnu': 1.0.2
+      '@critters-rs/critters-win32-arm64-msvc': 1.0.2
+      '@critters-rs/critters-win32-x64-msvc': 1.0.2
+
   '@emmetio/abbreviation@2.3.3':
     dependencies:
       '@emmetio/scanner': 1.0.4
@@ -4936,6 +5047,11 @@ snapshots:
       - debug
       - supports-color
 
+  astro-purgecss@4.9.0(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))(purgecss@7.0.2):
+    dependencies:
+      astro: 4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4)
+      purgecss: 7.0.2
+
   astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4):
     dependencies:
       '@astrojs/compiler': 2.10.3
@@ -5658,6 +5774,15 @@ snapshots:
       package-json-from-dist: 1.0.0
       path-scurry: 1.11.1
 
+  glob@11.0.0:
+    dependencies:
+      foreground-child: 3.3.0
+      jackspeak: 4.0.2
+      minimatch: 10.0.1
+      minipass: 7.1.2
+      package-json-from-dist: 1.0.0
+      path-scurry: 2.0.0
+
   global-directory@4.0.1:
     dependencies:
       ini: 4.1.1
@@ -5967,6 +6092,10 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
+  jackspeak@4.0.2:
+    dependencies:
+      '@isaacs/cliui': 8.0.2
+
   jiti@1.21.6: {}
 
   js-tokens@4.0.0: {}
@@ -6125,6 +6254,8 @@ snapshots:
       tslib: 2.7.0
 
   lru-cache@10.4.3: {}
+
+  lru-cache@11.0.2: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -6627,6 +6758,10 @@ snapshots:
 
   mini-svg-data-uri@1.4.4: {}
 
+  minimatch@10.0.1:
+    dependencies:
+      brace-expansion: 2.0.1
+
   minimatch@9.0.5:
     dependencies:
       brace-expansion: 2.0.1
@@ -6868,6 +7003,11 @@ snapshots:
       lru-cache: 10.4.3
       minipass: 7.1.2
 
+  path-scurry@2.0.0:
+    dependencies:
+      lru-cache: 11.0.2
+      minipass: 7.1.2
+
   pathe@1.1.2: {}
 
   pend@1.2.0: {}
@@ -6977,6 +7117,13 @@ snapshots:
     dependencies:
       end-of-stream: 1.4.4
       once: 1.4.0
+
+  purgecss@7.0.2:
+    dependencies:
+      commander: 12.1.0
+      glob: 11.0.0
+      postcss: 8.4.47
+      postcss-selector-parser: 6.1.2
 
   queue-microtask@1.2.3: {}
 
