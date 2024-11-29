@@ -15,6 +15,11 @@ import {
 	themes,
 } from "./utils/typst-utils";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
+import { optimize } from "svgo";
+import { inspect } from "unist-util-inspect";
+import fs from "node:fs";
+import { xxh64 } from "@node-rs/xxhash";
+import { remove } from "unist-util-remove";
 
 interface Options {
 	errorColor?: string;
@@ -261,10 +266,14 @@ export async function renderToSVGString(
 			// @ts-ignore
 			res.svg.children[0].properties.dataWidth as string,
 		);
-		const svgString = toHtml(res.svg);
+		let svgString = toHtml(res.svg);
+		if (import.meta.env.PROD) {
+			const { data: optimized } = optimize(svgString);
+			svgString = optimized;
+		}
 		const alt = code.slice(0, 50);
 		const img = fromHtmlIsomorphic(
-			`<img src="data:image/svg+xml;base64,${encodeURIComponent(Buffer.from(svgString, "utf8").toString("base64"))}" alt="${alt}" loading="lazy"/>`,
+			`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" alt="${alt}" loading="lazy"/>`,
 			{ fragment: true },
 		).children[0];
 
@@ -342,8 +351,10 @@ async function render(
 			const root = fromHtmlIsomorphic(svg, {
 				fragment: true,
 			});
+			remove(root, (node) => (node as any).tagName === "style");
+			// console.log(inspect(root));
 			const typstTheme = themes.nord;
-			// Inject <style> tag into the SVG
+			// Inject our own <style> tag into the SVG
 			const style = {
 				type: "element",
 				tagName: "style",
