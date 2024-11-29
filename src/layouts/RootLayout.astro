@@ -14,7 +14,7 @@ export interface Props {
 	toc?: MarkdownHeading[];
 }
 
-const { path, title, description, toc } = Astro.props;
+const { path, title, description } = Astro.props;
 ---
 
 <!doctype html>
@@ -93,29 +93,8 @@ const { path, title, description, toc } = Astro.props;
 				<ModeSwitch transition:persist />
 			</div>
 		</div>
-		<!-- {
-			toc && (
-				<nav
-					class="hidden 2xl:block fixed right-6 top-16 bg-card border border-accent p-4 rounded-md z-10 text-right"
-					style="width: calc((90% - 70ch) / 2)"
-				>
-					<h2 class="text-lg font-bold">Table of Contents</h2>
-					<ul>
-						{toc
-							.filter((e) => e.depth <= 3)
-							.map((item) => (
-								<li
-									class={`mr-${item.depth * 2} mt-2`}
-									style={`font-size: ${1.5 - item.depth * 0.2}rem; color: hsl(0, 0%, ${100 - (item.depth - 2) * 30}%);`}
-								>
-									<a href={`#${item.slug}`}>{item.text}</a>
-								</li>
-							))}
-					</ul>
-				</nav>
-			)
-		} -->
-		<main class="mb-24" transition:animate="fade">
+
+		<main class="mb-24" transition:animate="initial">
 			<slot />
 		</main>
 	</body>
