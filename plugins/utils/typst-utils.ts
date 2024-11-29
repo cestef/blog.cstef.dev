@@ -640,6 +640,21 @@ export const customCetz = `#import "@preview/cetz:0.3.1": *
 }`;
 
 export const customStyles = `
+.tsel span,
+.tsel {
+    left: 0;
+    position: fixed;
+    text-align: justify;
+    white-space: nowrap;
+    width: 100%;
+    height: 100%;
+    text-align-last: justify;
+    color: transparent;
+    white-space: pre;
+}
+svg {
+    fill: none;
+}
 .typst-text[fill="#000"] {
     fill: var(--shiki-foreground);
 }
@@ -656,6 +671,24 @@ export const customStyles = `
     stroke: var(--shiki-foreground);
 }
 .typst-shape[stroke="#d5d5d5"] {
+    stroke: hsl(var(--muted));
+}
+.typst-text[fill=";#000"] {
+    fill: var(--shiki-foreground);
+}
+.typst-shape[fill=";#000"] {
+    fill: var(--shiki-foreground);
+}
+.typst-shape[fill=";#fff"] {
+    fill: hsl(var(--background));
+}
+.typst-shape[stroke=";#fff"] {
+    stroke: hsl(var(--background));
+}
+.typst-shape[stroke=";#000"] {
+    stroke: var(--shiki-foreground);
+}
+.typst-shape[stroke=";#d5d5d5"] {
     stroke: hsl(var(--muted));
 }
 .typst-inline {
