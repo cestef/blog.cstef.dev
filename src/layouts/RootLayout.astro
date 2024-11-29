@@ -130,7 +130,7 @@ const { path, title, description } = Astro.props;
 	}
 	const setTime = () => {
 		const time = document.getElementById("time");
-		if (!time) return console.log("no time");
+		if (!time) return;
 		time.innerText = new Date().toLocaleTimeString();
 	};
 
