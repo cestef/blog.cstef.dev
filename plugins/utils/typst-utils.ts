@@ -673,23 +673,17 @@ svg {
 .typst-shape[stroke="#d5d5d5"] {
     stroke: hsl(var(--muted));
 }
-.typst-text[fill=";#000"] {
+path[fill="#000"] {
     fill: var(--shiki-foreground);
 }
-.typst-shape[fill=";#000"] {
-    fill: var(--shiki-foreground);
-}
-.typst-shape[fill=";#fff"] {
+path[fill="#fff"] {
     fill: hsl(var(--background));
 }
-.typst-shape[stroke=";#fff"] {
+path[stroke="#fff"] {
     stroke: hsl(var(--background));
 }
-.typst-shape[stroke=";#000"] {
+path[stroke="#000"] {
     stroke: var(--shiki-foreground);
-}
-.typst-shape[stroke=";#d5d5d5"] {
-    stroke: hsl(var(--muted));
 }
 .typst-inline {
     display: inline;

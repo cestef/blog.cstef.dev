@@ -16,9 +16,6 @@ import {
 } from "./utils/typst-utils";
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 import { optimize } from "svgo";
-import { inspect } from "unist-util-inspect";
-import fs from "node:fs";
-import { xxh64 } from "@node-rs/xxhash";
 import { remove } from "unist-util-remove";
 
 interface Options {
@@ -266,16 +263,30 @@ export async function renderToSVGString(
 			// @ts-ignore
 			res.svg.children[0].properties.dataWidth as string,
 		);
-		let svgString = toHtml(res.svg);
-		if (import.meta.env.PROD) {
-			const { data: optimized } = optimize(svgString);
-			svgString = optimized;
-		}
+		const svgString = toHtml(res.svg);
+
+		const { data: optimized } = import.meta.env.PROD
+			? optimize(svgString, {
+					multipass: true,
+					datauri: "enc",
+				})
+			: { data: `data:image/svg+xml,${encodeURIComponent(svgString)}` };
+
 		const alt = code.slice(0, 50);
-		const img = fromHtmlIsomorphic(
-			`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" alt="${alt}" loading="lazy"/>`,
-			{ fragment: true },
-		).children[0];
+		// const img = fromHtmlIsomorphic(
+		// 	`<img src="${optimized}" alt="${alt}" loading="lazy"/>`,
+		// 	{ fragment: true },
+		// ).children[0];
+		const img = {
+			type: "element",
+			tagName: "img",
+			properties: {
+				src: optimized,
+				alt: alt,
+				loading: "lazy",
+			},
+			children: [],
+		};
 
 		return {
 			svg: img,
