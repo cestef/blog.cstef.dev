@@ -264,7 +264,7 @@ export async function renderToSVGString(
 		const svgString = toHtml(res.svg);
 		const alt = code.slice(0, 50);
 		const img = fromHtmlIsomorphic(
-			`<img src="data:image/svg+xml,${encodeURIComponent(svgString)}" alt="${alt}" loading="lazy"/>`,
+			`<img src="data:image/svg+xml;base64,${encodeURIComponent(Buffer.from(svgString, "utf8").toString("base64"))}" alt="${alt}" loading="lazy"/>`,
 			{ fragment: true },
 		).children[0];
 
