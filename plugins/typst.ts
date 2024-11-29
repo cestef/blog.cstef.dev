@@ -17,6 +17,7 @@ import {
 export const compilerIns: { current: NodeCompiler | null } = { current: null };
 import { optimize } from "svgo";
 import { remove } from "unist-util-remove";
+import { THEME } from "../src/constants";
 
 interface Options {
 	errorColor?: string;
@@ -254,51 +255,44 @@ export async function renderToSVGString(
 	const res = await render($typst, code, mode, "svg", theme);
 	// console.log("res", res);
 	$typst.evictCache(10);
-	if (mode === "raw" || mode === "display" || mode === "inline") {
-		const height = Number.parseFloat(
-			// @ts-ignore
-			res.svg.children[0].properties.dataHeight as string,
-		);
-		const width = Number.parseFloat(
-			// @ts-ignore
-			res.svg.children[0].properties.dataWidth as string,
-		);
-		const svgString = toHtml(res.svg);
+	const height = Number.parseFloat(
+		// @ts-ignore
+		res.svg.children[0].properties.dataHeight as string,
+	);
+	const width = Number.parseFloat(
+		// @ts-ignore
+		res.svg.children[0].properties.dataWidth as string,
+	);
+	const svgString = toHtml(res.svg);
 
-		const { data: optimized } = import.meta.env.PROD
-			? optimize(svgString, {
-					multipass: true,
-					datauri: "enc",
-				})
-			: { data: `data:image/svg+xml,${encodeURIComponent(svgString)}` };
+	const { data: optimized } = import.meta.env.PROD
+		? optimize(svgString, {
+				multipass: true,
+				datauri: "enc",
+			})
+		: { data: `data:image/svg+xml,${encodeURIComponent(svgString)}` };
 
-		const alt = code.slice(0, 50);
-		// const img = fromHtmlIsomorphic(
-		// 	`<img src="${optimized}" alt="${alt}" loading="lazy"/>`,
-		// 	{ fragment: true },
-		// ).children[0];
-		const img = {
-			type: "element",
-			tagName: "img",
-			properties: {
-				src: optimized,
-				alt: alt,
-				loading: "lazy",
-			},
-			children: [],
-		};
-
-		return {
-			svg: img,
-			baselinePosition: res.baselinePosition,
-			height,
-			width,
-		};
-	}
+	const alt = code.slice(0, 50);
+	// const img = fromHtmlIsomorphic(
+	// 	`<img src="${optimized}" alt="${alt}" loading="lazy"/>`,
+	// 	{ fragment: true },
+	// ).children[0];
+	const img = {
+		type: "element",
+		tagName: "img",
+		properties: {
+			src: optimized,
+			alt: alt,
+			loading: "lazy",
+		},
+		children: [],
+	};
 
 	return {
-		svg: res.svg,
+		svg: img,
 		baselinePosition: res.baselinePosition,
+		height,
+		width,
 	};
 }
 
@@ -358,34 +352,28 @@ async function render(
 		baselinePosition = Number.parseFloat(query[0].value.slice(0, -2));
 	}
 	if (output === "svg") {
-		if (mode === "raw" || mode === "display" || mode === "inline") {
-			const root = fromHtmlIsomorphic(svg, {
-				fragment: true,
-			});
-			remove(root, (node) => (node as any).tagName === "style");
-			// console.log(inspect(root));
-			const typstTheme = themes.nord;
-			// Inject our own <style> tag into the SVG
-			const style = {
-				type: "element",
-				tagName: "style",
-				properties: {},
-				children: [
-					{
-						type: "text",
-						value: `${theme === "dark" ? typstTheme.darkTheme : typstTheme.lightTheme} ${customStyles}`,
-					},
-				],
-			};
-			// @ts-ignore
-			root.children[0].children.unshift(style);
-			return {
-				svg: root,
-				baselinePosition,
-			};
-		}
+		const root = fromHtmlIsomorphic(svg, {
+			fragment: true,
+		});
+		remove(root, (node) => (node as any).tagName === "style");
+		// console.log(inspect(root));
+		const typstTheme = themes[THEME];
+		// Inject our own <style> tag into the SVG
+		const style = {
+			type: "element",
+			tagName: "style",
+			properties: {},
+			children: [
+				{
+					type: "text",
+					value: `${theme === "dark" ? typstTheme.darkTheme : typstTheme.lightTheme} ${customStyles}`,
+				},
+			],
+		};
+		// @ts-ignore
+		root.children[0].children.unshift(style);
 		return {
-			svg,
+			svg: root,
 			baselinePosition,
 		};
 	}
