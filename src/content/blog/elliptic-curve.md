@@ -401,3 +401,14 @@ $$
 t: y &= m(x - x_G) + y_G \
      &= (3x_G^2)/(2y_G) (x - x_G) + y_G
 $$
+
+## References / Suggested readings
+
+- **A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography**  
+    Nick Sullivan  
+    [cloudflare.com](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
+
+
+- **Elliptic Curve Cryptography (ECC)**  
+    Svetlin Nakov  
+    [cryptobook.nakov.com](https://cryptobook.nakov.com/asymmetric-key-ciphers/elliptic-curve-cryptography-ecc)
