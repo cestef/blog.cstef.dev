@@ -3,6 +3,7 @@ title: Using ECC for (Multi-)Signatures
 description: Math-powered methods for proving message authenticity, sounds great, doesn't it?
 tags: [cryptography, maths]
 date: 2024-11-29
+growth: sapling
 ---
 
 > [!INFO]
