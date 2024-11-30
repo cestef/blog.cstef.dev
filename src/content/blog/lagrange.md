@@ -3,6 +3,7 @@ title: Lagrange Interpolation Primer
 description: A quick and simple explaination on the concept of polynomial interpolation, here Lagrange's in particular.
 tags: [maths]
 date: 2024-11-29
+growth: sapling
 ---
 
 You may remember, when in High School, being asked to find the equation of a line that goes through two points. The process was straightforward: you would calculate the slope $a$ and the intercept $b$ of the line $f(x) = a x + b$. 

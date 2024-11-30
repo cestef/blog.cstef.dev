@@ -6,6 +6,12 @@ date: 2024-11-29
 growth: sapling
 ---
 
+> [!INFO]
+> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
+>
+> The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
+
+
 Elliptic curve cryptography (ECC) is a fascinating field of study that has been around for a while. It's a cornerstone of modern cryptography, and it's used in many applications, from secure messaging to cryptocurrencies. RSA, the most widely used public-key cryptosystem, is slowly being replaced by ECC due to its efficiency and security.
 
 The trapdoor function (easy to do one way, hard the other) for an elliptic curve is the multiplication of a point $P$ by a scalar $n$ which is just adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$. If $n$ is large enough, it is computationally impossible to find $n$ for $Q = n dot P$, being given both $Q$ and $P$, in a reasonable time.

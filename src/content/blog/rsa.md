@@ -6,6 +6,13 @@ date: 2024-09-06
 growth: sapling
 ---
 
+> [!INFO]
+> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
+>
+> The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
+
+
+
 RSA (named after its inventors, Ron **R**ivest, Adi **S**hamir, and Leonard **A**dleman) is one of the most widely used encryption algorithms in the world. It's used to secure everything from online banking transactions to secure communication between devices. But how does it work? What are the mathematical principles behind it? Let's dive in.
 
 ## Historical Context

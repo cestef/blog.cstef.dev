@@ -3,6 +3,7 @@ title: Shamir Secret Sharing in a Nutshell
 description: How to split a secret among multiple persons, so that only any subset of n people can recover it ?
 tags: [cryptography, maths]
 date: 2024-11-29
+growth: sapling
 ---
 
 > [!INFO]
