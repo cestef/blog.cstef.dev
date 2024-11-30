@@ -1,7 +1,7 @@
 ---
 title: Shamir Secret Sharing in a Nutshell
 description: How to split a secret among multiple persons, so that only any subset of n people can recover it ?
-tags: [cryptography]
+tags: [cryptography, maths]
 date: 2024-11-29
 ---
 
@@ -483,3 +483,25 @@ This way, a single malicious shareholder cannot dupe the rest of the group. But 
 In this case, $P_m$ (and $P_m'$) are the only ones able to recover the secret. This isn't of any good either...
 
 <small>TODO: find out if this is actually feasible?</small>
+
+
+## References / Suggested readings
+
+- **Issuing New Shamir Secret Shares Using Multi-Party Computation**  
+    [conduition.io](https://conduition.io/cryptography/shamir/)
+
+- **Novel Secret Sharing and Commitment Schemes for Cryptographic Applications**  
+    Mehrdad Nojoumian  
+    [dspacemainprd01.lib.uwaterloo.ca](https://dspacemainprd01.lib.uwaterloo.ca/server/api/core/bitstreams/e180c165-7b6c-4cfc-bc5c-62dc5af674d2/content) <small>[PDF]</small>
+
+- **A Share-Correctable Protocol for the Shamir Threshold Scheme and Its Application to Participant Enrollment**  
+    Raylin Tso, Ying Miao, Takeshi Okamoto and Eiji Okamoto  
+    [citeseerx.ist.psu.edu](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=634526d46b7c52c62582d7c6c32b79502bd631d3) <small>[PDF]</small>
+
+- **Feldman’s Verifiable Secret Sharing for a Dishonest Majority**  
+    Yi-Hsiu Chen and Yehuda Lindell  
+    [eprint.iacr.org](https://eprint.iacr.org/2024/031.pdf) <small>[PDF]</small>
+
+- **Adaptively Secure Feldman VSS and Applications to Universally-Composable Threshold Cryptography**  
+    Masayuki Abe and Serge Fehr  
+    [eprint.iacr.org](https://eprint.iacr.org/2004/119.pdf) <small>[PDF]</small>

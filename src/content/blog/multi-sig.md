@@ -5,6 +5,12 @@ tags: [cryptography, maths]
 date: 2024-11-29
 ---
 
+> [!INFO]
+> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
+>
+> The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
+
+
 Elliptic curves may not write your emails, but they can help prove **_you_** sent them. Our goal is to output a signature $(r, s)$ for a given message $m$, so that the recipient can verify that the sender is authentic. The sender's keys are $(p, P)$, with $p$ the private key, and $P$ the public one.
 
 ## ECDSA Signatures
@@ -250,3 +256,12 @@ This way, everyone can be sure that the public keys are honest and that no one i
 ### There's more!
 
 Random nonces are also aggregated, and at no point we are verifying that they are authentic. The exploit method is a bit trickier, I recommend you to read [this article](https://conduition.io/cryptography/wagner/) by conduition on the subject if you want to know the details.
+
+## References / Suggested readings
+
+- **Digital Signatures**  
+    Svetlin Nakov  
+    [cryptobook.nakov.com](https://cryptobook.nakov.com/digital-signatures)
+
+- **A Dive Into the Math Behind Bitcoin Schnorr Signatures**  
+    [conduition.io](https://conduition.io/cryptography/schnorr/)
