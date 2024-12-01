@@ -52,7 +52,7 @@ Thus, our shares are $Z_1(1, 50)$, $Z_2(2, 64)$, $Z_3(3, 84)$, $Z_4(4, 110)$ and
 
 Let's now plot the polynomial $f(x)$:
 
-@typst figures/lagrange1
+@include figures/lagrange1.typ
 
 ### Reconstructing the Secret
 
@@ -77,7 +77,7 @@ $$
 
 It's even cooler when represented graphically:
 
-@typst figures/lagrange2
+@include figures/lagrange2.typ
 
 ### Commitments, Proofs and Verifications
 
