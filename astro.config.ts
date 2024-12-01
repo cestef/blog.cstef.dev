@@ -28,6 +28,7 @@ import rehypeRaw from "rehype-raw";
 import playformCompress from "@playform/compress";
 
 import purgecss from "astro-purgecss";
+import { remarkInclude } from "./plugins/include-typst";
 
 const shikiTheme = createCssVariablesTheme({
 	name: "default",
@@ -81,6 +82,7 @@ export default defineConfig({
 			],
 		],
 		remarkPlugins: [
+			remarkInclude,
 			remarkMath,
 			remarkEmoji,
 			remarkReadingTime,
