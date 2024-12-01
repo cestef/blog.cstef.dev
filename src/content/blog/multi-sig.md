@@ -260,9 +260,16 @@ Random nonces are also aggregated, and at no point we are verifying that they ar
 
 ## References / Suggested readings
 
-- **Digital Signatures**  
+- **Practical Cryptography for Developers - Digital Signatures**  
     Svetlin Nakov  
     [cryptobook.nakov.com](https://cryptobook.nakov.com/digital-signatures)
 
 - **A Dive Into the Math Behind Bitcoin Schnorr Signatures**  
     [conduition.io](https://conduition.io/cryptography/schnorr/)
+
+- **Wagner's Birthday Attack - How to Break InsecureMuSig**  
+    [conduition.io](https://conduition.io/cryptography/wagner/)
+
+- **How to Prove Schnorr Assuming Schnorr: Security of Multi- and Threshold Signatures**  
+    Elizabeth Crites, Chelsea Komlo, and Mary Maller  
+    [eprint.iacr.org](https://eprint.iacr.org/2021/1375.pdf)
