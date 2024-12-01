@@ -61,7 +61,10 @@ const posts = (await getCollection("blog"))
 				<p>No posts yet. Check back later!</p>
 			)
 		}
-		<a href="/rss.xml">
+		<a
+			href="/rss.xml"
+			class="decoration-muted decoration-2 underline-offset-2 hover:decoration-muted-foreground/30 transition-all duration-200"
+		>
 			<div class="flex gap-2 items-center justify-center">
 				<p class="text-muted-foreground">Subscribe to the feed</p>
 				<Icon
