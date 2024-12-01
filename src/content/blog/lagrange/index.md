@@ -60,21 +60,21 @@ If you prefer to see this in a graphical way, let's consider the following examp
 
 We have two points $A_0 (1, 2)$ and $A_1 (-2, -3)$. We can represent them as follows:
 
-@typst figures/line1
+@include figures/line1.typ
 
 It is visually obvious that we can only draw a single line that goes through both points.
 
-@typst figures/line2
+@include figures/line2.typ
 
 A line is essentially just $f(x) = a x + b$, which is of degree $1$. We can guess and deduce we need at least $n+1$ points to describe a polynomial function $f(x) in PP_n$.
 
 The same goes if we add a third point $A_2 (0, 4)$:
 
-@typst figures/line3
+@include figures/line3.typ
 
 If we did not add this third point and still tried to find a polynomial $P_2 (x)$, we would have an infinite number of solutions:
 
-@typst figures/infinite
+@include figures/infinite.typ
 
 But now the question is: how do we actually find the polynomial that goes through all the points? This is where Lagrange interpolation comes into play.
 
@@ -82,7 +82,7 @@ But now the question is: how do we actually find the polynomial that goes throug
 
 Let's take $A_0 (0, 1)$, $A_1 (1, 3)$, $A_2 (2, 2)$ and $A_3 (3, 4)$ to demonstrate this method.
 
-@typst figures/points1
+@include figures/points1.typ
 
 The main principle behind this is to split the wanted function into multiple sub-functions $l_i (x)$, that each contribute to one given point, also called "node".
 
@@ -101,7 +101,7 @@ $$
 l_1^*(x) = (x - 0)(x - 2)(x - 3)
 $$
 
-@typst figures/sub1
+@include figures/sub1.typ
 
 <details>
 <summary> Why does multiplying by <code class="language-math math-inline">(x-x_j)</code> add a root ?</summary>
@@ -124,7 +124,7 @@ $$
 
 And we effectively have $l_1 (1) = 1$. We can now repeat this process for $l_0 (x)$, $l_2 (x)$ and $l_3 (x)$:
 
-@typst figures/sub2
+@include figures/sub2.typ
 
 The polynomial $f(x) in PP_3$ is computed by summing all the $l_i (x)$ together and multiplying them by the corresponding $y_i$:
 
@@ -133,11 +133,11 @@ f(x) &= y_0 l_0 (x) + y_1 l_1 (x) + y_2 l_2 (x) + y_3 l_3 (x) \
      &= 1 dot l_0 (x) + 3 dot l_1 (x) + 2 dot l_2 (x) + 4 dot l_3 (x)
 $$
 
-@typst figures/final1
+@include figures/final1.typ
 
 And we have our final polynomial which effectively goes through all the points:
 
-@typst figures/final2
+@include figures/final2.typ
 
 Generalizing this process, we can write the function $f(x) in PP_n (x)$ that goes through $n+1$ points $A_i (x_i, y_i)$:
 

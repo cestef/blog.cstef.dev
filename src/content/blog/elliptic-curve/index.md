@@ -48,13 +48,13 @@ One easy way to think of the addition is to draw a line that goes through $G$ an
 
 In the case where there is no third point of intersection (i.e. the line is vertical), we define the result of the addition as the point at infinity, denoted as $cal(O)$.
 
-@typst figures/1
+@include figures/1.typ
 
 The resulting point $B = G + A$ is then reflected to $C$ over the x-axis. This symmetry property is easily explained by the fact that the curve's $y$ coordinates are squared, so for a given $x$ coordinate, there are two possible $y$ coordinates, $y$ and $-y$.
 
 The operation can then be done over and over again to find subsequent points.
 
-@typst figures/2
+@include figures/2.typ
 
 Given two points $A(x_A, y_A)$ and $B(x_B, y_B)$, the resulting coordinates of the point $C(x_C, y_C) = A + B$ can be found by:
 
@@ -117,7 +117,7 @@ Given two points $A(x_A, y_A)$ and $B(x_B, y_B)$, the resulting coordinates of t
 
 In the case where $G = A$, we can't really draw a line between the two points, so we take the tangent to the curve at $G$ and find the third point of intersection. This is the result of the addition of $G$ and $G$, denoted as $2 dot G$.
 
-@typst figures/3
+@include figures/3.typ
 
 To find the tangent at $G(x_G, y_G)$, we need to find the slope $m = (d y)/(d x) = y'(x)$.
 
