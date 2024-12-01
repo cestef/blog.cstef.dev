@@ -79,8 +79,8 @@ x in RR | x "is natural" and x < 10
 ~~~
 
 > [!TIP]
-> You can include external typst files into your markdown using the `@typst` directive. For example, to include the `figures/diagram.typ` file, you can use the following directive:
-> `@typst figures/diagram.typ`
+> You can include external typst files into your markdown using the `@include` directive. For example, to include the `figures/diagram.typ` file, you can use the following directive:
+> `@include figures/diagram.typ`
 
 #### Diagrams
 

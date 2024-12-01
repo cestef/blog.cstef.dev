@@ -11,9 +11,9 @@ interface IncludeOptions {
 	cwd?: string;
 }
 
-const parseInclude = /^@typst (.*)(\n|$)/;
-const CODE_BLOCK_LANGUAGE = "typst";
-const EXTENSIONS = ["typ", "typst"];
+const parseInclude = /^@include (.*)(\n|$)/;
+const CODE_BLOCK_LANGUAGES = { typst: ["typ"] };
+const EXTENSIONS = ["typ", "typst", "txt", "md", "markdown"];
 
 /**
  * Load an external file with multiple potential file extensions and locations
@@ -45,7 +45,8 @@ function loadFile(cwd: string, vfile: VFile, filename: string): VFile {
 				// return readSync(name);
 				const file = toVFile(name);
 				let res = fs.readFileSync(path.resolve(file.cwd, file.path), "utf-8");
-				res = `\`\`\`${CODE_BLOCK_LANGUAGE}\n${res}\n\`\`\``;
+				const ext = path.extname(file.path).slice(1);
+				res = `\`\`\`${CODE_BLOCK_LANGUAGES[ext as keyof typeof CODE_BLOCK_LANGUAGES] ?? ext}\n${res}\n\`\`\``;
 				file.value = res;
 				return file;
 			} catch (e) {
