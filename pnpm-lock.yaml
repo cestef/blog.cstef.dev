@@ -125,6 +125,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.10
         version: 3.4.10
+      to-vfile:
+        specifier: ^8.0.0
+        version: 8.0.0
       twemoji:
         specifier: ^14.0.2
         version: 14.0.2
@@ -3382,6 +3385,9 @@ packages:
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
+
+  to-vfile@8.0.0:
+    resolution: {integrity: sha512-IcmH1xB5576MJc9qcfEC/m/nQCFt3fzMHz45sSlgJyTWjRbKW1HAkJpuf3DgE57YzIlZcwcBZA5ENQbBo4aLkg==}
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -7642,6 +7648,10 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  to-vfile@8.0.0:
+    dependencies:
+      vfile: 6.0.3
 
   trim-lines@3.0.1: {}
 
