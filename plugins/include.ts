@@ -46,7 +46,13 @@ function loadFile(cwd: string, vfile: VFile, filename: string): VFile {
 				const file = toVFile(name);
 				let res = fs.readFileSync(path.resolve(file.cwd, file.path), "utf-8");
 				const ext = path.extname(file.path).slice(1);
-				res = `\`\`\`${CODE_BLOCK_LANGUAGES[ext as keyof typeof CODE_BLOCK_LANGUAGES] ?? ext}\n${res}\n\`\`\``;
+				const codeBlockLang =
+					Object.keys(CODE_BLOCK_LANGUAGES).find((key) =>
+						CODE_BLOCK_LANGUAGES[
+							key as keyof typeof CODE_BLOCK_LANGUAGES
+						].includes(ext),
+					) || ext;
+				res = `\`\`\`${codeBlockLang}\n${res}\n\`\`\``;
 				file.value = res;
 				return file;
 			} catch (e) {
