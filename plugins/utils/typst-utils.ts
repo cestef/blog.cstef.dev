@@ -723,6 +723,22 @@ path[stroke="#000"] {
 .typst-shape[fill="#f012be"] {
     fill: var(--shiki-ansi-magenta);
 }
+.typst-text[fill="#0074d9"] {
+	@apply fill-[--shiki-ansi-blue];
+}
+.typst-text[fill="#ffdc00"] {
+	@apply fill-[--shiki-ansi-yellow];
+}
+.typst-text[fill="#2ecc40"] {
+	@apply fill-[--shiki-ansi-green];
+}
+.typst-text[fill="#ff4136"] {
+	@apply fill-[--shiki-ansi-red];
+}
+.typst-text[fill="#f012be"] {
+	@apply fill-[--shiki-ansi-magenta];
+}
+
 `;
 
 // :root[data-theme="..."]
