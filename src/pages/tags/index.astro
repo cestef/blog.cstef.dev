@@ -1,0 +1,27 @@
+---
+import Prose from "@/layouts/Prose.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+const tags = [...new Set(posts.flatMap((e) => e.data.tags))];
+---
+
+<RootLayout path="/tags">
+	<Prose>
+		<h1>Garden</h1>
+		<p>Explore the garden by tag:</p>
+		<ul>
+			{
+				tags.map((tag) => (
+					<li>
+						<a href={`/tags/${tag}`} class="underline-offset-2 decoration-2">{tag.trim()}</a>
+						<span class="text-muted-foreground">
+							({posts.filter((e) => e.data.tags.includes(tag)).length})
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</Prose>
+</RootLayout>

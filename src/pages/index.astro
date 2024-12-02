@@ -33,7 +33,7 @@ const posts = (await getCollection("blog"))
 							<div>
 								<h3 class="flex items-center gap-2 md:gap-4">
 									<a
-										href={`/post/${post.slug}`}
+										href={`/posts/${post.slug}`}
 										class="underline-offset-2 decoration-2 max-w-[70%] w-fit"
 									>
 										{post.data.title.trim()}
@@ -44,7 +44,7 @@ const posts = (await getCollection("blog"))
 											{post.data.date.toLocaleDateString()}
 										</span>{" "}
 										<a
-											href={`/growth/${post.data.growth}`}
+											href={`/growths/${post.data.growth}`}
 											class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline"
 										>
 											{STATE_EMOJI[post.data.growth]}

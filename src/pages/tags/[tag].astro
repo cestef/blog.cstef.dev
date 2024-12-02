@@ -23,7 +23,7 @@ const { entries } = Astro.props;
 const { tag } = Astro.params;
 ---
 
-<RootLayout path={`/tag/${tag}`}>
+<RootLayout path={`/tags/${tag}`}>
     <Prose>
         <h1>Tag: {entries[0].data.tags[0]}</h1>
         <ul>
