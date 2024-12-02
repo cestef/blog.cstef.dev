@@ -724,21 +724,20 @@ path[stroke="#000"] {
     fill: var(--shiki-ansi-magenta);
 }
 .typst-text[fill="#0074d9"] {
-	@apply fill-[--shiki-ansi-blue];
+    fill: var(--shiki-ansi-blue);
 }
 .typst-text[fill="#ffdc00"] {
-	@apply fill-[--shiki-ansi-yellow];
+    fill: var(--shiki-ansi-yellow);
 }
 .typst-text[fill="#2ecc40"] {
-	@apply fill-[--shiki-ansi-green];
+    fill: var(--shiki-ansi-green);
 }
 .typst-text[fill="#ff4136"] {
-	@apply fill-[--shiki-ansi-red];
+    fill: var(--shiki-ansi-red);
 }
 .typst-text[fill="#f012be"] {
-	@apply fill-[--shiki-ansi-magenta];
+    fill: var(--shiki-ansi-magenta);
 }
-
 `;
 
 // :root[data-theme="..."]
