@@ -41,6 +41,9 @@ importers:
       '@microflash/rehype-figure':
         specifier: ^2.1.0
         version: 2.1.0
+      '@minify-html/node-darwin-arm64':
+        specifier: npm:@minify-html/node-darwin-aarch64@^0.15.0
+        version: '@minify-html/node-darwin-aarch64@0.15.0'
       '@myriaddreamin/typst-ts-node-compiler':
         specifier: 0.5.0-rc8
         version: 0.5.0-rc8
@@ -56,6 +59,9 @@ importers:
       astro-icon:
         specifier: ^1.1.1
         version: 1.1.1
+      astro-min:
+        specifier: ^1.3.1
+        version: 1.3.1(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))
       astro-purgecss:
         specifier: ^4.9.0
         version: 4.9.0(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))(purgecss@7.0.2)
@@ -842,6 +848,26 @@ packages:
   '@microflash/rehype-figure@2.1.0':
     resolution: {integrity: sha512-Ff1rrqjRYcmV9/7Qk8HM/mBpz9k5yzO8pgKfbI2hnN09sBQXoeOP4d9J419Mwk+LoMZlSfd4kgI92dFRtYBvUg==}
 
+  '@minify-html/node-darwin-aarch64@0.15.0':
+    resolution: {integrity: sha512-M+gJIJi42kJkg9Ba1inPRlRVTA+BuoV+8QrVpFxHd2v/kGZ5Yo9Jhkml6opj4PsyDpnvkCrNdH/c1gZr+Qloxg==}
+    cpu: [aarch64]
+    os: [darwin]
+
+  '@minify-html/node-darwin-x64@0.15.0':
+    resolution: {integrity: sha512-D9M9UDku/8I5VEMS0gTLFFQK1DFXK8io+QZvR5cbya4u8NmdDQix/t3EyCR4Wgv/Gfk86gwIS+zfMSvuKcpb5A==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@minify-html/node-linux-x64@0.15.0':
+    resolution: {integrity: sha512-cO893EV6O9ZHUFX+2Yge546OCo/eCiatjzJDmUmrPP56fQ7pzTRquHs4ko3t8Rg6tMKG7RT49mBuF09JWPnrgg==}
+    cpu: [x64]
+    os: [linux]
+
+  '@minify-html/node-win32-x64@0.15.0':
+    resolution: {integrity: sha512-n92IFdtntchlUtyrq13pRI8TT3sOddbzuo4EPTSeocuTJMXaR77v0JYDu0fIjxXNawgGq6nBEeicxAcH4CbvUQ==}
+    cpu: [x64]
+    os: [win32]
+
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     resolution: {integrity: sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==}
     cpu: [arm64]
@@ -1056,6 +1082,11 @@ packages:
 
   '@playform/pipe@0.1.1':
     resolution: {integrity: sha512-qofwa/+UKbvyHw4NiVwQZ5Z4UNEDSKmrtKFUL6JO9NhtaEuio3a90QuvTTsTw4g4tGHCmj0is/7p1igkRJ2EyA==}
+
+  '@redwerkz/html-min@0.15.1':
+    resolution: {integrity: sha512-Kwi6DSoOKI6q2oyt0kVTfWOBcQHBychE1BvOEyVF/j+nJjjRxEWvA0b0wx+p9ovM46P8CHD/8Y3lptYiAteZrQ==}
+    engines: {node: '>= 18.17.1'}
+    hasBin: true
 
   '@rollup/pluginutils@5.1.3':
     resolution: {integrity: sha512-Pnsb6f32CD2W3uCaLZIzDmeFyQ2b8UWMFI7xtwUezpcGBDVDW6y9XgAWIlARiGAo6eNF5FK5aQTr0LFyNyqq5A==}
@@ -1382,6 +1413,11 @@ packages:
 
   astro-icon@1.1.1:
     resolution: {integrity: sha512-HKBesWk2Faw/0+klLX+epQVqdTfSzZz/9+5vxXUjTJaN/HnpDf608gRPgHh7ZtwBPNJMEFoU5GLegxoDcT56OQ==}
+
+  astro-min@1.3.1:
+    resolution: {integrity: sha512-TvHT24cGygf+h47WVrSxaF/6vUwJ8s+TlmwkKlNHNDqRmW5FNiUHspZnEwLsaHTtVGZWZN4NMSVPoD5oLyyrmQ==}
+    peerDependencies:
+      astro: '*'
 
   astro-purgecss@4.9.0:
     resolution: {integrity: sha512-Ymio3P4kVCPqTbP2x/wpuDn4C3J0/kNYXW77BrDAZcj42CXRwVuo+9atyH9CN4i1efqTIOLvsh3JGcaalRVhHQ==}
@@ -4521,6 +4557,17 @@ snapshots:
       unist-util-remove: 4.0.0
       unist-util-visit: 5.0.0
 
+  '@minify-html/node-darwin-aarch64@0.15.0': {}
+
+  '@minify-html/node-darwin-x64@0.15.0':
+    optional: true
+
+  '@minify-html/node-linux-x64@0.15.0':
+    optional: true
+
+  '@minify-html/node-win32-x64@0.15.0':
+    optional: true
+
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     optional: true
 
@@ -4703,6 +4750,12 @@ snapshots:
       '@types/node': 22.5.0
       deepmerge-ts: 7.1.0
       fast-glob: 3.3.2
+
+  '@redwerkz/html-min@0.15.1':
+    optionalDependencies:
+      '@minify-html/node-darwin-x64': 0.15.0
+      '@minify-html/node-linux-x64': 0.15.0
+      '@minify-html/node-win32-x64': 0.15.0
 
   '@rollup/pluginutils@5.1.3(rollup@4.21.2)':
     dependencies:
@@ -5052,6 +5105,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - supports-color
+
+  astro-min@1.3.1(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4)):
+    dependencies:
+      '@redwerkz/html-min': 0.15.1
+      astro: 4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4)
+      svgo: 3.3.2
 
   astro-purgecss@4.9.0(astro@4.16.16(@types/node@22.5.4)(lightningcss@1.27.0)(rollup@4.21.2)(terser@5.36.0)(typescript@5.5.4))(purgecss@7.0.2):
     dependencies:
