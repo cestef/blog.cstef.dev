@@ -3,7 +3,7 @@ title: Rewriting Wolfenstein 3D in Rust
 tags: [rust, game-dev, wolfenstein]
 description: A review of my poorly rewritten Wolfenstein 3D clone in Rust.
 date: 2024-08-30
-growth: seedling
+growth: seed
 ---
 
 I recently came accross [this video](https://www.youtube.com/watch?v=wsADJa-23Sg) explaining how Wolfenstein 3D killed the Amiga console (why am I watching this I wasn't even born!), this reminded me how simple game graphics were back in the days. And here I am, trying to rewrite Wolfenstein 3D in Rust.

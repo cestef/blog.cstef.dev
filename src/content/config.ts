@@ -1,6 +1,6 @@
 import { defineCollection, reference, z } from "astro:content";
 
-export const GrowthSchema = z.enum(["seedling", "sapling", "tree"]);
+export const GrowthSchema = z.enum(["seed", "sprout", "sapling", "tree"]);
 
 export const BlogSchema = z.object({
 	title: z.string(),
@@ -8,7 +8,7 @@ export const BlogSchema = z.object({
 	image: z.string().optional(),
 	description: z.string(),
 	date: z.date().transform((val) => new Date(val)),
-	growth: GrowthSchema.default("seedling"),
+	growth: GrowthSchema.default("seed"),
 	related: z.array(reference("blog")).optional(),
 });
 

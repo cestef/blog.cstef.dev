@@ -3,7 +3,7 @@ title: Grow your own digital garden!
 description: A digital garden is a place to cultivate your thoughts or ideas, and share it with others.
 tags: [digital-garden, blog, tutorial]
 date: 2024-09-09
-growth: seedling
+growth: seed
 ---
 
 A digital garden is basically just a fancy name for a personal blog or wiki. It's a place to cultivate your thoughts and ideas, and share it with others. Aggregating your knowledge in one place can help you to see connections between different ideas, and to develop your thinking further. 
@@ -26,7 +26,7 @@ description: A deep dive into blah blah
 tags: [notes, plant]
 date: 1970-01-30
 related: [digital-garden] # Optional, references to other notes's `slug`
-growth: sapling # Optional, but recommended, defaults to `seedling`
+growth: sapling # Optional, but recommended, defaults to `seed`
 --- 
 
 # My content
