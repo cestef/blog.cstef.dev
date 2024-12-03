@@ -1,5 +1,5 @@
 ---
-import { HIDE_SEEDLINGS_PROD, STATE_EMOJI } from "@/constants";
+import { HIDE_SEED_IN_PROD, STATE_EMOJI } from "@/constants";
 import { getCollection } from "astro:content";
 import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
@@ -11,8 +11,7 @@ dayjs.extend(utc);
 export async function getStaticPaths() {
 	const blogEntries = await getCollection(
 		"blog",
-		(entry) =>
-			!(import.meta.env.PROD && HIDE_SEEDLINGS_PROD && entry.data.growth === "seedling")
+		(entry) => !(import.meta.env.PROD && HIDE_SEED_IN_PROD && entry.data.growth === "seed")
 	);
 	return blogEntries.map((entry) => ({
 		params: { slug: entry.slug },

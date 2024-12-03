@@ -1,6 +1,6 @@
 ---
 import { HERO, STATE_EMOJI } from "@/constants";
-import { HIDE_SEEDLINGS_PROD } from "@/constants";
+import { HIDE_SEED_IN_PROD } from "@/constants";
 import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import { getCollection } from "astro:content";
@@ -8,7 +8,7 @@ import { Icon } from "astro-icon/components";
 
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
-	.filter((e) => (isProd && HIDE_SEEDLINGS_PROD ? e.data.growth !== "seedling" : true))
+	.filter((e) => (isProd && HIDE_SEED_IN_PROD ? e.data.growth !== "seed" : true))
 	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 

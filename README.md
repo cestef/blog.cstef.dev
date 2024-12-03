@@ -1,6 +1,6 @@
 # blog.cstef.dev
 
-My personal digital garden :seedling:
+My personal digital garden :seed:
 
 A collection of notes, thoughts, and ideas, or whatever I feel like writing about. 
 
@@ -44,7 +44,7 @@ title: Hello, World!
 description: This is a description of the post
 date: 2024-11-29
 tags: [hello, world]
-growth: seedling
+growth: seed
 ---
 
 # Hello, World!
@@ -54,7 +54,7 @@ growth: seedling
 - `description`: A short description of the post
 - `date`: The date the post was published/updated
 - `tags`: An array of tags for the post, used for categorization
-- `growth`: The growth stage of the post. This can be one of: `seedling`, `sapling`, `tree`
+- `growth`: The growth stage of the post. This can be one of: `seed`, `sapling`, `tree`
 
 #### Math
 

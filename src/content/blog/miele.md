@@ -3,7 +3,7 @@ title: Reverse Engineering the TMS 220 Miele Payment System
 tags: [reverse-engineering, miele, flipper-zero, ibutton]
 description: A deep dive into the TMS 220 Miele payment system, how it works, and how I reverse-engineered it with a Flipper Zero.
 date: 2024-08-29
-growth: seedling
+growth: seed
 ---
 
 The TMS 220 is a payment system used in Miele washing machines and dryers. It's a simple device that allows users to pay for laundry cycles using so-called "Touch" devices. These devices are essentially iButtons ([_sold for 40 bucks btw_](https://www.fust.ch/de/p/haushalt/waschmaschinen-und-waeschetrockner/zubehoer-waeschepflege/miele/benutzer-touch-91800158-8386593.html)) that can be loaded with credit and used to pay for laundry cycles.

@@ -3,7 +3,7 @@ title: SquarePants Sponge Hashing
 description: A quick explaination of the sponge hashing algorithm, notably used in SHA-3
 tags: [cryptography,maths]
 date: 2024-11-21
-growth: seedling
+growth: seed
 ---
 
 In 2007, the NIST (National Institue of Standards and Technology) announced a Cryptographic Hash Algorithm Competition, with the winner being awarded the grant to be standardized as the new SHA-3. It ended in 2012 with $#smallcaps("K​")script(#smallcaps("ECCAK"))$ being announced as the winner.

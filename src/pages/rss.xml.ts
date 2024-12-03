@@ -1,4 +1,4 @@
-import { HIDE_SEEDLINGS_PROD } from "@/constants";
+import { HIDE_SEED_IN_PROD } from "@/constants";
 import rss from "@astrojs/rss";
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
@@ -9,8 +9,8 @@ export const GET: APIRoute = async () => {
 		(entry) =>
 			!(
 				import.meta.env.PROD &&
-				HIDE_SEEDLINGS_PROD &&
-				entry.data.growth === "seedling"
+				HIDE_SEED_IN_PROD &&
+				entry.data.growth === "seed"
 			),
 	);
 	const posts = await Promise.all(

@@ -1,7 +1,16 @@
 import type { BlogEntry } from "./content/config.ts";
 
-export const HIDE_SEEDLINGS_PROD = true;
-export const THEME = "nord";
+export const HIDE_SEED_IN_PROD = true;
+export const THEME: Theme = "nord";
+
+export type Theme =
+	| "catppuccin"
+	| "dracula"
+	| "gruvbox"
+	| "monokai"
+	| "nord"
+	| "solarized"
+	| "default";
 
 export const HERO: IHero = {
 	title: "blog.cstef.dev",
@@ -27,38 +36,8 @@ export type IStatusLine = {
 };
 
 export const STATE_EMOJI: { [key in BlogEntry["growth"]]: string } = {
-	seedling: "🌿",
+	seed: "🌱",
+	sprout: "🌿",
 	sapling: "🪴",
 	tree: "🌳",
 };
-
-export const THEMES = [
-	{
-		name: "Catppuccin",
-		id: "catppuccin",
-	},
-	{
-		name: "Dracula",
-		id: "dracula",
-	},
-	{
-		name: "Gruvbox",
-		id: "gruvbox",
-	},
-	{
-		name: "Monokai",
-		id: "monokai",
-	},
-	{
-		name: "Nord",
-		id: "nord",
-	},
-	{
-		name: "Solarized",
-		id: "solarized",
-	},
-	{
-		name: "Github",
-		id: "default",
-	},
-];
