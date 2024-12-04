@@ -11,13 +11,18 @@ This scalar will be published "along" with the signature in its public form $Y =
 
 1. Sample the random nonce $hat(r) <- FF_q$, along with the locking scalar $y <- FF_q$
 2. Compute their public versions $hat(R) = hat(r) dot G$ and $Y = y dot G$
-3. Compute the _aggregated_ public and private nonces $R = hat(R) + Y$, $r = hat(r) + y$
-4. Hash the challenge $e = H(R || P || m)$ using the *aggregated* nonce $R$, with $P = p dot G$, where $p$ is the private key of the signer.
+3. Compute the _aggregated_ public nonce $R = hat(R) + Y$.
+4. Hash the challenge $e = H(R || P || m)$ using the *aggregated* nonce $R$ and $P = p dot G$, where $p$ is the private key of the signer.
 5. Compute and publish the (encrypted) locked signature $hat(s) = hat(r) + e p$
 
-The final published data should be $(R, hat(s), Y)$
+> [!NOTE]
+> You may notice that we're never actually using $y$ in the signing process. This is a feature, not a bug! We can also generate this locked signature only knowing $Y$.
 
-Anyone with $y$ will now be able to get the "decrypted" signature $s$, which is behind the locking point $Y$. Let's define $s$ as follows:
+The final published data should be $(R, hat(s), Y)$ (along with the message $m$ of course). 
+
+Anyone with $y$ will now be able to get the "decrypted" signature $s$, which is behind the locking point $Y$. 
+
+With $r = hat(r) + y$, we will define $s$ as follows:
 
 $$
 s &= r + e p \
@@ -86,3 +91,8 @@ $$
 y = f(0) = sum_(i in R) y_i dot product_(j in R, j!=i) (0-j)/(i-j)
 $$
 
+And unlock the adaptor signature!
+
+$$
+s = hat(s) + y
+$$

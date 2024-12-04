@@ -252,9 +252,11 @@ export default function rehypeTypst(
 			await visitor(...args);
 		});
 		await Promise.all(promises);
+
 		const end = performance.now();
+
 		console.log(
-			`Typst: ${((end - start) / 1000).toFixed(2)}s | ${((end - start) / promises.length).toFixed(2)} [ms/el] | ${promises.length} els. | ${file.path.replace(process.cwd(), "")}`,
+			`Typst: ${((end - start) / 1000).toFixed(2)}s | ${promises.length} els. | ${((end - start) / promises.length).toFixed(2)} [ms/el] | ${file.path.replace(process.cwd(), "")}`,
 		);
 	};
 }
