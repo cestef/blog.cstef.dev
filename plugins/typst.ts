@@ -36,6 +36,20 @@ export default function rehypeTypst(
 		const matches: [any, any[]][] = [];
 		// @ts-ignore
 		visitParents(tree, null, (...args: [any, any[]]) => {
+			const [element] = args;
+			const classes: ReadonlyArray<unknown> = Array.isArray(
+				element.properties?.className,
+			)
+				? element.properties.className
+				: emptyClasses;
+
+			const languageMath = classes.includes("language-math");
+			const mathDisplay = classes.includes("math-display");
+			const mathInline = classes.includes("math-inline");
+
+			if (!languageMath && !mathDisplay && !mathInline) {
+				return;
+			}
 			matches.push(args);
 			return tree;
 		});
@@ -239,7 +253,9 @@ export default function rehypeTypst(
 		});
 		await Promise.all(promises);
 		const end = performance.now();
-		console.log(`Typst took ${end - start}ms`);
+		console.log(
+			`Typst: ${((end - start) / 1000).toFixed(2)}s | ${((end - start) / promises.length).toFixed(2)} [ms/el] | ${promises.length} els. | ${file.path.replace(process.cwd(), "")}`,
+		);
 	};
 }
 

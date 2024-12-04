@@ -1,96 +1,103 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import sitemap from "@astrojs/sitemap";
-import mdx from "@astrojs/mdx";
-import rehypeCallouts from "rehype-callouts";
-import rehypeSlug from "rehype-slug";
-import rehypePrettyCode, {
-    type Options as PrettyCodeOptions,
-} from "rehype-pretty-code";
-import { rehypeTwemoji } from "rehype-twemoji";
-import remarkMath from "remark-math";
-import remarkEmoji from "remark-emoji";
-import { rehypePikchr } from "./plugins/pikchr";
-import rehypeTypst from "./plugins/typst";
-import {
-    bundledLanguages,
-    createCssVariablesTheme,
-    getSingletonHighlighter,
-} from "shiki";
-import pikchrLang from "./syntaxes/pikchr.tmLanguage.json";
-import icon from "astro-icon";
-import { remarkReadingTime } from "./plugins/reading-time";
-import rehypeCopy from "./plugins/copy";
-import { remarkModifiedTime } from "./plugins/modified";
-import { rehypeTypstRaw } from "./plugins/raw-typst";
-import rehypeRaw from "rehype-raw";
 
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
+import icon from "astro-icon";
+import purgecss from "astro-purgecss";
 import playformCompress from "@playform/compress";
 
-import purgecss from "astro-purgecss";
-import { remarkInclude } from "./plugins/include";
+import rehypeCallouts from "rehype-callouts";
+import rehypePrettyCode, {
+	type Options as PrettyCodeOptions,
+} from "rehype-pretty-code";
+import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
+import { rehypeTwemoji } from "rehype-twemoji";
+import remarkEmoji from "remark-emoji";
+import remarkMath from "remark-math";
+import {
+	bundledLanguages,
+	createCssVariablesTheme,
+	getSingletonHighlighter,
+} from "shiki";
 
-import min from "astro-min";
+import rehypeCopy from "./plugins/copy";
+import { remarkModifiedTime } from "./plugins/modified";
+import { rehypePikchr } from "./plugins/pikchr";
+import { rehypeTypstRaw } from "./plugins/raw-typst";
+import { remarkReadingTime } from "./plugins/reading-time";
+import { remarkInclude } from "./plugins/include";
+import rehypeTypst from "./plugins/typst";
+
+import pikchrLang from "./syntaxes/pikchr.tmLanguage.json";
 
 const shikiTheme = createCssVariablesTheme({
-    name: "default",
-    variablePrefix: "--shiki-",
-    variableDefaults: {},
-    fontStyle: true,
+	name: "default",
+	variablePrefix: "--shiki-",
+	variableDefaults: {},
+	fontStyle: true,
 });
 
 // https://astro.build/config
 export default defineConfig({
-    output: "static",
-    site: "https://blog.cstef.dev",
-    integrations: [
-      tailwind(),
-      sitemap(),
-      mdx(),
-      icon(),
-      playformCompress(),
-      purgecss(),
-      min(),
-    ],
-    build: {
-        inlineStylesheets: "never",
-    },
-    markdown: {
-        rehypePlugins: [
-            rehypeRaw,
-            rehypeCopy,
-            rehypeSlug,
-            rehypeCallouts,
-            rehypePikchr,
-            rehypeTypst,
-            rehypeTypstRaw,
-            [
-                rehypePrettyCode,
-                {
-                    getHighlighter: () =>
-                        getSingletonHighlighter({
-                            themes: [shikiTheme],
-                            langs: [...Object.values(bundledLanguages), pikchrLang] as any,
-                        }),
-                    // @ts-ignore
-                    theme: "default",
-                } satisfies PrettyCodeOptions,
-            ],
-            [
-                rehypeTwemoji,
-                {
-                    format: "svg",
-                    source: "https://cdn.jsdelivr.net/gh/twitter/twemoji@latest",
-                },
-            ],
-        ],
-        remarkPlugins: [
-            remarkInclude,
-            remarkMath,
-            remarkEmoji,
-            remarkReadingTime,
-            remarkModifiedTime,
-        ],
-        syntaxHighlight: false,
-    },
+	output: "static",
+	site: "https://blog.cstef.dev",
+	integrations: [
+		tailwind(),
+		sitemap(),
+		mdx(),
+		icon(),
+		playformCompress(),
+		purgecss(),
+		{
+			hooks: {
+				"astro:config:setup": (config) => {
+					config.addWatchFile("plugins/*");
+				},
+			},
+			name: "reload-plugins",
+		},
+	],
+	build: {
+		inlineStylesheets: "never",
+	},
+	markdown: {
+		rehypePlugins: [
+			rehypeRaw,
+			rehypeCopy,
+			rehypeSlug,
+			rehypeCallouts,
+			rehypePikchr,
+			rehypeTypst,
+			rehypeTypstRaw,
+			[
+				rehypePrettyCode,
+				{
+					getHighlighter: () =>
+						getSingletonHighlighter({
+							themes: [shikiTheme],
+							langs: [...Object.values(bundledLanguages), pikchrLang] as any,
+						}),
+					// @ts-ignore
+					theme: "default",
+				} satisfies PrettyCodeOptions,
+			],
+			[
+				rehypeTwemoji,
+				{
+					format: "svg",
+					source: "https://cdn.jsdelivr.net/gh/twitter/twemoji@latest",
+				},
+			],
+		],
+		remarkPlugins: [
+			remarkInclude,
+			remarkMath,
+			remarkEmoji,
+			remarkReadingTime,
+			remarkModifiedTime,
+		],
+		syntaxHighlight: false,
+	},
 });
