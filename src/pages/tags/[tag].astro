@@ -2,21 +2,29 @@
 import { getCollection } from "astro:content";
 import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
+import { HIDE_SEED_IN_PROD } from "@/constants";
 
 export async function getStaticPaths() {
-    const blogEntries = await getCollection('blog');
-    const tagsToEntries = blogEntries.reduce((acc, entry) => {
-        for (const tag of entry.data.tags) {
-            if (!acc[tag]) {
-                acc[tag] = [];
-            }
-            acc[tag].push(entry);
-        }
-        return acc;
-    }, {} as Record<string, typeof blogEntries>);
-    return Object.entries(tagsToEntries).map(([tag, entries]) => ({
-        params: { tag }, props: { entries },
-    }));
+	const blogEntries = await getCollection(
+		"blog",
+		(entry) => !(import.meta.env.PROD && HIDE_SEED_IN_PROD && entry.data.growth === "seed")
+	);
+	const tagsToEntries = blogEntries.reduce(
+		(acc, entry) => {
+			for (const tag of entry.data.tags) {
+				if (!acc[tag]) {
+					acc[tag] = [];
+				}
+				acc[tag].push(entry);
+			}
+			return acc;
+		},
+		{} as Record<string, typeof blogEntries>
+	);
+	return Object.entries(tagsToEntries).map(([tag, entries]) => ({
+		params: { tag },
+		props: { entries },
+	}));
 }
 
 const { entries } = Astro.props;
@@ -24,15 +32,16 @@ const { tag } = Astro.params;
 ---
 
 <RootLayout path={`/tags/${tag}`}>
-    <Prose>
-        <h1>Tag: {entries[0].data.tags[0]}</h1>
-        <ul>
-            {entries.map(entry => (
-                <li>
-                    <a href={`/blog/${entry.slug}`}>{entry.data.title}</a>
-                </li>
-            ))}
-        </ul>
-    </Prose>
+	<Prose>
+		<h1>Tag: {entries[0].data.tags[0]}</h1>
+		<ul>
+			{
+				entries.map((entry) => (
+					<li>
+						<a href={`/blog/${entry.slug}`}>{entry.data.title}</a>
+					</li>
+				))
+			}
+		</ul>
+	</Prose>
 </RootLayout>
-
