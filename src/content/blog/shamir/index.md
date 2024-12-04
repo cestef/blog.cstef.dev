@@ -29,7 +29,7 @@ $$
 ZZ_q = {0,1,2,..., q-1}
 $$
 
-<small>In the case of an [elliptic curve](/post/elliptic-curve), $q$ is our curve's order.</small>
+<small>In the case of an [elliptic curve](/posts/elliptic-curve), $q$ is our curve's order.</small>
 </details>
 
 The first step is to sample a random polynomial $f(x) = P_(k-1) (x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ of degree $k-1$ such that $a_0 = s$. This gives us the property $f(0) = s$.
@@ -63,7 +63,7 @@ In our case, $deg(f(x)) = k-1$, so we need $(k-1)+1 = k$ points to restore $f(x)
 Based on the shares we generated earlier, let's take $Z_1(1, 50)$, $Z_3(3, 84)$ and $Z_5(5, 142)$ (our recovery group $R = {1,2,5}$) to reconstruct the polynomial $f(x)$ using Lagrange interpolation:
 
 > [!TIP]
-> If you're curious about Lagrange interpolation, I have written a [quick explaination](/post/lagrange) for you to read.
+> If you're curious about Lagrange interpolation, I have written a [quick explaination](/posts/lagrange) for you to read.
 
 $$
 f(x) = sum_(i in R) y_i dot overbrace(product_(j in R, j!=i) (x-x_i)/(x_i - x_j), l_i(x)) \
@@ -88,7 +88,7 @@ We need a way to check that the share we receive as a shareholder after the secr
 Instead, let's take advantage of the properties of elliptic curves to create a commitment scheme. After we have generated our polynomial $f(x)$, we can take each coefficient $a_i$ and multiply it by the generator point $G$ of the curve. This gives us a few values $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G$ that we can send to the shareholders.
 
 > [!TIP]
-> If you are not familiar with basic elliptic curve stuff, I recommend that you read [my post](/post/elliptic-curve) on the subject or the [references](#references--suggested-readings) listed at the end of this article.
+> If you are not familiar with basic elliptic curve stuff, I recommend that you read [my post](/posts/elliptic-curve) on the subject or the [references](#references--suggested-readings) listed at the end of this article.
 
 When a shareholder wants to verify their share $Z_i = (i, f(i))$, they can check with the following equation:
 
