@@ -12,13 +12,22 @@ export const BlogSchema = z.object({
 	related: z.array(reference("blog")).optional(),
 });
 
+export const HomeSchema = z.object({});
+
 const blogCollection = defineCollection({
 	type: "content",
 	schema: BlogSchema,
 });
 
+const homeCollection = defineCollection({
+	type: "content",
+	schema: HomeSchema,
+});
+
 export type BlogEntry = z.infer<typeof BlogSchema>;
+export type HomeEntry = z.infer<typeof HomeSchema>;
 
 export const collections = {
 	blog: blogCollection,
+	home: homeCollection,
 };
