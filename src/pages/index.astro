@@ -9,7 +9,13 @@ import { Icon } from "astro-icon/components";
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
 	.filter((e) => (isProd && HIDE_SEED_IN_PROD ? e.data.growth !== "seed" : true))
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+	.slice(0, 3);
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const { Content: Corrections } = await (await getCollection("home"))
+	.find((e) => e.slug === "corrections")!
+	.render();
 ---
 
 <RootLayout path="/">
@@ -61,6 +67,19 @@ const posts = (await getCollection("blog"))
 				<p>No posts yet. Check back later!</p>
 			)
 		}
+
+		<a
+			href="/posts"
+			class="decoration-2 underline-offset-2 hover:decoration-2/30 transition-all duration-200"
+		>
+			<div class="flex gap-2 items-center justify-center">
+				<p class="text-muted-foreground">View all posts</p>
+				<Icon name="octicon:arrow-right-16" class="h-[1.2rem] w-[1.2rem] text-[--link]" />
+			</div>
+		</a>
+
+		<Corrections />
+
 		<a
 			href="/rss.xml"
 			class="decoration-muted decoration-2 underline-offset-2 hover:decoration-muted-foreground/30 transition-all duration-200"

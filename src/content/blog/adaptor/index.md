@@ -129,6 +129,30 @@ y = s_B - hat(s)_B \
 s_A = hat(s)_A + y
 $$
 
+## Nullifying Adaptor Signatures
+
+In the previous case, we saw how two parties could jointly sign a transaction without the need for a trusted third party. But what if one of the parties wanted to cancel the transaction? 
+
+If Alice wants to cancel the transaction, she can simply discard her $y$ and never publish it. Bob will then be unable to unlock the signature $hat(s)_A$ and claim the transaction.
+
+However, if Bob wants to cancel the transaction, how can Alice confirm that she will never publish $s_B$? There needs to be some sort of threat against Alice to ensure that she will not publish $s_B$.
+
+### Private Key Exposure Threat
+
+By publishing her random nonce $hat(r)_A$, Alice guarantees that she will never publish $s_B$. Otherwise, Bob will be able to recover $y = s_B - hat(s)_B$ and thus compute Alice's private key $p_A$:
+
+$$
+s_A &= hat(s)_A + y \
+    &= underbrace(hat(r)_A + y + e, "known") dot p_A \ \
+<==> p_A &= e^(-1) (s_A - (hat(r) + y))
+$$
+
+Bob can also verify that the nonce $hat(r)_A$ published by Alice is authentic:
+
+$$
+R_A = hat(r)_A dot G + Y
+$$
+
 ## Secret Sharing + Adaptor Signatures = ?
 
 One cool feature of $k$-of-$n$ treshold schemes, such as [Shamir's Secret Sharing](/posts/shamir), is that they can be integrated into pretty much anything that has a secret in it. This includes Adaptor signatures locking scalars!
