@@ -122,13 +122,11 @@ $$
 
 After he sends it to Alice, she can claim the transaction linked to the signature $hat(s)_B$ by unlocking it with her $y$ and publishing it to the blockchain. By doing so, everyone will be able to see the transaction and the associated decrypted signature $s_B = hat(s)_B + y$.
 
-After this publication, Bob will also be able to compute $y$ as he also got $hat(s)_A = s_A - y$ from Alice:
+After this publication, Bob will also be able to compute $y$ and unlock Alice's $hat(s)_A$:
 
 $$
-cases(
-    hat(s)_A = s_A - y,
-    hat(s)_B = s_B - y,
-)
+y = s_B - hat(s)_B \
+s_A = hat(s)_A + y
 $$
 
 ## Secret Sharing + Adaptor Signatures = ?
