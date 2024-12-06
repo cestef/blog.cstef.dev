@@ -6,7 +6,7 @@ import { toText } from "hast-util-to-text";
 import sharp from "sharp";
 import { SKIP, visitParents } from "unist-util-visit-parents";
 import type { VFile } from "vfile";
-import { getRenderCache, setRenderCache } from "./utils/cache";
+import { getRenderCache, hashValue, setRenderCache } from "./utils/cache";
 import {
 	customStyles,
 	displayMathTemplate,
@@ -18,6 +18,8 @@ export const compilerIns: { current: NodeCompiler | null } = { current: null };
 import { optimize } from "svgo";
 import { remove } from "unist-util-remove";
 import { THEME } from "../src/constants";
+import { xxh64 } from "@node-rs/xxhash";
+import { pack } from "msgpackr";
 
 interface Options {
 	errorColor?: string;
@@ -53,7 +55,7 @@ export default function rehypeTypst(
 			matches.push(args);
 			return tree;
 		});
-
+		let cachedCount = 0;
 		const visitor = async (
 			element: any,
 			parents: any[],
@@ -92,10 +94,15 @@ export default function rehypeTypst(
 
 			const value = toText(scope, { whitespace: "pre" });
 			let result: any = null;
-			const cached = await getRenderCache("typst", { value, displayMode });
+			const hash = hashValue({ value, displayMode });
+			const cached = await getRenderCache(
+				"typst",
+				{ value, displayMode },
+				hash,
+			);
 			if (cached) {
-				// console.log("Typst raw cache hit", performance.now() - start);
 				result = cached;
+				cachedCount++;
 			} else {
 				try {
 					result = {
@@ -256,7 +263,7 @@ export default function rehypeTypst(
 		const end = performance.now();
 
 		console.log(
-			`Typst: ${((end - start) / 1000).toFixed(2)}s | ${promises.length} els. | ${((end - start) / promises.length).toFixed(2)} [ms/el] | ${file.path.replace(process.cwd(), "")}`,
+			`Typst: ${((end - start) / 1000).toFixed(2)}s | ${promises.length} els. | ${((end - start) / promises.length).toFixed(2)} [ms/el] | ${file.path.replace(process.cwd(), "")} | ${cachedCount} cached (${((cachedCount / promises.length) * 100).toFixed(2)}%)`,
 		);
 	};
 }
