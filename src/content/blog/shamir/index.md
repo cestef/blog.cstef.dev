@@ -11,7 +11,6 @@ growth: sapling
 >
 > The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
 
-
 The main idea behind Shamir Secret Sharing (SSS) is to split a secret $s$ into $n$ parts, such that any $k$ parts can be used to reconstruct the secret, but any $k-1$ parts are not enough to do so, and do not give any information about the secret.
 
 ### Splitting the Secret
