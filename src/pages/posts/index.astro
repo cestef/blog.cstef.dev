@@ -1,7 +1,8 @@
 ---
-import { HIDE_SEED_IN_PROD } from "@/constants";
+import { HIDE_SEED_IN_PROD, STATE_EMOJI } from "@/constants";
 import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
+import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 
 const isProd = import.meta.env.PROD;
@@ -23,23 +24,110 @@ const postsByYear = posts.reduce(
 
 <RootLayout path="/posts">
 	<Prose>
-		<h1>Posts</h1>
+		<div class="flex flex-row items-center mt-0">
+			<h1>Posts</h1>
+			<div class="flex-grow"></div>
+			<div class="flex gap-2 items-center justify-center">
+				<Icon
+					name="octicon:list-unordered-16"
+					class="text-muted-foreground cursor-pointer"
+					onclick="list();"
+				/>
+				|
+				<Icon
+					name="octicon:rows-16"
+					class="text-muted-foreground cursor-pointer"
+					onclick="grid();"
+				/>
+			</div>
+		</div>
+		<p>Here are all the posts I've written.</p>
+
 		{
 			Object.entries(postsByYear).map(([year, posts]) => (
 				<section>
-					<h2>{year}</h2>
-					<ul>
+					<h2 class="!mt-6">{year}</h2>
+					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="grid">
 						{posts.map((post) => (
-							<li>
+							<div class="border border-muted p-3 rounded-md flex flex-col justify-between h-full relative">
+								<div>
+									<a
+										href={`/posts/${post.slug}`}
+										class="underline-offset-2 decoration-2 mb-1 block no-underline text-base xl:text-lg lg:py-2 title"
+									>
+										{post.data.title.trim()}
+									</a>
+									<span class="text-muted-foreground block mb-1 text-sm">
+										{post.data.date.toLocaleDateString()}
+									</span>
+									<p class="text-muted-foreground text-sm description hidden !mb-2">
+										{post.data.description}
+									</p>
+								</div>
 								<a
-									href={`/posts/${post.slug}`}
-									class="underline-offset-2 decoration-2"
-								>{post.data.title.trim()}</a><span class="text-muted-foreground"> ({post.data.date.toLocaleDateString()})</span>
-							</li>
+									href={`/growths/${post.data.growth}`}
+									class="bg-accent text-accent-foreground px-1 py-0.5 rounded-md text-xs lg:text-sm xl:text-base font-bold no-underline absolute top-2 right-2 state-emoji"
+								>
+									{STATE_EMOJI[post.data.growth]}
+								</a>
+							</div>
 						))}
-					</ul>
+					</div>
 				</section>
 			))
 		}
 	</Prose>
 </RootLayout>
+
+<script is:inline>
+	const cache = {
+		get(key) {
+			return JSON.parse(localStorage.getItem(key));
+		},
+		set(key, value) {
+			localStorage.setItem(key, JSON.stringify(value));
+		},
+	};
+	function grid() {
+		document
+			.getElementById("grid")
+			.classList.remove("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
+		document
+			.getElementById("grid")
+			.classList.add("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
+
+		document.querySelectorAll(".description").forEach((el) => el.classList.add("hidden"));
+		document.querySelectorAll(".state-emoji").forEach((el) => {
+			el.classList.remove("top-2");
+			el.classList.add("bottom-2");
+		});
+		document.querySelectorAll(".title").forEach((el) => el.classList.add("block"));
+		cache.set("state", "grid");
+	}
+
+	function list() {
+		document
+			.getElementById("grid")
+			.classList.remove("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
+		document.getElementById("grid").classList.add("grid-cols-1");
+
+		document.querySelectorAll(".description").forEach((el) => el.classList.remove("hidden"));
+		document.querySelectorAll(".state-emoji").forEach((el) => {
+			el.classList.remove("bottom-2");
+			el.classList.add("top-2");
+		});
+		document.querySelectorAll(".title").forEach((el) => el.classList.remove("block"));
+		cache.set("state", "list");
+	}
+
+	const state = cache.get("state");
+	switch (state) {
+		case "list":
+			list();
+			break;
+		case "grid":
+		default:
+			grid();
+			break;
+	}
+</script>
