@@ -12,15 +12,15 @@ This scalar will be published "along" with the signature in its public form $Y =
 1. Sample the random nonce $hat(r) <- FF_q$, along with the locking scalar $y <- FF_q$
 2. Compute their public versions $hat(R) = hat(r) dot G$ and $Y = y dot G$
 3. Compute the _aggregated_ public nonce $R = hat(R) + Y$.
-4. Hash the challenge $e = H(R || P || m)$ using the *aggregated* nonce $R$ and $P = p dot G$, where $p$ is the private key of the signer.
+4. Hash the challenge $e = H(R || P || m)$ using the _aggregated_ nonce $R$ and $P = p dot G$, where $p$ is the private key of the signer.
 5. Compute and publish the (encrypted) locked signature $hat(s) = hat(r) + e p$
 
 > [!NOTE]
 > You may notice that we're never actually using $y$ in the signing process. This is a feature, not a bug! We can also generate this locked signature only knowing $Y$.
 
-The final published data should be $(R, hat(s), Y)$ (along with the message $m$ of course). 
+The final published data should be $(R, hat(s), Y)$ (along with the message $m$ of course).
 
-Anyone with $y$ will now be able to get the "decrypted" signature $s$, which is behind the locking point $Y$. 
+Anyone with $y$ will now be able to get the "decrypted" signature $s$, which is behind the locking point $Y$.
 
 With $r = hat(r) + y$, we will define $s$ as follows:
 
@@ -67,6 +67,68 @@ $$
                    &= (r + y) dot G + e p dot G \
                    &= ((r + e p) + y) dot G \
                    &= (hat(s) + y) dot G space checkmark
+$$
+
+## Atomic Swaps
+
+Exchanging cryptocurrencies between different blockchains is hard. Typically, you'd need a trusted third party to act as a middleman, which would obviously need to be compensated financially for his work. Doing things this way is costly and pretty inefficient. Instead, we can leverage Adaptor Signatures to ensure that either both parties get what they expected, either both get nothing.
+
+We have Alice, holder of $1 space suit.club$, and Bob, holder of $1 space suit.heart$. They want to exchange both their balances, and we assume they already know each other's addresses on both chains.
+
+Alice starts by sampling $hat(r)_A, y <- FF_q$, and computes an adaptor signature as usual, on a message $m$ that attests the transaction of her $1 space suit.club$ to Bob's address:
+
+$$
+hat(R)_A = hat(r)_A dot G, space Y = y dot G \
+R_A = hat(R)_A + Y \
+e_A = H(R_A || P_A || m) \
+hat(s)_A = hat(r)_A + e_A p_A
+$$
+
+The BIP340 standard expects to receive a signature pair in the form $(O, sigma)$, on which the following check is performed:
+
+$$
+sigma dot G =^? O + H(O || P || m) P
+$$
+
+If Bob was to try to give in $O = hat(R)_A$ and $sigma = hat(s)_A$:
+
+$$
+hat(s)_A dot G &=^? hat(R)_A + H(underline(hat(R)_A) || P_A || m) P_A \
+             &!= underbrace(hat(R)_A + H(underline(R_A) || P_A || m) P_A, hat(s)_A dot G)
+$$
+
+Or $O = R_A$ and $sigma = hat(s)_A$:
+
+$$
+hat(s)_A dot G &=^? underline(R_A) + H(R_A || P_A || m) P_A \
+             &!= underbrace(underline(hat(R)_A) + H(R_A || P_A || m) P_A, hat(s)_A dot G)
+$$
+
+You could say that he cannot satisfy both the challenge $e$ **and** the nonce $O$. To do so, he needs to know $y$ to compute $s_A = hat(s)_A + y$ so that when he gives in $O = R_A$ and $sigma = s_A$:
+
+$$
+(hat(s)_A + y) dot G &=^? R_A + H(R_A || P_A || m) P_A \
+                   &= (r_A + e_A p_A) dot G \
+                   &= s_A dot G space checkmark
+$$
+
+Back to our stuff, when Bob receives the adaptor signature $(R, hat(s), Y)$ from Alice, after having carefully verified that the given data is correct, he can also generate his own adaptor signature $s_B$ on Alice's $y$ by using $Y$:
+
+$$
+hat(r)_B <- FF_q \
+R_B = hat(r)_B dot G + Y \
+hat(s)_B = hat(r)_B + H(R_B || P_B || m) p_B
+$$
+
+After he sends it to Alice, she can claim the transaction linked to the signature $hat(s)_B$ by unlocking it with her $y$ and publishing it to the blockchain. By doing so, everyone will be able to see the transaction and the associated decrypted signature $s_B = hat(s)_B + y$.
+
+After this publication, Bob will also be able to compute $y$ as he also got $hat(s)_A = s_A - y$ from Alice:
+
+$$
+cases(
+    hat(s)_A = s_A - y,
+    hat(s)_B = s_B - y,
+)
 $$
 
 ## Secret Sharing + Adaptor Signatures = ?
