@@ -3,6 +3,7 @@ title: Adaptor Signatures FtW
 description: A simple and neat way to "lock" your Schnorr signatures
 date: 2024-12-03
 tags: [cryptography, maths]
+growth: sapling
 ---
 
 > [!INFO]
