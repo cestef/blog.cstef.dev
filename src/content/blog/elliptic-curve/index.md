@@ -1,5 +1,5 @@
 ---
-title: Elliptic Curve and Shenanigans for Sane People
+title: Elliptic Curves for Sane People
 tags: [cryptography, maths]
 description: A gentle introduction to elliptic curve cryptography, without the need for a PhD in mathematics.
 date: 2024-11-29
