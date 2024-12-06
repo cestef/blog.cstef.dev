@@ -1,13 +1,17 @@
 import { pack, unpack } from "msgpackr";
 import { xxh64 } from "@node-rs/xxhash";
 import fs from "node:fs";
+import path from "node:path";
+
+const CACHE_PATH = "node_modules/.astro/cache";
+
 export const getCache = () => {
 	if (!fs.existsSync(".cache")) {
 		fs.mkdirSync(".cache");
 	}
 	return {
 		get: async (key: string) => {
-			return fs.promises.readFile(`.cache/${key}`).catch((e) => {
+			return fs.promises.readFile(path.join(CACHE_PATH, key)).catch((e) => {
 				if (e.code === "ENOENT") {
 					return null;
 				}
@@ -15,12 +19,14 @@ export const getCache = () => {
 			});
 		},
 		set: async (key: string, value: any) => {
-			return fs.promises.writeFile(`.cache/${key}`, value).catch((e) => {
-				if (e.code === "ENOENT") {
-					return null;
-				}
-				throw e;
-			});
+			return fs.promises
+				.writeFile(path.join(CACHE_PATH, key), value)
+				.catch((e) => {
+					if (e.code === "ENOENT") {
+						return null;
+					}
+					throw e;
+				});
 		},
 	};
 };
