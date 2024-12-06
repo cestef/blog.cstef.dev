@@ -5,6 +5,11 @@ date: 2024-12-03
 tags: [cryptography, maths]
 ---
 
+> [!INFO]
+> I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
+>
+> The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
+
 When we compute and share a Schnorr signature, anyone can directly verify if it is valid for the attached message and signer. But what if we wanted to defer revealing the full signature while already emitting it to other people? We can produce such a signature by encrypting the nonce it contains with an additional scalar $y$.
 
 This scalar will be published "along" with the signature in its public form $Y = y dot G$. The basic signing process is the following:
@@ -180,3 +185,15 @@ And unlock the adaptor signature!
 $$
 s = hat(s) + y
 $$
+
+## References / Suggested readings
+
+- **The Riddles of Adaptor Signatures**  
+    [conduition.io](https://conduition.io/scriptless/adaptorsigs)
+
+- **Bitcoin Optech - Adaptor Signatures**  
+    [bitcoinops.org](https://bitcoinops.org/en/topics/adaptor-signatures/)
+
+- **Adaptor Signatures: New Security Definition and A Generic Construction for NP Relations⋆**  
+    Xiangyu Liu, Ioannis Tzannetos, and Vassilis Zikas  
+    [eprint.iacr.org](https://eprint.iacr.org/2024/1051.pdf) <small>[PDF]<small>
