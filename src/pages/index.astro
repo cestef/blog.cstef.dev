@@ -10,7 +10,7 @@ const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
 	.filter((e) => (isProd && HIDE_SEED_IN_PROD ? e.data.growth !== "seed" : true))
 	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-	.slice(0, 3);
+	.slice(0, 4);
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 const { Content: Corrections } = await (await getCollection("home"))
