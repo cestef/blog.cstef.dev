@@ -180,13 +180,13 @@ e = H(R || P || m) \
 s_i = e p_i + r_i
 $$
 
-Aggregate again:
+Everyone now sends their $s_i$ to the group.
+
+And aggregate again:
 
 $$
 s = sum_(i in S) s_i
 $$
-
-The final signature that can be sent to others is $(R, s)$.
 
 Because we are just adding signatures parts together, we can group the nonces and the private keys in our final signature:
 

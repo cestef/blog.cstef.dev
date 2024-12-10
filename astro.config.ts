@@ -54,6 +54,13 @@ export default defineConfig({
 	build: {
 		inlineStylesheets: "never",
 	},
+	prefetch: {
+		prefetchAll: true,
+		defaultStrategy: "viewport",
+	},
+	experimental: {
+		clientPrerender: true,
+	},
 	markdown: {
 		rehypePlugins: [
 			rehypeRaw,
