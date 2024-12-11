@@ -316,8 +316,11 @@ This way, a single malicious shareholder cannot dupe the rest of the group. But 
 
 In this case, $P_m$ (and $P_m'$) are the only ones able to recover the secret. This isn't of any good either...
 
-<small>TODO: find out if this is actually feasible?</small>
+#### Inception, again
 
+To prevent a single actor from hijacking the recovery, we could use a $j$-of-$k$ Shamir Sharing Scheme. This way, we can are sure that for at most $k-j$ malicious actors, the secret will still be recoverable.
+
+_Example:_
 
 ## References / Suggested readings
 
