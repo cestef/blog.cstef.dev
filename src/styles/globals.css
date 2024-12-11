@@ -14,6 +14,7 @@
 	margin: 0 0.05em 0 0.1em !important;
 	vertical-align: -0.1em;
 	display: inline-block;
+	border-radius: 0px !important;
 }
 
 body {

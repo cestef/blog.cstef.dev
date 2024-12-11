@@ -203,14 +203,14 @@ const { path, title, description } = Astro.props;
 </script>
 
 <script>
-	import twemoji from "twemoji";
+	import twemoji from "@twemoji/api";
 	// Replace all emojis with Twemoji images
 	const parse = () => {
 		const start = performance.now();
 		twemoji.parse(document.body, {
-			folder: "svg",
-			ext: ".svg",
-			base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/",
+			// folder: "svg",
+			// ext: ".svg",
+			// base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/",
 		});
 		console.log(`Twemoji took ${(performance.now() - start).toFixed(2)}ms`);
 	};
