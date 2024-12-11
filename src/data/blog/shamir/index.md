@@ -181,9 +181,9 @@ Let's say we have our recovery group $R$, our new shareholders $N$ and $A = R un
 2. They each compute the auxiliary shares $d_(i,j) = g_i (j)$ for $j in A$.
 3. Every shareholder $j in A$ receives the auxiliary shares $d_(i,j)$ from the recovery group.
 4. Each shareholder $j in R$ computes the aggregated share $H(j) = u_j = z_j + sum_(i in R) d_(i,j)$ and shares it to everyone in $N$.
-5. Each future bearer $j in N$ can interpolate the polynomial $H(x)$ from the shares $u_j$ and compute their share 
+5. Each future bearer $ell in N$ can interpolate the polynomial $H(x)$ from the shares $u_j | j in R$ and compute their share 
    $$
-   z_j = H(j) - sum_(i in R) d_(i,j) = u_j - sum_(i in R) d_(i,j)
+   z_ell = H(ell) - sum_(i in R) d_(i,ell) = u_ell - sum_(i in R) d_(i,ell)
    $$
 
 Let's take a look at the math:
@@ -318,9 +318,15 @@ In this case, $P_m$ (and $P_m'$) are the only ones able to recover the secret. T
 
 #### Inception, again
 
-To prevent a single actor from hijacking the recovery, we could use a $j$-of-$k$ Shamir Sharing Scheme. This way, we can are sure that for at most $k-j$ malicious actors, the secret will still be recoverable.
+To prevent a single actor from hijacking the recovery, we will leverage once again an Inception-like scheme. Here, our new scheme will be $2$-out-of-$k$. 
 
-_Example:_
+Each shareholder $i in R$ generates a random polynomial $g_i (x) = z_i + b_(i,1) x$ of degree $1$, where $z_i$ is their respective share.
+
+The commitment and sharing phase of $g_i(j) | i,j in R$ continues as usual, and before recovering the secret, two shareholders $P_m$ and $P_m'$ are chosen to reveal their shares. This way, when $P_m$ broadcasts his shares $g_i(m) | i in R$, everyone is instantly able to recover the secret. 
+
+The last step is to verify that $P_m'$ also sends his shares to $P_m$. If he does not, every other shareholder can post a complaint against him and optionally send his shares to $P_m$, who can then recover the secret.
+
+This way, we have a pretty good guarantee that the secret will be recovered by everyone, except if that very person was being explicitly targeted by the whole recovery group ($k-1$ people).
 
 ## References / Suggested readings
 
