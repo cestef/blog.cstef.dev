@@ -16,12 +16,12 @@ export const BlogSchema = z.object({
 export const HomeSchema = z.object({});
 
 const blogCollection = defineCollection({
-	loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/blog" }),
+	loader: glob({ pattern: "**/[^_]*.md", base: "./src/data/blog" }),
 	schema: BlogSchema,
 });
 
 const homeCollection = defineCollection({
-	loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/home" }),
+	loader: glob({ pattern: "**/[^_]*.md", base: "./src/data/home" }),
 	schema: HomeSchema,
 });
 

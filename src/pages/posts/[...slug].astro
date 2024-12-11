@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 		(entry) => !(import.meta.env.PROD && HIDE_SEED_IN_PROD && entry.data.growth === "seed")
 	);
 	return blogEntries.map((entry) => ({
-		params: { id: entry.id },
+		params: { slug: entry.id },
 		props: { entry },
 	}));
 }
