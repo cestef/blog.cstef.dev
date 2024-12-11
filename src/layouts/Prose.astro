@@ -12,7 +12,7 @@ import rawButtonGroup from "../components/CodeButtons.html?raw";
 </article>
 
 <script is:inline define:vars={{ rawButtonGroup }}>
-	let rawButtonGroup = rawButtonGroup; // Make astro linter happy
+	let rBG = rawButtonGroup; // Make astro linter happy
 	const applyCodeButtons = () => {
 		document.querySelectorAll("figure[data-rehype-pretty-code-figure]").forEach((figure) => {
 			figure.style.position = "relative";
@@ -21,7 +21,7 @@ import rawButtonGroup from "../components/CodeButtons.html?raw";
 				buttonGroup = document.createElement("div");
 				figure.appendChild(buttonGroup);
 				// @ts-ignore
-				buttonGroup.outerHTML = rawButtonGroup;
+				buttonGroup.outerHTML = rBG;
 				// console.log("created button group", buttonGroup);
 			}
 		});
