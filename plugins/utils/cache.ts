@@ -7,7 +7,7 @@ const CACHE_PATH = "node_modules/.astro/cache";
 
 export const getCache = () => {
 	if (!fs.existsSync(CACHE_PATH)) {
-		fs.mkdirSync(CACHE_PATH);
+		fs.mkdirSync(CACHE_PATH, { recursive: true });
 	}
 	return {
 		get: async (key: string) => {
