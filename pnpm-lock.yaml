@@ -53,6 +53,9 @@ importers:
       '@playform/compress':
         specifier: ^0.1.6
         version: 0.1.6(@types/node@22.5.4)(rollup@4.28.1)(typescript@5.5.4)
+      '@twemoji/api':
+        specifier: ^15.1.0
+        version: 15.1.0
       astro:
         specifier: ^5.0.4
         version: 5.0.4(@types/node@22.5.4)(jiti@1.21.6)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.5.4)(yaml@2.5.1)
@@ -134,9 +137,6 @@ importers:
       to-vfile:
         specifier: ^8.0.0
         version: 8.0.0
-      twemoji:
-        specifier: ^14.0.2
-        version: 14.0.2
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
@@ -1474,6 +1474,12 @@ packages:
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
+
+  '@twemoji/api@15.1.0':
+    resolution: {integrity: sha512-CySXR4/e6vY0z9lC2tW9EVjsH6zzz2/LQvLRMwwpHsDI4xcaweSIP+LcESf1Mq7w2/zcrrhG4ozniMvpSsEXag==}
+
+  '@twemoji/parser@15.1.0':
+    resolution: {integrity: sha512-3HTiSxPvkWUJ4kZeCvwyKlIwkpTUfBOk6igpBBRQni58ceQMv5YK4smkc8vX/eqOlMMNER/9qobv+Q6Q8LVrqA==}
 
   '@tybys/wasm-util@0.9.0':
     resolution: {integrity: sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==}
@@ -5364,6 +5370,15 @@ snapshots:
       tailwindcss: 3.4.10
 
   '@trysound/sax@0.2.0': {}
+
+  '@twemoji/api@15.1.0':
+    dependencies:
+      '@twemoji/parser': 15.1.0
+      fs-extra: 8.1.0
+      jsonfile: 5.0.0
+      universalify: 0.1.2
+
+  '@twemoji/parser@15.1.0': {}
 
   '@tybys/wasm-util@0.9.0':
     dependencies:
