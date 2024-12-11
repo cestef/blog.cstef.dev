@@ -289,10 +289,19 @@ export async function renderToSVGString(
 	const svgString = toHtml(res.svg);
 
 	const { data: optimized } = import.meta.env.PROD
-		? optimize(svgString, {
-				multipass: true,
-				datauri: "enc",
-			})
+		? (() => {
+				try {
+					return optimize(svgString, {
+						multipass: true,
+						datauri: "enc",
+					});
+				} catch (error) {
+					console.error("Could not optimize SVG", error);
+					return {
+						data: `data:image/svg+xml,${encodeURIComponent(svgString)}`,
+					};
+				}
+			})()
 		: { data: `data:image/svg+xml,${encodeURIComponent(svgString)}` };
 
 	const alt = code.slice(0, 50);
