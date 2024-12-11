@@ -3,7 +3,7 @@ import { HERO, STATE_EMOJI } from "@/constants";
 import { HIDE_SEED_IN_PROD } from "@/constants";
 import Prose from "@/layouts/Prose.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { Icon } from "astro-icon/components";
 
 const isProd = import.meta.env.PROD;
@@ -12,10 +12,10 @@ const posts = (await getCollection("blog"))
 	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 	.slice(0, 4);
 
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
-const { Content: Corrections } = await (await getCollection("home"))
-	.find((e) => e.slug === "corrections")!
-	.render();
+const { Content: Corrections } = await render(
+	// biome-ignore lint/style/noNonNullAssertion: <explanation>
+	(await getCollection("home")).find((e) => e.id === "corrections")!
+);
 ---
 
 <RootLayout path="/">
@@ -39,7 +39,7 @@ const { Content: Corrections } = await (await getCollection("home"))
 							<div>
 								<h3 class="flex items-center gap-2 md:gap-4">
 									<a
-										href={`/posts/${post.slug}`}
+										href={`/posts/${post.id}`}
 										data-astro-prefetch
 										class="underline-offset-2 decoration-2 max-w-[70%] w-fit"
 									>

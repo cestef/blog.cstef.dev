@@ -17,7 +17,7 @@ export const GET: APIRoute = async () => {
 		blogEntries.map(async (entry) => {
 			return {
 				...entry.data,
-				slug: entry.slug,
+				id: entry.id,
 			};
 		}),
 	).then((posts) => posts.sort((a, b) => b.date.getTime() - a.date.getTime()));
@@ -27,7 +27,7 @@ export const GET: APIRoute = async () => {
 		description:
 			"A blog about software development, maths, or whatever else I feel like writing about.",
 		items: posts.map((post) => ({
-			link: `https://blog.cstef.dev/posts/${post.slug}`,
+			link: `https://blog.cstef.dev/posts/${post.id}`,
 			pubDate: post.date,
 			categories: post.tags,
 			...post,

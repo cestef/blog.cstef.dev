@@ -1,4 +1,5 @@
 import { defineCollection, reference, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 export const GrowthSchema = z.enum(["seed", "sprout", "sapling", "tree"]);
 
@@ -15,12 +16,12 @@ export const BlogSchema = z.object({
 export const HomeSchema = z.object({});
 
 const blogCollection = defineCollection({
-	type: "content",
+	loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/blog" }),
 	schema: BlogSchema,
 });
 
 const homeCollection = defineCollection({
-	type: "content",
+	loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/home" }),
 	schema: HomeSchema,
 });
 

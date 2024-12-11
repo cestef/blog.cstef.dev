@@ -38,7 +38,7 @@ const { tag } = Astro.params;
 			{
 				entries.map((entry) => (
 					<li>
-						<a href={`/blog/${entry.slug}`}>{entry.data.title}</a>
+						<a href={`/blog/${entry.id}`}>{entry.data.title}</a>
 					</li>
 				))
 			}

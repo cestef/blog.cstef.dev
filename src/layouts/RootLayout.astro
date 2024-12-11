@@ -2,9 +2,9 @@
 import "@fontsource-variable/fira-code";
 import "@/styles/globals.css";
 
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import ModeSwitch from "@/components/ModeSwitch.astro";
-import { STATUS_LINE, THEME } from "@/constants";
+import { STATUS_LINE, THEME, UMAMI_ID } from "@/constants";
 import type { MarkdownHeading } from "astro";
 
 export interface Props {
@@ -30,11 +30,16 @@ const { path, title, description } = Astro.props;
 		/>
 		<title>{title ? title : "cstef's Digital Garden"}</title>
 		<meta name="description" content={description} />
-		<script
-			defer
-			is:inline
-			src="https://cloud.umami.is/script.js"
-			data-website-id="74a3da64-cfd7-4913-8918-46a139df3117"></script>
+		{
+			UMAMI_ID && (
+				<script
+					defer
+					is:inline
+					src={`https://cloud.umami.is/script.js`}
+					data-website-id={UMAMI_ID}
+				/>
+			)
+		}
 		<script is:inline>
 			const setMode = () => {
 				console.log("setMode");
@@ -57,7 +62,7 @@ const { path, title, description } = Astro.props;
 
 			document.addEventListener("astro:after-swap", setMode);
 		</script>
-		<ViewTransitions />
+		<ClientRouter />
 	</head>
 	<body class="min-h-[100svh]">
 		<div class="fixed top-0 left-0 w-full bg-accent flex z-10">
@@ -201,11 +206,13 @@ const { path, title, description } = Astro.props;
 	import twemoji from "twemoji";
 	// Replace all emojis with Twemoji images
 	const parse = () => {
+		const start = performance.now();
 		twemoji.parse(document.body, {
 			folder: "svg",
 			ext: ".svg",
 			base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/",
 		});
+		console.log(`Twemoji took ${performance.now() - start}ms`);
 	};
 	parse();
 	document.addEventListener("DOMContentLoaded", parse);

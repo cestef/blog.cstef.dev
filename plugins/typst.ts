@@ -18,8 +18,6 @@ export const compilerIns: { current: NodeCompiler | null } = { current: null };
 import { optimize } from "svgo";
 import { remove } from "unist-util-remove";
 import { THEME } from "../src/constants";
-import { xxh64 } from "@node-rs/xxhash";
-import { pack } from "msgpackr";
 
 interface Options {
 	errorColor?: string;

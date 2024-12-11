@@ -1,5 +1,5 @@
 ---
-import { GrowthSchema } from "@/content/config";
+import { GrowthSchema } from "@/content.config";
 import RootLayout from "@/layouts/RootLayout.astro";
 import Prose from "@/layouts/Prose.astro";
 import { HIDE_SEED_IN_PROD, STATE_EMOJI } from "@/constants";
@@ -32,7 +32,7 @@ const emoji = STATE_EMOJI[growth];
 			{
 				entries.map((entry) => (
 					<li>
-						<a href={`/posts/${entry.slug}`}>{entry.data.title}</a>
+						<a href={`/posts/${entry.id}`}>{entry.data.title}</a>
 					</li>
 				))
 			}

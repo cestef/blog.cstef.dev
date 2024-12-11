@@ -6,8 +6,8 @@ import path from "node:path";
 const CACHE_PATH = "node_modules/.astro/cache";
 
 export const getCache = () => {
-	if (!fs.existsSync(".cache")) {
-		fs.mkdirSync(".cache");
+	if (!fs.existsSync(CACHE_PATH)) {
+		fs.mkdirSync(CACHE_PATH);
 	}
 	return {
 		get: async (key: string) => {
@@ -23,6 +23,7 @@ export const getCache = () => {
 				.writeFile(path.join(CACHE_PATH, key), value)
 				.catch((e) => {
 					if (e.code === "ENOENT") {
+						console.log("Could not write cache", e);
 						return null;
 					}
 					throw e;
@@ -43,6 +44,10 @@ export const getRenderCache = async (
 	const hash = preComputedHash ?? hashValue(value);
 	const res = await cache.get(`${type}:${hash}`);
 	if (res) {
+		if (res.length === 0) {
+			// Empty cache (e.g. from a previous error)
+			return null;
+		}
 		return unpack(res);
 	}
 	return null;
