@@ -212,7 +212,7 @@ const { path, title, description } = Astro.props;
 			ext: ".svg",
 			base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/",
 		});
-		console.log(`Twemoji took ${performance.now() - start}ms`);
+		console.log(`Twemoji took ${(performance.now() - start).toFixed(2)}ms`);
 	};
 	parse();
 	document.addEventListener("DOMContentLoaded", parse);
