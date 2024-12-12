@@ -59,7 +59,7 @@ We know that $n+1$ points $Z_i (x_i, y_i) | i in S$ will suffice to construct th
 
 In our case, $deg(f(x)) = k-1$, so we need $(k-1)+1 = k$ points to restore $f(x)$, just as described in the beginning.
 
-Based on the shares we generated earlier, let's take $Z_1(1, 50)$, $Z_3(3, 84)$ and $Z_5(5, 142)$ (our recovery group $R = {1,2,5}$) to reconstruct the polynomial $f(x)$ using Lagrange interpolation:
+Based on the shares we generated earlier, let's take $Z_1(1, 50)$, $Z_3(3, 84)$ and $Z_5(5, 142)$ (our recovery group $R = {1,3,5}$) to reconstruct the polynomial $f(x)$ using Lagrange interpolation:
 
 > [!TIP]
 > If you're curious about Lagrange interpolation, I have written a [quick explaination](/posts/lagrange) for you to read.
@@ -269,6 +269,9 @@ One may naively try to implement a simple broadcast or pairwise exchange protoco
 If everyone distrusts each other, we will have this strange situation where no one wants to send their share first. One may prove that they own a valid share with a Zero-Knowledge Proof ZKP, but will never be able to prove that he's actually going to send it to the others.
 
 One "solution" to this problem (in my opinion the easiest to implement) is to set a pre-defined order in which shareholders need to reveal their shares, after which it is verified each time by the others. If the share is invalid or the bearer fails to send it within a given time, the others can post a complaint against this user and abort the process.
+
+> [!WARNING]
+> All the methods I describe below are purely experimental, and I have no idea if they are actually secure or not. If you have any feedback, please [let me know](mailto:hi@cstef.dev)!
 
 #### Commitments-based ordering
 
