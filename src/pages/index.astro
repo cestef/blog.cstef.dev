@@ -9,8 +9,12 @@ import { Icon } from "astro-icon/components";
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
 	.filter((e) => (isProd && HIDE_SEED_IN_PROD ? e.data.growth !== "seed" : true))
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-	.slice(0, 4);
+	.map((e) => ({
+		...e,
+		lastModified: new Date((e.rendered?.metadata?.frontmatter as any).lastModified),
+	}))
+	.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime())
+	.slice(0, 5);
 
 const { Content: Corrections } = await render(
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
@@ -48,7 +52,8 @@ const { Content: Corrections } = await render(
 									<div class="flex-grow" />{" "}
 									<div class="flex-wrap flex items-center justify-center gap-y-2 gap-x-4">
 										<span class="text-sm text-muted-foreground">
-											{post.data.date.toLocaleDateString()}
+											{post.lastModified.toLocaleDateString() ||
+												post.data.date.toLocaleDateString()}
 										</span>{" "}
 										<a
 											href={`/growths/${post.data.growth}`}
