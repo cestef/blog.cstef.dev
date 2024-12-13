@@ -22,7 +22,7 @@ Let's take the following example: we want to split the secret $s = 42$ into $n =
 
 A finite field $FF_q$ where $q = p^k | p in cal(P)$ ($q$ is a prime power), is a finite set of elements, on which we can apply our usual additions and multiplications.
 
-The most common finite field is the set of integers modulo $q$, $ZZ/q ZZ = ZZ_q$, where all computations are taken $mod q$, which means that we have:
+The most common finite field is the set of integers modulo $q$, $ZZ\/q ZZ = ZZ_q$, where all computations are taken $mod q$, which means that we have:
 
 $$
 ZZ_q = {0,1,2,..., q-1}
@@ -55,7 +55,7 @@ Let's now plot the polynomial $f(x)$:
 
 ### Reconstructing the Secret
 
-We know that $n+1$ points $Z_i (x_i, y_i) | i in S$ will suffice to construct the polynonial $P_n(x)$ of degree $n$. 
+We know that $n+1$ points $Z_i (x_i, y_i) | i in S$ will suffice to construct the polynonial $P_n (x)$ of degree $n$. 
 
 In our case, $deg(f(x)) = k-1$, so we need $(k-1)+1 = k$ points to restore $f(x)$, just as described in the beginning.
 

@@ -1,6 +1,6 @@
 ---
 title: Adaptor Signatures FtW
-description: A simple and neat way to "lock" your Schnorr signatures
+description: A simple and neat way to "lock" your Schnorr signatures, enabling atomic swaps and more!
 date: 2024-12-03
 tags: [cryptography, maths]
 growth: sapling
