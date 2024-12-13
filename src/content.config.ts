@@ -10,7 +10,7 @@ export const BlogSchema = z.object({
 	description: z.string(),
 	date: z.date().transform((val) => new Date(val)),
 	growth: GrowthSchema.default("seed"),
-	related: z.array(reference("blog")).optional(),
+	// related: z.array(reference("blog")).optional(),
 });
 
 export const HomeSchema = z.object({});
