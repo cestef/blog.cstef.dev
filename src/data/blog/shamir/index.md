@@ -213,8 +213,8 @@ Let's review the protocol, this time including relevant checks to ensure the dat
    $$
    d_(i,j) dot G &= sum_(m=0)^(k-1) psi_(i,m) dot j^m 
                   = sum_(m=0)^(k-1) b_(i,m) dot G dot j^m \
-                 &= sum_(m=0)^(k-1) (b_(i,m) dot j^m), g_i(j) dot G \
-                 &= g_i(j) dot G 
+                 &= sum_(m=0)^(k-1) (b_(i,m) dot j^m), g_i (j) dot G \
+                 &= g_i (j) dot G 
    $$
 5. Before computing anything else, each shareholder $j in R$ commits to the upcoming $H(x)$ polynomial and sends it to $i in A$:
    $$
@@ -228,7 +228,7 @@ Let's review the protocol, this time including relevant checks to ensure the dat
              &= sum_(i=0)^(k-1) a_i j^i dot G + sum_(i in R) sum_(m in R) psi_(i, m) \
              &= sum_(i=0)^(k-1) a_i j^i dot G + sum_(i in R) sum_(m in R) b_(i,m) j^m dot G \
              &= (sum_(i=0)^(k-1) a_i j^i + sum_(i in R) sum_(m in R) b_(i,m) j^m) dot G \
-             &= (f(j) + sum_(i in R) g_i(j)) dot G 
+             &= (f(j) + sum_(i in R) g_i (j)) dot G 
               = (z_j + sum_(i in R) d_(i,j)) dot G \
              &= H(j) dot G = u_j dot G
    $$
@@ -266,9 +266,9 @@ When recovering the secret, we need to trust a single recoverer to do so and all
 
 One may naively try to implement a simple broadcast or pairwise exchange protocol, but if a single malicious actor $P_m$ wanted to prevent the others from also recovering the secret, he could just wait for everyone to send their share, and never send his. He will have all the shares needed, while the others can't do anything.
 
-If everyone distrusts each other, we will have this strange situation where no one wants to send their share first. One may prove that they own a valid share with a Zero-Knowledge Proof ZKP, but will never be able to prove that he's actually going to send it to the others.
+If everyone distrusts each other, we will have this strange situation where no one wants to send their share first. One may prove that they own a valid share with a Zero-Knowledge Proof (ZKP), but will never be able to prove that he's actually going to send it to the others.
 
-One "solution" to this problem (in my opinion the easiest to implement) is to set a pre-defined order in which shareholders need to reveal their shares, after which it is verified each time by the others. If the share is invalid or the bearer fails to send it within a given time, the others can post a complaint against this user and abort the process.
+One "solution" to this problem (not the best though) is to set a pre-defined order in which shareholders need to reveal their shares, after which it is verified each time by the others. If the share is invalid or the bearer fails to send it within a given time, the others can post a complaint against this user and abort the process.
 
 > [!WARNING]
 > All the methods I describe below are purely experimental, and I have no idea if they are actually secure or not. If you have any feedback, please [let me know](mailto:hi@cstef.dev)!
@@ -325,11 +325,13 @@ To prevent a single actor from hijacking the recovery, we will leverage once aga
 
 Each shareholder $i in R$ generates a random polynomial $g_i (x) = z_i + b_(i,1) x$ of degree $1$, where $z_i$ is their respective share.
 
-The commitment and sharing phase of $g_i(j) | i,j in R$ continues as usual, and before recovering the secret, two shareholders $P_m$ and $P_m'$ are chosen to reveal their shares. This way, when $P_m$ broadcasts his shares $g_i(m) | i in R$, everyone is instantly able to recover the secret. 
+The commitment and sharing phase of $g_i (j) | i,j in R$ continues as usual, and before recovering the secret, two shareholders $P_m$ and $P_m'$ are chosen to reveal their shares. This way, when $P_m$ broadcasts his shares $g_i (m) | i in R$, everyone is instantly able to recover the secret. 
 
 The last step is to verify that $P_m'$ also sends his shares to $P_m$. If he does not, every other shareholder can post a complaint against him and optionally send his shares to $P_m$, who can then recover the secret.
 
 This way, we have a pretty good guarantee that the secret will be recovered by everyone, except if that very person was being explicitly targeted by the whole recovery group ($k-1$ people).
+
+### Conclusion
 
 ## References / Suggested readings
 
