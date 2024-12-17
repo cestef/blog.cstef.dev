@@ -1,8 +1,15 @@
-# blog.cstef.dev
+<p align="center">
+    <img src="./assets/dark.png#gh-dark-mode-only" alt="blog.cstef.dev" width="100%">
+    <img src="./assets/light.png#gh-light-mode-only" alt="blog.cstef.dev" width="100%">
+</p>
 
-My personal digital garden :seed:
+My personal digital garden 🌱
 
 A collection of notes, thoughts, and ideas, or whatever I feel like writing about. 
+
+<p align="center">
+    <b><a href="https://blog.cstef.dev">Visit the blog</a></b>
+</p>
 
 ## Making this blog yours
 
