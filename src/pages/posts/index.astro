@@ -120,14 +120,19 @@ const postsByYear = posts.reduce(
 		cache.set("state", "list");
 	}
 
-	const state = cache.get("state");
-	switch (state) {
-		case "list":
-			list();
-			break;
-		case "grid":
-		default:
-			grid();
-			break;
-	}
+	const update = () => {
+		const state = cache.get("state");
+		switch (state) {
+			case "list":
+				list();
+				break;
+			case "grid":
+			default:
+				grid();
+				break;
+		}
+	};
+
+	update();
+	document.addEventListener("astro:after-swap", update);
 </script>
