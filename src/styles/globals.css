@@ -3,6 +3,7 @@
 @import "./colors.css";
 @import "./code.css";
 @import "./typst.css";
+
 @tailwind components;
 @tailwind utilities;
 @tailwind base;

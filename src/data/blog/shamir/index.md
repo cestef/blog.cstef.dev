@@ -104,6 +104,20 @@ You could see this procedure as computing the "public keys" of the coefficients.
 
 One may argue that disclosing $a_0 dot G = s dot G$ could give information about the polynomial, but if we suppose that $s$ is an EC secret key, the public key $s dot G$ is supposed public and may be shared. Finding $s$ with $s dot G$ comes down to solving the discrete logarithm problem, which is supposed really hard here. 
 
+#### Verifying that $f(0)$ is a private key
+
+We know some public key $P = p dot G$ and we want to verify that the secret being shared is actually the private key $p$. This can be done by first checking if the commitments $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)}$ are valid, and then verifying that $phi.alt_0 = p dot G = P$.
+
+$$
+and cases(
+  thin f(j) dot G =^? sum_(i=0)^(k-1) phi.alt_i dot j^(i),
+  thin phi.alt_0 = p dot G = P,
+  gap: #.5em
+) <==> "The secret is" p
+$$
+
+#### Pedersen's Verifiable Secret Sharing (PVSS)
+
 Another way the dealer could commit to the polynomial he generated without directly sharing $s dot G$, is to add a so-called "blinding polynomial", a pretty common concept in cryptography.
 
 Let's now instead take $phi.alt_i = a_i dot G + b_i dot H$ where $b_i$ comes from a randomly generated polynomial $g(x) = b_0 + b_1 x + ... + b_(k-1) x^(k-1)$, our blinding polynomial. $H != G$ is just another generator point on the curve. The dealer will now needs to distribute slightly different shares $Z_i = (i, f(i), g(i))$.
@@ -329,9 +343,14 @@ The commitment and sharing phase of $g_i (j) | i,j in R$ continues as usual, and
 
 The last step is to verify that $P_m'$ also sends his shares to $P_m$. If he does not, every other shareholder can post a complaint against him and optionally send his shares to $P_m$, who can then recover the secret.
 
-This way, we have a pretty good guarantee that the secret will be recovered by everyone, except if that very person was being explicitly targeted by the whole recovery group ($k-1$ people).
+This way, we have a pretty good guarantee that the secret will be recovered by everyone, except if that very person was being explicitly targeted by the whole recovery group ($k-1$ people). Please also note that this method doesn't work really well with a small number of shareholders, e.g. 3:
 
-### Conclusion
+$P_1$ and $P_2$ are chosen to reveal their intermediate shares, but $P_2$ and $P_3$ are malicious.
+
+1. Each shareholder $i in R = {1,2,3}$ splits his share $z_i$ into $g_i (x) = z_i + b_(i,1) x$ and sends $g_i (j) | i,j in R$ to everyone.
+2. $P_1$ reveals his shares as expected, but $P_2$ and $P_3$ do not.
+3. $P_2$ and $P_3$ are the only ones able to recover the secret, and $P_1$ is left out.
+
 
 ## References / Suggested readings
 

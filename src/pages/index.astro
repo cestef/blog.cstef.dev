@@ -9,15 +9,11 @@ import { Icon } from "astro-icon/components";
 const isProd = import.meta.env.PROD;
 const posts = (await getCollection("blog"))
 	.filter((e) => (isProd && HIDE_SEED_IN_PROD ? e.data.growth !== "seed" : true))
-	// .map((e) => ({
-	// 	...e,
-	// 	lastModified: new Date((e.rendered?.metadata?.frontmatter as any).lastModified),
-	// }))
 	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 	.slice(0, 5);
 
 const { Content: Corrections } = await render(
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
+	// biome-ignore lint/style/noNonNullAssertion: it exists
 	(await getCollection("home")).find((e) => e.id === "corrections")!
 );
 ---
