@@ -6,15 +6,17 @@ import { ClientRouter } from "astro:transitions";
 import ModeSwitch from "@/components/ModeSwitch.astro";
 import { STATUS_LINE, THEME, UMAMI_ID } from "@/constants";
 import type { MarkdownHeading } from "astro";
+import OG, { type Props as OGProps } from "@/layouts/og.astro";
 
 export interface Props {
 	path: string;
 	title?: string;
 	description?: string;
-	toc?: MarkdownHeading[];
+	headings?: MarkdownHeading[];
+	image?: string;
 }
 
-const { path, title, description } = Astro.props;
+const { path, title, description, image } = Astro.props;
 ---
 
 <!doctype html>
@@ -30,6 +32,10 @@ const { path, title, description } = Astro.props;
 		/>
 		<title>{title ? title : "cstef's Digital Garden"}</title>
 		<meta name="description" content={description} />
+		<meta name="author" content="cstef" />
+
+		<OG {...{ title, description, image, path }} />
+
 		{
 			UMAMI_ID && (
 				<script
