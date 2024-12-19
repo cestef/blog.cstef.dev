@@ -57,7 +57,7 @@ The operation can then be done over and over again to find subsequent points.
 @include figures/2.typ
 
 > [!NOTE]
-> We will be working with [Short Weierstrass form](https://en.wikipedia.org/wiki/Elliptic_curve) curves, which are the most common form of elliptic curves used in cryptography. The equation of the curve is $y^2 = x^3 + ax + b$.
+> We will be working with [Short Weierstrass form](https://en.wikipedia.org/wiki/Elliptic_curve) curves, which are the most common form of elliptic curves used in cryptography. The equation of the curve is $y^2 = x^3 + a x + b$.
 
 Given two points $A(x_A, y_A)$ and $B(x_B, y_B)$, the resulting coordinates of the point $C(x_C, y_C) = A + B$ can be found by:
 
