@@ -56,6 +56,9 @@ The operation can then be done over and over again to find subsequent points.
 
 @include figures/2.typ
 
+> [!NOTE]
+> We will be working with [Short Weierstrass form](https://en.wikipedia.org/wiki/Elliptic_curve) curves, which are the most common form of elliptic curves used in cryptography. The equation of the curve is $y^2 = x^3 + ax + b$.
+
 Given two points $A(x_A, y_A)$ and $B(x_B, y_B)$, the resulting coordinates of the point $C(x_C, y_C) = A + B$ can be found by:
 
 1. Finding the slope $m$ of the line between $A$ and $B$.
@@ -108,14 +111,14 @@ Given two points $A(x_A, y_A)$ and $B(x_B, y_B)$, the resulting coordinates of t
     y'_C = m(x_C - x_A) + y_A \
     $$
 
-    $y'C$ is our intermediate point before it being reflected.
+    $y'_C$ is our intermediate point before it being reflected.
 
     $$
-    y_C = -y'C &= -m(x_C - x_A) - y_A \
+    y_C = -y'_C &= -m(x_C - x_A) - y_A \
             &= m(x_A - x_C) - y_A
     $$
 
-In the case where $G = A$, we can't really draw a line between the two points, so we take the tangent to the curve at $G$ and find the third point of intersection. This is the result of the addition of $G$ and $G$, denoted as $2 dot G$.
+In the case where $G = A$, we can't really draw a line between the two points, so we take the tangent to the curve at $G$ and find the third point of intersection. This is the result of the addition of $G$ with itself, denoted as $2 dot G$.
 
 @include figures/3.typ
 
@@ -138,19 +141,19 @@ $$
 Our differentiated equation is:
 
 $$
-2y dot y'(x) = 3x^2 
+2y(x) dot y'(x) = 3x^2 
 $$
 
 Solving for $m = y'(x)$:
 
 $$
-y'(x) = (3x^2)/(2y) = m 
+y'(x) = (3x^2)/(2y(x)) = m 
 $$
 
 Notice that the tangent's slope depends on both $x$ and $y$, which makes sense because we'd have two different slopes otherwise:
 
 $$
-(3x^2)/(2y) = plus.minus (3x^2)/(2sqrt(x^3 + 7))
+(3x^2)/(2y(x)) = plus.minus (3x^2)/(2sqrt(x^3 + 7))
 $$
 
 And we have our tangent equation for $x_G$ and $y_G$:
