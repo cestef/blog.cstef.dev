@@ -7,6 +7,7 @@ import { parseAttributes } from "./utils/attributes";
 import { toHtml } from "hast-util-to-html";
 import { renderToSVGString } from "./typst";
 import { getRenderCache, setRenderCache } from "./utils/cache";
+import { THEME } from "../src/constants";
 
 export type TypstRawConfig = {
 	cache?: MapLike;
@@ -45,10 +46,8 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 			}
 
 			let result: any;
-			const cached = await getRenderCache("typst", {
-				value: code,
-				displayMode: "raw",
-			});
+			const cacheValue = { value: code, displayMode: "raw", theme: THEME };
+			const cached = await getRenderCache("typst", cacheValue);
 			if (cached) {
 				// console.log("Typst raw cache hit", performance.now() - start);
 				result = cached;
@@ -58,11 +57,7 @@ export const rehypeTypstRaw: Plugin<[TypstRawConfig?], Root> = (
 						dark: await renderToSVGString(code, "raw", "dark"),
 						light: await renderToSVGString(code, "raw", "light"),
 					};
-					await setRenderCache(
-						"typst",
-						{ value: code, displayMode: "raw" },
-						result,
-					);
+					await setRenderCache("typst", cacheValue, result);
 				} catch (error) {
 					result = [
 						{

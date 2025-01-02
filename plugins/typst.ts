@@ -92,12 +92,10 @@ export default function rehypeTypst(
 
 			const value = toText(scope, { whitespace: "pre" });
 			let result: any = null;
-			const hash = hashValue({ value, displayMode });
-			const cached = await getRenderCache(
-				"typst",
-				{ value, displayMode },
-				hash,
-			);
+			const cacheValue = { value, displayMode, theme: THEME };
+
+			const hash = hashValue(cacheValue);
+			const cached = await getRenderCache("typst", cacheValue, hash);
 			if (cached) {
 				result = cached;
 				cachedCount++;
@@ -116,7 +114,7 @@ export default function rehypeTypst(
 						),
 					};
 
-					await setRenderCache("typst", { value, displayMode }, result);
+					await setRenderCache("typst", cacheValue, result);
 				} catch (error) {
 					const cause = error as Error;
 					file.message("Could not render math with typst", {
