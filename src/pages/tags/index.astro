@@ -15,12 +15,7 @@ const tags = [...new Set(posts.flatMap((e) => e.data.tags))];
 			{
 				tags.map((tag) => (
 					<li>
-						<a href={`/tags/${tag}`} class="underline-offset-2 decoration-2">
-							{tag.trim()}
-						</a>
-						<span class="text-muted-foreground">
-							({posts.filter((e) => e.data.tags.includes(tag)).length})
-						</span>
+						<a href={`/tags/${tag}`} class="underline-offset-2 decoration-2">{tag.trim()}</a><span class="text-muted-foreground">({posts.filter((e) => e.data.tags.includes(tag)).length})</span>
 					</li>
 				))
 			}
