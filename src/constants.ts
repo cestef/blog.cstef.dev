@@ -1,7 +1,7 @@
 import type { BlogEntry } from "./content.config";
 
 export const HIDE_SEED_IN_PROD = true;
-export const THEME: Theme = "nord";
+export const THEME: Theme = "gruvbox";
 
 export const UMAMI_ID: string | false = "74a3da64-cfd7-4913-8918-46a139df3117";
 

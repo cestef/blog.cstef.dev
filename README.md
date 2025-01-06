@@ -1,6 +1,6 @@
 <p align="center">
-    <img src="./assets/dark.png#gh-dark-mode-only" alt="blog.cstef.dev" width="100%">
-    <img src="./assets/light.png#gh-light-mode-only" alt="blog.cstef.dev" width="100%">
+    <img src="./assets/dark-gruvbox.png#gh-dark-mode-only" alt="blog.cstef.dev" width="100%">
+    <img src="./assets/light-gruvbox.png#gh-light-mode-only" alt="blog.cstef.dev" width="100%">
 </p>
 
 My personal digital garden 🌱
