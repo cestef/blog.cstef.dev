@@ -44,37 +44,39 @@ const postsByYear = posts.reduce(
 		<p>Here are all the posts I've written. Enjoy!</p>
 
 		{
-			Object.entries(postsByYear).map(([year, posts]) => (
-				<section>
-					<h2 class="!mt-6">{year}</h2>
-					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="grid">
-						{posts.map((post) => (
-							<div class="border border-muted p-3 rounded-md flex flex-col justify-between h-full relative">
-								<div>
+			Object.entries(postsByYear)
+				.sort((a, b) => parseInt(b[0]) - parseInt(a[0]))
+				.map(([year, posts]) => (
+					<section>
+						<h2 class="!mt-6">{year}</h2>
+						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="grid">
+							{posts.map((post) => (
+								<div class="border border-muted p-3 rounded-md flex flex-col justify-between h-full relative">
+									<div>
+										<a
+											href={`/posts/${post.id}`}
+											class="underline-offset-2 decoration-2 mb-1 lg:mb-3 block no-underline text-base xl:text-lg title"
+										>
+											{post.data.title.trim()}
+										</a>
+										<span class="text-muted-foreground block mb-1 text-sm">
+											{post.data.date.toLocaleDateString()}
+										</span>
+										<p class="text-muted-foreground text-sm description hidden !mb-2">
+											{post.data.description}
+										</p>
+									</div>
 									<a
-										href={`/posts/${post.id}`}
-										class="underline-offset-2 decoration-2 mb-1 lg:mb-3 block no-underline text-base xl:text-lg title"
+										href={`/growths/${post.data.growth}`}
+										class="bg-accent text-accent-foreground px-1 py-0.5 rounded-md text-xs lg:text-sm xl:text-base font-bold no-underline absolute top-2 right-2 state-emoji"
 									>
-										{post.data.title.trim()}
+										{STATE_EMOJI[post.data.growth]}
 									</a>
-									<span class="text-muted-foreground block mb-1 text-sm">
-										{post.data.date.toLocaleDateString()}
-									</span>
-									<p class="text-muted-foreground text-sm description hidden !mb-2">
-										{post.data.description}
-									</p>
 								</div>
-								<a
-									href={`/growths/${post.data.growth}`}
-									class="bg-accent text-accent-foreground px-1 py-0.5 rounded-md text-xs lg:text-sm xl:text-base font-bold no-underline absolute top-2 right-2 state-emoji"
-								>
-									{STATE_EMOJI[post.data.growth]}
-								</a>
-							</div>
-						))}
-					</div>
-				</section>
-			))
+							))}
+						</div>
+					</section>
+				))
 		}
 	</Prose>
 </RootLayout>
