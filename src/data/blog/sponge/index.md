@@ -2,7 +2,7 @@
 title: SquarePants Sponge Hashing
 description: A quick explaination of the sponge hashing algorithm, notably used in SHA-3
 tags: [cryptography,maths]
-date: 2024-01-06
+date: 2025-01-06
 growth: sapling
 ---
 
