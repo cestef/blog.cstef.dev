@@ -39,7 +39,7 @@ const date = dayjs(entry.data.date).utc().format("DD/MM/YYYY");
 		<p class="text-muted-foreground text[1em]">{entry.data.description}</p>
 		<p class="text-muted-foreground">
 			{date}{
-				frontmatter.lastModified && (
+				frontmatter.lastModified && lastModified !== date && (
 					<span class="text-muted-foreground/70"> (modified {lastModified})</span>
 				)
 			} · {frontmatter.minutesRead} · <a
