@@ -49,7 +49,7 @@ const postsByYear = posts.reduce(
 				.map(([year, posts]) => (
 					<section>
 						<h2 class="!mt-6">{year}</h2>
-						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="grid">
+						<div class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden grid-el">
 							{posts.map((post) => (
 								<div class="border border-muted p-3 rounded-md flex flex-col justify-between h-full relative">
 									<div>
@@ -59,22 +59,51 @@ const postsByYear = posts.reduce(
 										>
 											{post.data.title.trim()}
 										</a>
-										<span class="text-muted-foreground block mb-1 text-sm">
+									</div>
+									<div class="flex gap-2 items-center justify-between">
+										<span class="text-muted-foreground block mb-0 text-sm">
 											{post.data.date.toLocaleDateString()}
 										</span>
-										<p class="text-muted-foreground text-sm description hidden !mb-2">
-											{post.data.description}
-										</p>
+										<a
+											href={`/growths/${post.data.growth}`}
+											class="bg-accent text-accent-foreground px-1 py-0.5 rounded-md text-xs lg:text-sm xl:text-base font-bold no-underline"
+										>
+											{STATE_EMOJI[post.data.growth]}
+										</a>
 									</div>
-									<a
-										href={`/growths/${post.data.growth}`}
-										class="bg-accent text-accent-foreground px-1 py-0.5 rounded-md text-xs lg:text-sm xl:text-base font-bold no-underline absolute top-2 right-2 state-emoji"
-									>
-										{STATE_EMOJI[post.data.growth]}
-									</a>
 								</div>
 							))}
 						</div>
+						<ul class="hidden list-el">
+							{posts.map((post) => (
+								<li>
+									<div>
+										<h4 class="flex items-center gap-2 md:gap-4">
+											<a
+												href={`/posts/${post.id}`}
+												data-astro-prefetch
+												class="underline-offset-2 decoration-2 max-w-[70%] w-fit"
+											>
+												{post.data.title.trim()}
+											</a>{" "}
+											<div class="flex-grow" />{" "}
+											<div class="flex-wrap flex items-center justify-center gap-y-2 gap-x-4">
+												<span class="text-sm text-muted-foreground">
+													{post.data.date.toLocaleDateString() ||
+														post.data.date.toLocaleDateString()}
+												</span>{" "}
+												<a
+													href={`/growths/${post.data.growth}`}
+													class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline hidden sm:block"
+												>
+													{STATE_EMOJI[post.data.growth]}
+												</a>
+											</div>
+										</h4>
+									</div>
+								</li>
+							))}
+						</ul>
 					</section>
 				))
 		}
@@ -90,35 +119,29 @@ const postsByYear = posts.reduce(
 			localStorage.setItem(key, JSON.stringify(value));
 		},
 	};
-	function grid() {
-		document
-			.getElementById("grid")
-			.classList.remove("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
-		document
-			.getElementById("grid")
-			.classList.add("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
+	const gridEls = document.querySelectorAll(".grid-el");
+	const listEls = document.querySelectorAll(".list-el");
 
-		document.querySelectorAll(".description").forEach((el) => el.classList.add("hidden"));
-		document.querySelectorAll(".state-emoji").forEach((el) => {
-			el.classList.remove("top-2");
-			el.classList.add("bottom-2");
-		});
-		document.querySelectorAll(".title").forEach((el) => el.classList.add("block"));
+	function grid() {
+		for (const el of gridEls) {
+			el.classList.remove("hidden");
+			el.classList.add("grid");
+		}
+		for (const el of listEls) {
+			el.classList.add("hidden");
+		}
+
 		cache.set("state", "grid");
 	}
 
 	function list() {
-		document
-			.getElementById("grid")
-			.classList.remove("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
-		document.getElementById("grid").classList.add("grid-cols-1");
+		for (const el of gridEls) {
+			el.classList.add("hidden");
+		}
+		for (const el of listEls) {
+			el.classList.remove("hidden");
+		}
 
-		document.querySelectorAll(".description").forEach((el) => el.classList.remove("hidden"));
-		document.querySelectorAll(".state-emoji").forEach((el) => {
-			el.classList.remove("bottom-2");
-			el.classList.add("top-2");
-		});
-		document.querySelectorAll(".title").forEach((el) => el.classList.remove("block"));
 		cache.set("state", "list");
 	}
 
