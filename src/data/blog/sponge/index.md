@@ -25,7 +25,7 @@ The message $M$ is first padded so that it can fit in exactly $k in NN$ parts $m
 
 3. Pass on the state to the next iteration
 
-We can now "squeeze" our sponge to extract the hash from it, by applying $f$ again and taking a small chunk $h_i$ over and over until we have enough for our desired output length. 
+We can now "squeeze" our sponge to extract the hash from it, by applying $f$ again and taking a small chunk $h_i$ ($r$ bits) over and over until we have enough for our desired output length. 
 
 This whole process can be described with the following diagram:
 
