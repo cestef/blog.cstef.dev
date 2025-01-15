@@ -129,33 +129,37 @@ const { Content: Corrections } = await render(
 </RootLayout>
 
 <script is:inline>
-	const konamiCode = [
-		"ArrowUp",
-		"ArrowUp",
-		"ArrowDown",
-		"ArrowDown",
-		"ArrowLeft",
-		"ArrowRight",
-		"ArrowLeft",
-		"ArrowRight",
-		"b",
-		"a",
-	];
-	let konamiIndex = 0;
+	function main() {
+		const konamiCode = [
+			"ArrowUp",
+			"ArrowUp",
+			"ArrowDown",
+			"ArrowDown",
+			"ArrowLeft",
+			"ArrowRight",
+			"ArrowLeft",
+			"ArrowRight",
+			"b",
+			"a",
+		];
+		let konamiIndex = 0;
 
-	document.addEventListener("keydown", (e) => {
-		if (e.key === konamiCode[konamiIndex]) {
-			konamiIndex++;
-			if (konamiIndex === konamiCode.length) {
-				rickroll();
+		document.addEventListener("keydown", (e) => {
+			if (e.key === konamiCode[konamiIndex]) {
+				konamiIndex++;
+				if (konamiIndex === konamiCode.length) {
+					rickroll();
+					konamiIndex = 0;
+				}
+			} else {
 				konamiIndex = 0;
 			}
-		} else {
-			konamiIndex = 0;
-		}
-	});
+		});
 
-	function rickroll() {
-		window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+		function rickroll() {
+			window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+		}
 	}
+
+	main();
 </script>

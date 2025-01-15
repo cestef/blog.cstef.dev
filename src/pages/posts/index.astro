@@ -111,53 +111,57 @@ const postsByYear = posts.reduce(
 </RootLayout>
 
 <script is:inline>
-	const cache = {
-		get(key) {
-			return JSON.parse(localStorage.getItem(key));
-		},
-		set(key, value) {
-			localStorage.setItem(key, JSON.stringify(value));
-		},
-	};
-	const gridEls = document.querySelectorAll(".grid-el");
-	const listEls = document.querySelectorAll(".list-el");
+	function main() {
+		const cache = {
+			get(key) {
+				return JSON.parse(localStorage.getItem(key));
+			},
+			set(key, value) {
+				localStorage.setItem(key, JSON.stringify(value));
+			},
+		};
+		const gridEls = document.querySelectorAll(".grid-el");
+		const listEls = document.querySelectorAll(".list-el");
 
-	function grid() {
-		for (const el of gridEls) {
-			el.classList.remove("hidden");
-			el.classList.add("grid");
-		}
-		for (const el of listEls) {
-			el.classList.add("hidden");
+		function grid() {
+			for (const el of gridEls) {
+				el.classList.remove("hidden");
+				el.classList.add("grid");
+			}
+			for (const el of listEls) {
+				el.classList.add("hidden");
+			}
+
+			cache.set("state", "grid");
 		}
 
-		cache.set("state", "grid");
+		function list() {
+			for (const el of gridEls) {
+				el.classList.add("hidden");
+			}
+			for (const el of listEls) {
+				el.classList.remove("hidden");
+			}
+
+			cache.set("state", "list");
+		}
+
+		const update = () => {
+			const state = cache.get("state");
+			switch (state) {
+				case "list":
+					list();
+					break;
+				case "grid":
+				default:
+					grid();
+					break;
+			}
+		};
+
+		update();
+		document.addEventListener("astro:after-swap", update);
 	}
 
-	function list() {
-		for (const el of gridEls) {
-			el.classList.add("hidden");
-		}
-		for (const el of listEls) {
-			el.classList.remove("hidden");
-		}
-
-		cache.set("state", "list");
-	}
-
-	const update = () => {
-		const state = cache.get("state");
-		switch (state) {
-			case "list":
-				list();
-				break;
-			case "grid":
-			default:
-				grid();
-				break;
-		}
-	};
-
-	update();
-	document.addEventListener("astro:after-swap", update);
+	main();
 </script>
