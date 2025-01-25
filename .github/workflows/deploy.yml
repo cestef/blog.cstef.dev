@@ -18,7 +18,7 @@ jobs:
 
             - uses: tecolicom/actions-use-homebrew-tools@v1
               with:
-                  tools: cestef/tap/zola
+                  tools: cestef/tap/zola svgo
 
             - name: Build site
               run: zola build
