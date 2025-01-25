@@ -10,7 +10,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Set up Homebrew
               id: set-up-homebrew
@@ -19,6 +19,19 @@ jobs:
             - uses: tecolicom/actions-use-homebrew-tools@v1
               with:
                   tools: cestef/tap/zola svgo
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 9
+
+            - name: Use Node.js 20
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "pnpm"
+            - name: Install dependencies
+              run: pnpm install
 
             - name: Cache Zola build
               uses: actions/cache@v3
@@ -30,8 +43,14 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-zola-
 
-            - name: Build site
+            - name: Build Tailwind CSS
+              run: pnpm run css:build
+
+            - name: Build Zola site
               run: zola build
+
+            - name: Display structure of built files
+              run: ls -R public
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
