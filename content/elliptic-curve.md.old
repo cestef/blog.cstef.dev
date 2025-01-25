@@ -6,7 +6,7 @@ date: 2024-10-30
 growth: sapling
 ---
 
-> [!INFO]
+> [!NOTE]
 > I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
 >
 > The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references--suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
@@ -162,7 +162,7 @@ With the basics of polynomials and Lagrange interpolation in mind, let's dive in
 
 The main idea behind this is to split a secret $s$ into $n$ parts, such that any $k$ parts can be used to reconstruct the secret, but any $k-1$ parts are not enough to do so, and do not give any information about the secret.
 
-> [!INFO]
+> [!NOTE]
 > If you are not comfortable with the concept of Finite Fields, I recommend you to read some of the [resources](#references--suggested-readings) I listed at the end of this article.
 >
 > It is supposed that we are working in $FF_q$ when not specified.

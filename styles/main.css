@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./typst.css";
 @import "./gruvbox.css";
+@import "./callouts.css";
 @import "./syntax-theme-dark.css" (prefers-color-scheme: dark);
 @import "./syntax-theme-light.css" (prefers-color-scheme: light);
 

@@ -1,4 +1,22 @@
 :root {
+	/* Callouts */
+	--color-red-rgb: 251, 73, 52;
+	--color-red: #fb4934;
+	--color-orange-rgb: 254, 128, 25;
+	--color-orange: #fe8019;
+	--color-yellow-rgb: 250, 189, 47;
+	--color-yellow: #fabd2f;
+	--color-green-rgb: 152, 151, 26;
+	--color-green: #98971a;
+	--color-cyan-rgb: 104, 157, 106;
+	--color-cyan: #689d6a;
+	--color-blue-rgb: 131, 165, 152;
+	--color-blue: #83a598;
+	--color-purple-rgb: 177, 98, 134;
+	--color-purple: #b16286;
+	--color-pink-rgb: 215, 153, 33;
+	--color-pink: #d79921;
+
 	/* Base colors */
 	--background: 50 13% 93%;
 	--foreground: 40 6% 20%;
