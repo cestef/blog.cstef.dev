@@ -1,0 +1,32 @@
+# The URL the site will be built for
+base_url = "https://blog.cstef.dev"
+
+minify_html = true
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+taxonomies = [{ name = "tags", feed = true }]
+
+
+[markdown]
+render_emoji = true
+bottom_footnotes = true
+
+highlight_theme = "css"
+highlight_code = true
+
+highlight_themes_css = [
+    { theme = "gruvbox-dark", filename = "../styles/syntax-theme-dark.css" },
+    { theme = "gruvbox-light", filename = "../styles/syntax-theme-light.css" },
+]
+
+math_rendering = "typst"
+math_svgo = true
+math_svgo_config = "svgo.config.mjs"
+math_dark_mode = true
+
+math_dark_mode_css = "styles/typst-dark.css"
+math_light_mode_css = "styles/typst-light.css"
+
+pikchr_dark_mode = true
+[extra]
+# Put all your custom variables here

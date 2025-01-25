@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>blog.cstef.dev</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ get_url(path="css/main.css") | safe }}" />
+</head>
+
+<body class="min-h-[100svh]">
+    <div class="fixed top-0 left-0 w-full bg-accent flex z-10">
+        <a href="/">
+            <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
+                cstef
+            </div>
+        </a>
+        <div class="flex-grow"></div>
+        <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-6 w-6 fill-primary-foreground cursor-pointer" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                <path
+                    d="M3.47 7.78a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0l4.25 4.25a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018L9 4.81v7.44a.75.75 0 0 1-1.5 0V4.81L4.53 7.78a.75.75 0 0 1-1.06 0Z">
+                </path>
+            </svg>
+        </div>
+    </div>
+    <main class="mb-8 mt-24">{% block content %} {% endblock %}</main>
+</body>
+
+</html>

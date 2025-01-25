@@ -1,0 +1,27 @@
+.typst-light.typst-inline {
+	@apply dark:hidden inline;
+}
+.typst-light.typst-display {
+	@apply dark:hidden block;
+}
+
+.typst-dark.typst-inline {
+	@apply hidden dark:inline;
+}
+.typst-dark.typst-display {
+	@apply hidden dark:block;
+}
+
+.typst-doc.typst-display {
+	overflow-x: auto;
+	max-width: 100%;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.typst-doc.typst-inline {
+	margin-top: 0;
+	margin-bottom: 0;
+}

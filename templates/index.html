@@ -1,0 +1,130 @@
+{% extends "prose.html" %}
+
+{% block article %}
+
+<a href="/" class="underline-offset-4 decoration-4">
+    <h1>blog.cstef.dev</h1>
+</a>
+
+<p>
+    Sometimes, I like to share my thoughts, notes, ideas or projects on this blog. Maybe you'll find something useful
+    here !
+</p>
+
+<h2>Latest posts</h2>
+    
+        <ul>
+            {% for page in section.pages | slice(end=5) %}
+                <li>
+                    <div>
+                        <h3 class="flex items-center gap-2 md:gap-4">
+                            <a
+                                href="{{ page.permalink | safe }}"
+                                class="underline-offset-2 decoration-2 max-w-[70%] w-fit"
+                            >
+                                {{ page.title }}
+                            </a>
+                            <div class="flex-grow"></div>
+                            <div class="flex-wrap flex items-center justify-center gap-y-2 gap-x-4">
+                                <span class="text-sm text-muted-foreground">
+                                    {{ page.date | date(format="%Y-%m-%d") }}
+                                </span>
+                                <div class="flex flex-col gap-2 items-center">
+                                    {% for tax in page.taxonomies.tags %}
+                                    <a
+                                        href="/{{ tax }}"
+                                        class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline"
+                                    >
+                                        {{ tax }}
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </h3>
+
+                        <p>{{ page.description }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+
+<div class="flex gap-4 sm:gap-6 items-center justify-center mt-8 md:mt-12">
+    <a href="/atom.xml" class="no-underline">
+        <div
+            class="bg-accent px-3 py-1 md:py-2 h-fit hover:bg-primary/90 transition-colors duration-200 group"
+        >
+            <div class="flex gap-2 sm:gap-3 items-center justify-center">
+                <p
+                    class="text-muted-foreground group-hover:text-primary-foreground transition-colors duration-200 p-0 !m-0 text-sm sm:text-base"
+                    style="margin: 0 !important;"
+                >
+                    Subscribe to the feed
+                </p>
+                <svg class="duration-200 transition-colors group-hover:text-primary-foreground h-[1.2rem] w-[1.2rem] text-[--tw-prose-links]"
+                    data-icon="octicon:rss-16" height="1em" width="1em">
+                    <symbol id="ai:octicon:rss-16" viewBox="0 0 16 16">
+                        <path
+                            d="M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098a10.5 10.5 0 0 0-9.776-9.776a.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7 7 0 0 1 6.113 6.111a.75.75 0 0 1-1.49.178a5.5 5.5 0 0 0-4.8-4.8a.75.75 0 0 1 .179-1.489M2 13a1 1 0 1 1 2 0a1 1 0 0 1-2 0"
+                            fill="currentColor"></path>
+                    </symbol>
+                    <use href="#ai:octicon:rss-16"></use>
+                </svg>
+            </div>
+        </div>
+    </a>
+    <a href="/archive" class="no-underline">
+        <div
+            class="bg-accent px-3 py-1 md:py-2 h-fit hover:bg-primary/90 transition-colors duration-200 group"
+        >
+            <div class="flex gap-2 sm:gap-3 items-center justify-center">
+                <p
+                    class="text-muted-foreground group-hover:text-primary-foreground transition-colors duration-200 p-0 !m-0 text-sm sm:text-base"
+                    style="margin: 0 !important;"
+                >
+                    View all posts
+                </p>
+                <svg class="duration-200 transition-colors group-hover:text-primary-foreground h-[1.2rem] w-[1.2rem] text-[--link]"
+                    data-icon="octicon:arrow-right-16" height="1em" width="1em">
+                    <symbol id="ai:octicon:arrow-right-16" viewBox="0 0 16 16">
+                        <path
+                            d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.042-.018a.75.75 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06"
+                            fill="currentColor"></path>
+                    </symbol>
+                    <use href="#ai:octicon:arrow-right-16"></use>
+                </svg>
+            </div>
+        </div>
+    </a>
+</div>
+
+<h2>Corrections</h2>
+
+<p>
+    I am far from perfect, and I am sure that there are mistakes in most of the content on this site. If you find any
+    errors, please let me know so that I can correct them. I appreciate your help in making this site better for
+    everyone.
+</p>
+<p>
+    You can reach me <em>via</em> mail at <a href="mailto:hi@cstef.dev">hi@cstef.dev</a>, or you can open an issue on
+    the
+    <a href="https://github.com/cestef/blog.cstef.dev">GitHub repository</a>.
+</p>
+
+<footer class="py-2 text-center">
+    <p class="text-xs">
+        No rights reserved. Do whatever you want -
+        {{ now() | date(format="%Y") }}
+        <a href="https://cstef.dev" class="underline-offset-2 decoration-2"> cstef</a>
+        |
+        <a
+            href="https://github.com/cestef/blog.cstef.dev"
+            class="underline-offset-2 decoration-2"
+        >
+            source
+        </a>
+    </p>
+</footer>
+
+{% endblock article %}
+

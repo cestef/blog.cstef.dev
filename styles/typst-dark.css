@@ -1,0 +1,62 @@
+.typst-text > *[fill="#000000"] {
+	fill: #ebdbb2;
+}
+.typst-text > *[fill="#ffffff"] {
+	fill: hsl(40 6% 15%);
+}
+.typst-text > *[stroke="#ffffff"] {
+	stroke: hsl(40 6% 15%);
+}
+.typst-text > *[stroke="#000000"] {
+	stroke: #ebdbb2;
+}
+.typst-shape > *[fill="#000000"] {
+	fill: #ebdbb2;
+}
+.typst-shape > *[fill="#ffffff"] {
+	fill: hsl(40 6% 15%);
+}
+.typst-shape > *[stroke="#ffffff"] {
+	stroke: hsl(40 6% 15%);
+}
+.typst-shape > *[stroke="#000000"] {
+	stroke: #ebdbb2;
+}
+
+.typst-text[fill="#000000"] {
+	fill: #ebdbb2;
+}
+.typst-text[fill="#ffffff"] {
+	fill: hsl(40 6% 15%);
+}
+.typst-text[stroke="#ffffff"] {
+	stroke: hsl(40 6% 15%);
+}
+.typst-text[stroke="#000000"] {
+	stroke: #ebdbb2;
+}
+.typst-shape[fill="#000000"] {
+	fill: #ebdbb2;
+}
+.typst-shape[fill="#ffffff"] {
+	fill: hsl(40 6% 15%);
+}
+.typst-shape[stroke="#ffffff"] {
+	stroke: hsl(40 6% 15%);
+}
+.typst-shape[stroke="#000000"] {
+	stroke: #ebdbb2;
+}
+
+.typst-group[fill="#000000"] {
+	fill: #ebdbb2;
+}
+.typst-group[fill="#ffffff"] {
+	fill: hsl(40 6% 15%);
+}
+.typst-group[stroke="#ffffff"] {
+	stroke: hsl(40 6% 15%);
+}
+.typst-group[stroke="#000000"] {
+	stroke: #ebdbb2;
+}
