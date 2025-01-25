@@ -20,6 +20,16 @@ jobs:
               with:
                   tools: cestef/tap/zola svgo
 
+            - name: Cache Zola build
+              uses: actions/cache@v3
+              with:
+                  path: |
+                      .cache
+                      public
+                  key: ${{ runner.os }}-zola-${{ hashFiles('**/*.md', 'config.toml', 'templates/**/*') }}
+                  restore-keys: |
+                      ${{ runner.os }}-zola-
+
             - name: Build site
               run: zola build
 
@@ -46,5 +56,4 @@ jobs:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   command: pages deploy public --project-name=blog-cstef-dev
-                  # Optional: Enable this if you want to have GitHub Deployments triggered
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
