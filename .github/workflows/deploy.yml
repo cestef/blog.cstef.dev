@@ -1,0 +1,46 @@
+name: Build and Deploy to Cloudflare Pages
+
+on:
+    push:
+        branches:
+            - dev
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - uses: tecolicom/actions-use-homebrew-tools@v1
+              with:
+                  tools: cestef/tap/zola
+
+            - name: Build site
+              run: zola build
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: site
+                  path: public
+
+    deploy:
+        runs-on: ubuntu-latest
+        needs: build
+
+        steps:
+            - name: Download artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: site
+                  path: public
+
+            - name: Deploy
+              uses: cloudflare/wrangler-action@v3
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: pages deploy public --project-name=blog-cstef-dev
+                  # Optional: Enable this if you want to have GitHub Deployments triggered
+                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
