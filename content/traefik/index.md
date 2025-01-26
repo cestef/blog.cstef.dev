@@ -15,7 +15,7 @@ even featuring [Kubernetes](https://kubernetes.io/) Ingress support, or [Let's E
 By digging a little more on their website, I found a [developer job application form](https://traefik.io/careers/developers-systems-engineers).
 I was surprised to see that there was no traditional CV to send, but a docker command to run.
 
-[![Traefik docker command](/images/traefik-docker.png)](/images/traefik-docker.png)
+[![Traefik docker command](./images/traefik-docker.png)](./images/traefik-docker.png)
 
 ## The challenge
 
@@ -52,7 +52,7 @@ I was now sure that I was on the right track.
 The image was kindly asking us to give it more permissions, so I naturally gave it the `cluster-admin` role.
 (I know, I know, it's not a good practice, but it's just for a CTF, right?)
 
-```yml,copy
+```yaml,copy
 # service-account.yml
 
 ---
@@ -83,7 +83,7 @@ kubectl apply -f service-account.yml
 
 We now have a service account with the `cluster-admin` role, so let's set it to the pod.
 
-```yml,copy
+```yaml,copy
 # pod.yml
 
 ---
@@ -125,7 +125,7 @@ Look at me by the 8888 ingress 🚪
 
 Setting up an ingress on port `8888` should do the trick.
 
-```yml,copy 
+```yaml,copy 
 # ingress.yml
 
 ---
@@ -195,7 +195,7 @@ Well, well, well... Let's create a Traefik Proxy. I followed the [quick-start gu
 
 Various resources are created:
 
-```yml,copy
+```yaml,copy
 # traefik/00-role.yml
 
 kind: ClusterRole
@@ -233,7 +233,7 @@ rules:
           - update
 ```
 
-```yml,copy
+```yaml,copy
 # traefik/00-account.yml
 
 apiVersion: v1
@@ -242,7 +242,7 @@ metadata:
     name: traefik-account
 ```
 
-```yml,copy
+```yaml,copy
 # traefik/01-role-binding.yml
 
 kind: ClusterRoleBinding
@@ -262,7 +262,7 @@ subjects:
 
 The Traefik deployment itself:
 
-```yml,copy
+```yaml,copy
 # traefik/02-traefik.yml
 
 kind: Deployment
@@ -298,7 +298,7 @@ spec:
 
 And finally, the service:
 
-```yml,copy
+```yaml,copy
 # traefik/02-traefik-services.yml
 
 apiVersion: v1
@@ -346,7 +346,7 @@ kubectl port-forward deployments/traefik-deployment 8080:8080
 
 The HTTP Service for our pod is effectively listed in the dashboard:
 
-[![Traefik dashboard](/images/traefik-dashboard.png)](/images/traefik-dashboard.png)
+[![Traefik dashboard](./images/traefik-dashboard.png)](./images/traefik-dashboard.png)
 
 Forwarding the proxy port to something fancy:
 
@@ -443,7 +443,7 @@ kubectl create secret generic helmsman --from-literal=helmsman=dcc9c530767c10276
 
 Restarting the pod, port-forwarding the proxy, and visiting [`localhost:1337`](http://localhost:1337) again, we now get a nice form to fill and submit.
 
-[![Traefik form](/images/traefik-form.png)](/images/traefik-form.png)
+[![Traefik form](./images/traefik-form.png)](./images/traefik-form.png)
 
 ## Conclusion
 

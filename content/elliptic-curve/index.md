@@ -6,7 +6,7 @@ date = 2024-11-29
 tags = ["crypto"]
 +++
 
-> [!INFO]
+> [!NOTE]
 > I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
 >
 > The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references-and-suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.

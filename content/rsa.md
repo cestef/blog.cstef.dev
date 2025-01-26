@@ -7,7 +7,7 @@ description = "We use RSA every day to secure our online transactions, but how d
 tags = ["crypto"]
 +++
 
-> [!INFO]
+> [!NOTE]
 > I am not a cryptographer, nor a mathematician. This article is the result of my own research and understanding of the subject. If you find any mistakes, [please let me know](mailto:hi@cstef.dev)!
 
 

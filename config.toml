@@ -14,17 +14,16 @@ bottom_footnotes = true
 highlight_theme = "css"
 highlight_code = true
 
-highlight_themes_css = [
-    { theme = "gruvbox-dark", filename = "../styles/syntax-theme-dark.css" },
-    { theme = "gruvbox-light", filename = "../styles/syntax-theme-light.css" },
-]
+# highlight_themes_css = [
+#     { theme = "gruvbox-dark", filename = "../styles/syntax-theme-dark.css" },
+#     { theme = "gruvbox-light", filename = "../styles/syntax-theme-light.css" },
+# ]
 
 math_rendering = "typst"
-math_svgo = true
+math_svgo = true                               # Optimize the SVGs
 math_svgo_config = "svgo.config.mjs"
-math_dark_mode = true
-
-math_dark_mode_css = "styles/typst-dark.css"
+math_dark_mode = true                          # Render both dark and light mode
+math_dark_mode_css = "styles/typst-dark.css"   # injected inside the svgs
 math_light_mode_css = "styles/typst-light.css"
 
 pikchr_dark_mode = true

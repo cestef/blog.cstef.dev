@@ -8,7 +8,7 @@ tags = ["re"]
 
 The TMS 220 is a payment system used in Miele washing machines and dryers. It's a simple device that allows users to pay for laundry cycles using so-called "Touch" devices. These devices are essentially iButtons ([_sold for 40 bucks btw_](https://www.fust.ch/de/p/haushalt/waschmaschinen-und-waeschetrockner/zubehoer-waeschepflege/miele/benutzer-touch-91800158-8386593.html)) that can be loaded with credit and used to pay for laundry cycles.
 
-![Miele TMS 220](/images/miele-tms-220.png)
+![Miele TMS 220](./images/miele-tms-220.png)
 
 As the payment device is completely independent (not connected via GSM or whatever), I was curious to see how it works and if I could reverse-engineer it. I happened to have just bought a [Flipper Zero](https://flipperzero.one/), which is basically a Swiss Army knife for nerds, and it seemed like the perfect device for the job as it supports iButton reading, writing, and emulation.
 
@@ -16,7 +16,7 @@ As the payment device is completely independent (not connected via GSM or whatev
 
 The _Touch_ device is a small iButton in a plastic holder. Underneath the plastic, there's a DS1992 iButton, which is a 1-wire device with 1Kb (128 bytes) of NVRAM. The device is powered by the reader, which provides power through the 1-wire interface.
 
-![Miele Touch Device](/images/miele-touch-device.png)
+![Miele Touch Device](./images/miele-touch-device.png)
 
 It provides 4 pages of 32 bytes each, with an additional 32 bytes scratchpad (used for checking the data before actually writing it).
 
