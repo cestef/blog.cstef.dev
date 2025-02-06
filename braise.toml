@@ -1,0 +1,11 @@
+#:schema ../braise/braise.schema.json
+parallel = true
+
+[dev]
+tasks = ["zola-dev", "tailwind-dev"]
+
+[zola-dev]
+command = "zola serve --drafts"
+
+[tailwind-dev]
+command = "pnpm tailwindcss -i ./styles/main.css -o ./static/css/main.css --watch -m"

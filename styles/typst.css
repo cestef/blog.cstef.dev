@@ -1,4 +1,4 @@
-.typst-light.typst-inline {
+/* .typst-light.typst-inline {
 	@apply dark:hidden inline;
 }
 .typst-light.typst-display {
@@ -10,6 +10,14 @@
 }
 .typst-dark.typst-display {
 	@apply hidden dark:block;
+} */
+
+.typst-display {
+	@apply block;
+}
+
+.typst-inline {
+	@apply inline;
 }
 
 .typst-doc.typst-display {

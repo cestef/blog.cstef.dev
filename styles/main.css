@@ -32,5 +32,37 @@
 }
 
 body {
-	@apply bg-background font-mono text-foreground;
+	@apply bg-background font-mono text-foreground mx-4 sm:mx-0;
+}
+
+.prose {
+	@apply xl:max-w-[72ch];
+}
+
+details {
+	@apply border border-border rounded-lg px-4 py-2 my-4;
+}
+
+summary {
+	@apply cursor-pointer;
+}
+
+details figure:has(pre) {
+	@apply lg:mx-0;
+}
+
+figure[data-copy="true"] #copy-button {
+	@apply block;
+}
+
+article,
+article img {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+article img:not(.typst-doc) {
+	@apply rounded-lg;
 }

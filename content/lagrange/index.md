@@ -15,9 +15,10 @@ This is a simple example of polynomial interpolation, where we are trying to fin
 One of the most, if not *the* most important property of polynomials, is that each one of them can uniquely be described by $n+1$ points for a polynomial of degree $n$, noted $f(x) in PP_n$.
 
 The most straightforward way of seeing this is by setting an equation for each point $A_i (x_i, y_i)$ we have:
+
 $$
 P_n (x) = u_0 + u_1 x + ... + u_n x^n = f(x) \
-
+\
 cases(
     space f(x_0) = y_0,
     space f(x_1) = y_1,

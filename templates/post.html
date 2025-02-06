@@ -5,7 +5,19 @@
 <h1>
     {{ page.title }}
 </h1>
-<p><strong>{{ page.date }}</strong></p>
+<div class="flex flex-row gap-4 items-center">
+    <span><strong>{{ page.date | date(format="%Y-%m-%d") }}</strong></span> -
+    <span class="flex flex-row gap-2">
+        {% for tax in page.taxonomies.tags %}
+        <a
+            href="/{{ tax }}"
+            class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline"
+        >
+            {{ tax }}
+        </a>
+        {% endfor %}
+    </span>
+</div>
 {{ page.content | safe }}
 
 {% endblock article %}

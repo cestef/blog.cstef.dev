@@ -6,6 +6,12 @@ date = 2024-11-12
 tags = ["ctf"]
 +++
 
+
+> [!WARNING]
+> If you are using this article to solve the challenge, please make sure to not just copy-paste the commands, but to understand what they do.
+>
+> My goal is to allow you to learn something new, not to give you the solution on a silver platter 😉
+
 ## Introduction
 
 When looking for an alternative to [HAProxy](https://www.haproxy.org/) or [Nginx](https://www.nginx.com/),
@@ -455,8 +461,3 @@ It's really easy to set up, and the fact that it can automatically discover serv
 I am definitely going to use this in future projects.
 
 All the manifests used in this article are available on [GitHub](https://github.com/cestef/blog/tree/main/resources/traefik-jobs).
-
-## Disclaimer
-
-If you are using this article to solve the challenge, please make sure to not just copy-paste the commands, but to understand what they do.
-My goal was to allow you to learn something new, not to give you the solution on a silver platter 😉
