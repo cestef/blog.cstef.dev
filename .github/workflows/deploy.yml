@@ -35,8 +35,7 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: |
-                      .cache
-                      public
+                      ~/.cache/zola
                   key: ${{ runner.os }}-zola-${{ hashFiles('**/*.md', 'config.toml', 'templates/**/*') }}
                   restore-keys: |
                       ${{ runner.os }}-zola-
