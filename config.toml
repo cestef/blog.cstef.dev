@@ -19,12 +19,12 @@ highlight_code = true
 #     { theme = "gruvbox-light", filename = "../styles/syntax-theme-light.css" },
 # ]
 
-math_rendering = "typst"
+math = "typst"
 math_svgo = true                     # Optimize the SVGs
 math_svgo_config = "svgo.config.mjs"
-math_dark_mode = false               # Render both dark and light mode
 # math_dark_mode_css = "styles/typst-dark.css"   # injected inside the svgs
-math_light_mode_css = "styles/typst-embed.css"
+math_css = "styles/typst-embed.css"
+math_typst_addon = "helpers.typ"
 
 pikchr_dark_mode = true
 [extra]

@@ -5,7 +5,7 @@ parallel = true
 tasks = ["zola-dev", "tailwind-dev"]
 
 [zola-dev]
-command = "zola serve --drafts"
+command = "../zola/target/debug/zola serve --drafts"
 
 [tailwind-dev]
 command = "pnpm tailwindcss -i ./styles/main.css -o ./static/css/main.css --watch -m"

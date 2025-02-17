@@ -1,1 +1,145 @@
-:root{--t:#3c3836;--d:#efefeb;--m:#dfddd8;--b:#458588;--r:#cc241d;--g:#98971a;--p:#b16286;--y:#fabd2f}@media (prefers-color-scheme:dark){:root{--t:#ebdbb2;--d:#292724;--m:#3b3935}}.typst-text[fill=\#000000],.typst-shape[fill=\#000000],.typst-group[fill=\#000000],.typst-text>[fill=\#000000],.typst-shape>[fill=\#000000],.typst-group>[fill=\#000000]{fill:var(--t)}.typst-text[fill=\#ffffff],.typst-shape[fill=\#ffffff],.typst-group[fill=\#ffffff],.typst-text>[fill=\#ffffff],.typst-shape>[fill=\#ffffff],.typst-group>[fill=\#ffffff]{fill:var(--d)}.typst-text[fill=\#d5d5d5],.typst-shape[fill=\#d5d5d5],.typst-group[fill=\#d5d5d5],.typst-text>[fill=\#d5d5d5],.typst-shape>[fill=\#d5d5d5],.typst-group>[fill=\#d5d5d5]{fill:var(--m)}.typst-text[fill=\#0074d9],.typst-shape[fill=\#0074d9],.typst-group[fill=\#0074d9],.typst-text>[fill=\#0074d9],.typst-shape>[fill=\#0074d9],.typst-group>[fill=\#0074d9]{fill:var(--b)}.typst-text[fill=\#ff4136],.typst-shape[fill=\#ff4136],.typst-group[fill=\#ff4136],.typst-text>[fill=\#ff4136],.typst-shape>[fill=\#ff4136],.typst-group>[fill=\#ff4136]{fill:var(--r)}.typst-text[fill=\#2ecc40],.typst-shape[fill=\#2ecc40],.typst-group[fill=\#2ecc40],.typst-text>[fill=\#2ecc40],.typst-shape>[fill=\#2ecc40],.typst-group>[fill=\#2ecc40]{fill:var(--g)}.typst-text[fill=\#f012be],.typst-shape[fill=\#f012be],.typst-group[fill=\#f012be],.typst-text>[fill=\#f012be],.typst-shape>[fill=\#f012be],.typst-group>[fill=\#f012be]{fill:var(--p)}.typst-text[fill=\#ffdc00],.typst-shape[fill=\#ffdc00],.typst-group[fill=\#ffdc00],.typst-text>[fill=\#ffdc00],.typst-shape>[fill=\#ffdc00],.typst-group>[fill=\#ffdc00]{fill:var(--y)}.typst-text[stroke=\#000000],.typst-shape[stroke=\#000000],.typst-group[stroke=\#000000],.typst-text>[stroke=\#000000],.typst-shape>[stroke=\#000000],.typst-group>[stroke=\#000000]{stroke:var(--t)}.typst-text[stroke=\#ffffff],.typst-shape[stroke=\#ffffff],.typst-group[stroke=\#ffffff],.typst-text>[stroke=\#ffffff],.typst-shape>[stroke=\#ffffff],.typst-group>[stroke=\#ffffff]{stroke:var(--d)}.typst-text[stroke=\#d5d5d5],.typst-shape[stroke=\#d5d5d5],.typst-group[stroke=\#d5d5d5],.typst-text>[stroke=\#d5d5d5],.typst-shape>[stroke=\#d5d5d5],.typst-group>[stroke=\#d5d5d5]{stroke:var(--m)}.typst-text[stroke=\#0074d9],.typst-shape[stroke=\#0074d9],.typst-group[stroke=\#0074d9],.typst-text>[stroke=\#0074d9],.typst-shape>[stroke=\#0074d9],.typst-group>[stroke=\#0074d9]{stroke:var(--b)}.typst-text[stroke=\#ff4136],.typst-shape[stroke=\#ff4136],.typst-group[stroke=\#ff4136],.typst-text>[stroke=\#ff4136],.typst-shape>[stroke=\#ff4136],.typst-group>[stroke=\#ff4136]{stroke:var(--r)}.typst-text[stroke=\#2ecc40],.typst-shape[stroke=\#2ecc40],.typst-group[stroke=\#2ecc40],.typst-text>[stroke=\#2ecc40],.typst-shape>[stroke=\#2ecc40],.typst-group>[stroke=\#2ecc40]{stroke:var(--g)}.typst-text[stroke=\#f012be],.typst-shape[stroke=\#f012be],.typst-group[stroke=\#f012be],.typst-text>[stroke=\#f012be],.typst-shape>[stroke=\#f012be],.typst-group>[stroke=\#f012be]{stroke:var(--p)}.typst-text[stroke=\#ffdc00],.typst-shape[stroke=\#ffdc00],.typst-group[stroke=\#ffdc00],.typst-text>[stroke=\#ffdc00],.typst-shape>[stroke=\#ffdc00],.typst-group>[stroke=\#ffdc00]{stroke:var(--y)}
+:root {
+	--t: #3c3836;
+	--d: #efefeb;
+	--m: #dfddd8;
+	--b: #458588;
+	--r: #cc241d;
+	--g: #98971a;
+	--p: #b16286;
+	--y: #fabd2f;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--t: #ebdbb2;
+		--d: #292724;
+		--m: #3b3935;
+	}
+}
+.typst-text[fill="\#000000"],
+.typst-shape[fill="\#000000"],
+.typst-group[fill="\#000000"],
+.typst-text > [fill="\#000000"],
+.typst-shape > [fill="\#000000"],
+.typst-group > [fill="\#000000"] {
+	fill: var(--t);
+}
+.typst-text[fill="\#ffffff"],
+.typst-shape[fill="\#ffffff"],
+.typst-group[fill="\#ffffff"],
+.typst-text > [fill="\#ffffff"],
+.typst-shape > [fill="\#ffffff"],
+.typst-group > [fill="\#ffffff"] {
+	fill: var(--d);
+}
+.typst-text[fill="\#d5d5d5"],
+.typst-shape[fill="\#d5d5d5"],
+.typst-group[fill="\#d5d5d5"],
+.typst-text > [fill="\#d5d5d5"],
+.typst-shape > [fill="\#d5d5d5"],
+.typst-group > [fill="\#d5d5d5"] {
+	fill: var(--m);
+}
+.typst-text[fill="\#0074d9"],
+.typst-shape[fill="\#0074d9"],
+.typst-group[fill="\#0074d9"],
+.typst-text > [fill="\#0074d9"],
+.typst-shape > [fill="\#0074d9"],
+.typst-group > [fill="\#0074d9"] {
+	fill: var(--b);
+}
+.typst-text[fill="\#ff4136"],
+.typst-shape[fill="\#ff4136"],
+.typst-group[fill="\#ff4136"],
+.typst-text > [fill="\#ff4136"],
+.typst-shape > [fill="\#ff4136"],
+.typst-group > [fill="\#ff4136"] {
+	fill: var(--r);
+}
+.typst-text[fill="\#2ecc40"],
+.typst-shape[fill="\#2ecc40"],
+.typst-group[fill="\#2ecc40"],
+.typst-text > [fill="\#2ecc40"],
+.typst-shape > [fill="\#2ecc40"],
+.typst-group > [fill="\#2ecc40"] {
+	fill: var(--g);
+}
+.typst-text[fill="\#f012be"],
+.typst-shape[fill="\#f012be"],
+.typst-group[fill="\#f012be"],
+.typst-text > [fill="\#f012be"],
+.typst-shape > [fill="\#f012be"],
+.typst-group > [fill="\#f012be"] {
+	fill: var(--p);
+}
+.typst-text[fill="\#ffdc00"],
+.typst-shape[fill="\#ffdc00"],
+.typst-group[fill="\#ffdc00"],
+.typst-text > [fill="\#ffdc00"],
+.typst-shape > [fill="\#ffdc00"],
+.typst-group > [fill="\#ffdc00"] {
+	fill: var(--y);
+}
+.typst-text[stroke="\#000000"],
+.typst-shape[stroke="\#000000"],
+.typst-group[stroke="\#000000"],
+.typst-text > [stroke="\#000000"],
+.typst-shape > [stroke="\#000000"],
+.typst-group > [stroke="\#000000"] {
+	stroke: var(--t);
+}
+.typst-text[stroke="\#ffffff"],
+.typst-shape[stroke="\#ffffff"],
+.typst-group[stroke="\#ffffff"],
+.typst-text > [stroke="\#ffffff"],
+.typst-shape > [stroke="\#ffffff"],
+.typst-group > [stroke="\#ffffff"] {
+	stroke: var(--d);
+}
+.typst-text[stroke="\#d5d5d5"],
+.typst-shape[stroke="\#d5d5d5"],
+.typst-group[stroke="\#d5d5d5"],
+.typst-text > [stroke="\#d5d5d5"],
+.typst-shape > [stroke="\#d5d5d5"],
+.typst-group > [stroke="\#d5d5d5"] {
+	stroke: var(--m);
+}
+.typst-text[stroke="\#0074d9"],
+.typst-shape[stroke="\#0074d9"],
+.typst-group[stroke="\#0074d9"],
+.typst-text > [stroke="\#0074d9"],
+.typst-shape > [stroke="\#0074d9"],
+.typst-group > [stroke="\#0074d9"] {
+	stroke: var(--b);
+}
+.typst-text[stroke="\#ff4136"],
+.typst-shape[stroke="\#ff4136"],
+.typst-group[stroke="\#ff4136"],
+.typst-text > [stroke="\#ff4136"],
+.typst-shape > [stroke="\#ff4136"],
+.typst-group > [stroke="\#ff4136"] {
+	stroke: var(--r);
+}
+.typst-text[stroke="\#2ecc40"],
+.typst-shape[stroke="\#2ecc40"],
+.typst-group[stroke="\#2ecc40"],
+.typst-text > [stroke="\#2ecc40"],
+.typst-shape > [stroke="\#2ecc40"],
+.typst-group > [stroke="\#2ecc40"] {
+	stroke: var(--g);
+}
+.typst-text[stroke="\#f012be"],
+.typst-shape[stroke="\#f012be"],
+.typst-group[stroke="\#f012be"],
+.typst-text > [stroke="\#f012be"],
+.typst-shape > [stroke="\#f012be"],
+.typst-group > [stroke="\#f012be"] {
+	stroke: var(--p);
+}
+.typst-text[stroke="\#ffdc00"],
+.typst-shape[stroke="\#ffdc00"],
+.typst-group[stroke="\#ffdc00"],
+.typst-text > [stroke="\#ffdc00"],
+.typst-shape > [stroke="\#ffdc00"],
+.typst-group > [stroke="\#ffdc00"] {
+	stroke: var(--y);
+}
