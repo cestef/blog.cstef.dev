@@ -22,10 +22,9 @@ highlight_code = true
 math = "typst"
 math_svgo = true                     # Optimize the SVGs
 math_svgo_config = "svgo.config.mjs"
-# math_dark_mode_css = "styles/typst-dark.css"   # injected inside the svgs
-math_css = "styles/typst-embed.css"
+math_css = "styles/typst-embed.css"  # Injected into the SVGs
 math_typst_addon = "helpers.typ"
-
+cache = false
 pikchr_dark_mode = true
 [extra]
 # Put all your custom variables here

@@ -1,5 +1,5 @@
 .cache/
 node_modules/
-static/css/
+static/css/main.css
 public/
 preview/

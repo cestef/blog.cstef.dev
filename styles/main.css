@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 @import "./typst.css";
 @import "./gruvbox.css";
 @import "./callouts.css";
@@ -33,6 +34,10 @@
 
 body {
 	@apply bg-background font-mono text-foreground mx-4 sm:mx-0;
+}
+
+*[aria-hidden="true"] {
+	@apply sr-only;
 }
 
 .prose {
