@@ -166,6 +166,10 @@ t: y &= m(x - x_G) + y_G \
      &= (3x_G^2)/(2y_G) (x - x_G) + y_G
 $$
 
+## Working with finite fields
+
+Elliptic curves are defined over a finite field, which means that all operations are done modulo a prime number $p$. This is done to ensure that the curve has a finite number of points, which is necessary for cryptographic applications.
+
 ## References and Suggested readings
 
 - **A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography**  
