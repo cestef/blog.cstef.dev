@@ -32,7 +32,22 @@
 }
 
 body {
-	@apply bg-background font-mono text-foreground mx-4 sm:mx-0;
+	@apply bg-background font-mono text-foreground;
+}
+
+html {
+	scrollbar-color: var(--color-ring) rgba(0, 0, 0, 0);
+}
+
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+}
+
+main {
+	max-height: calc(100svh - 1rem); /* Adjust according to your header height */
+	overflow-y: auto;
 }
 
 .prose {
