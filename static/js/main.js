@@ -1,5 +1,5 @@
-// Hide/show the scroll-to-top button
 window.addEventListener("DOMContentLoaded", () => {
+	// Hide/show the scroll-to-top button
 	const scrollButton = document.getElementById("scroll-to-top");
 	const fillElement = document.getElementById("scroll-fill");
 	const scrollElement = document.getElementById("scroll-element");
@@ -26,4 +26,21 @@ window.addEventListener("DOMContentLoaded", () => {
 			behavior: "smooth",
 		});
 	});
+
+	// Add copy buttons to code blocks (data-copy)
+	const preElements = document.querySelectorAll("pre[data-copy]");
+	for (const preElement of preElements) {
+		const codeElement = preElement.querySelector("code");
+		const copyButton = document.createElement("button");
+		copyButton.className = "copy-button";
+		copyButton.textContent = "Copy";
+		copyButton.addEventListener("click", () => {
+			navigator.clipboard.writeText(codeElement.textContent);
+			copyButton.textContent = "Copied!";
+			setTimeout(() => {
+				copyButton.textContent = "Copy";
+			}, 2000);
+		});
+		preElement.appendChild(copyButton);
+	}
 });

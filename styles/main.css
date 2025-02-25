@@ -81,3 +81,11 @@ article img {
 article img:not(.typst-doc) {
 	@apply rounded-lg;
 }
+
+.copy-button {
+	@apply absolute top-0 right-0 px-4 py-2 text-sm text-muted-foreground cursor-pointer;
+}
+
+pre[data-copy] {
+	@apply relative;
+}
