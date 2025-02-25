@@ -11,7 +11,8 @@
         "dev": "npm-run-all --parallel css:dev zola:dev",
         "dev-local": "npm-run-all --parallel css:dev zola:dev-local",
         "build": "npm-run-all css:build zola:build css:minify",
-        "css:minify": "purgecss --content public/**/*.html --css public/css/main.css --output public/css/main.css"
+        "css:minify": "purgecss --content public/**/*.html --css public/css/main.css --output public/css/main.css",
+        "serve": "python3 -m http.server 1111 --directory public"
     },
     "keywords": [],
     "author": "",

@@ -13,7 +13,12 @@ const hexToRgb = (h: string) => {
 
 export default {
 	darkMode: "class",
-	content: ["./templates/**/*.html", "./styles/**/*.css"],
+	content: [
+		"./templates/**/*.html",
+		"./templates/*.html",
+		"./styles/**/*.css",
+		"./styles/*.css",
+	],
 	theme: {
 		extend: {
 			typography: () => ({
