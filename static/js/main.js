@@ -28,6 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 
 	// Add copy buttons to code blocks (data-copy)
+	const codeBlockStart = performance.now();
 	const preElements = document.querySelectorAll("pre[data-copy]");
 	for (const preElement of preElements) {
 		const codeElement = preElement.querySelector("code");
@@ -43,4 +44,11 @@ window.addEventListener("DOMContentLoaded", () => {
 		});
 		preElement.appendChild(copyButton);
 	}
+	console.log(
+		`Copy buttons injection took ${(performance.now() - codeBlockStart).toFixed(2)} ms`
+	);
+
+	const twemojiStart = performance.now();
+	twemoji.parse(document.body);
+	console.log(`twemoji.parse() took ${(performance.now() - twemojiStart).toFixed(2)} ms`);
 });
