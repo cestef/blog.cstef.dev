@@ -83,7 +83,10 @@ Schnorr signatures are a bit like ECDSA, but faster and simpler. We are going to
 1. Sample a random nonce $r <- ZZ_n$
 
 <details>
-<summary> What the hell is <code class="language-math math-inline">ZZ_n</code>?</summary>
+<summary>What the hell is <span>
+
+$ZZ_n$
+</span>?</summary>
 
 The set $ZZ_n$ is a cyclic group of integers, isomorphic to the quotient group $ZZ slash n ZZ$. It is basically just the set of integers modulo $n$.
 

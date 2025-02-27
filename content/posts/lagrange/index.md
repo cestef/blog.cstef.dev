@@ -111,7 +111,9 @@ $$
 ```
 
 <details>
-<summary> Why does multiplying by <code class="language-math math-inline">(x-x_j)</code> add a root ?</summary>
+<summary> Why does multiplying by <span>
+
+$(x-x_j)$</span> add a root ?</summary>
 
 For a function $f(x) = (x - x_j) dot g(x) | g(x) <- RR[x]$, when $x = x_j$:
 

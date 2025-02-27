@@ -18,7 +18,9 @@ The main idea behind Shamir Secret Sharing (SSS) is to split a secret $s$ into $
 Let's take the following example: we want to split the secret $s = 42$ into $n = 5$ parts, such that any $k = 3$ parts can be used to reconstruct the secret. It is supposed we are working in a finite field $FF_q$ for the entirety of this post.
 
 <details>
-<summary> What the hell is <code class="language-math math-inline">FF_q</code>?</summary>
+<summary> What the hell is <span>
+
+$FF_q$</span>?</summary>
 
 A finite field $FF_q$ where $q = p^k | p in cal(P)$ ($q$ is a prime power), is a finite set of elements, on which we can apply our usual additions and multiplications.
 
@@ -309,18 +311,7 @@ The probability of a malicious actor being placed last in the queue and thus foo
 
 Let's instead require each bearer to **first** send their share to everyone placed before them in the pre-defined order.
 
-```typ
-#import "@preview/fletcher:0.5.2" as fletcher: *
-
-#diagram(
-  spacing: (1em, 1em),  
-  $
-    P_1 edge("rr",y_1, "-|>")  && S = {y_1}, space  R = {P_1} \
-    P_2 edge("rr", y_2, "-|>") && R edge("rr", "-|>", y_2 space checkmark) && S = {y_1, y_2}, space R= {P_1, P_2 }edge("rr", "-|>", S) && P_2 \
-    P_k edge("rr", "-|>", y_k) && R edge("rr", "-|>", y_k space checkmark) && S = {y_1, y_2, ..., y_k} edge("rr", "-|>", S) && P_k \
-    & space
-  $
-)
+```typ, include=figures/incremental.typ
 ```
 
 We have a single shared state $R$ that needs to be kept up-to-date for everyone at each round. This is to keep track of who has and who hasn't sent their share yet. The state $S$ consisting of every sent share does not need to be shared as everyone can keep track of the broadcasts to $R$ received. 
@@ -345,7 +336,7 @@ The commitment and sharing phase of $g_i (j) | i,j in R$ continues as usual, and
 
 The last step is to verify that $P_m'$ also sends his shares to $P_m$. If he does not, every other shareholder can post a complaint against him and optionally send his shares to $P_m$, who can then recover the secret.
 
-This way, we have a pretty good guarantee that the secret will be recovered by everyone, except if that very person was being explicitly targeted by the whole recovery group ($k-1$ people). Please also note that this method doesn't work really well with a small number of shareholders, e.g. 3:
+We now have a pretty good guarantee that the secret will be recovered by everyone, except if that very person was being explicitly targeted by the whole recovery group ($k-1$ people). Please also note that this method doesn't work really well with a small number of shareholders, e.g. 3:
 
 $P_1$ and $P_2$ are chosen to reveal their intermediate shares, but $P_2$ and $P_3$ are malicious.
 

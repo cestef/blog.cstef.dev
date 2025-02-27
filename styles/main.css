@@ -98,3 +98,18 @@ img.emoji {
 	margin: 0 0.05em 0 0.1em;
 	vertical-align: -0.1em;
 }
+
+details > summary::marker {
+	content: "[+] ";
+	@apply text-muted-foreground;
+}
+
+details[open] > summary::marker {
+	content: "[-] ";
+	@apply text-muted;
+}
+
+details summary p {
+	display: inline;
+	margin: 0;
+}
