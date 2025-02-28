@@ -10,6 +10,7 @@ build_search_index = true
 index_format = "fuse_javascript"
 include_description = true
 include_path = true
+include_content = false
 
 [markdown]
 render_emoji = true
