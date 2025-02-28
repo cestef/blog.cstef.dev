@@ -7,10 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ get_url(path="css/main.css") | safe }}" />
   <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.basic.min.js" crossorigin="anonymous"></script>
   <script src="{{ get_url(path="js/main.js") | safe }}" defer></script>
+  <script src="{{ get_url(path="search_index.en.js") | safe }}" defer></script>
 </head>
 
 <body class="min-h-[100svh]">
+    <div id="goto-popup" class="w-[50svw] md:w-96 bg-popover absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden shadow-lg">
+        <input type="text" class="w-full h-8 lg:h-12 px-2 py-1 lg:px-4 lg:py-2" id="goto-input" placeholder="Search" />
+        <div class="w-full h-0.5 bg-muted"></div>
+        <div id="goto-results" class="w-full max-h-96 overflow-y-auto flex flex-col"></div>
+    </div>
     <div class="fixed top-0 left-0 w-full bg-accent flex z-10">
         <a href="/">
             <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black">
@@ -21,7 +28,15 @@
             {{ current_path | trim_end_matches(pat="/") }}
         </div>
         <div class="flex-grow"></div>
-
+        <button class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black cursor-pointer" id="goto-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 stroke-primary-foreground">
+                <path d="M12 13v8" />
+                <path d="M12 3v3" />
+                <path
+                    d="M18 6a2 2 0 0 1 1.387.56l2.307 2.22a1 1 0 0 1 0 1.44l-2.307 2.22A2 2 0 0 1 18 13H6a2 2 0 0 1-1.387-.56l-2.306-2.22a1 1 0 0 1 0-1.44l2.306-2.22A2 2 0 0 1 6 6z" />
+            </svg>
+        </button>
     </div>
     <main class="mt-7" id="scroll-element"><div class="mt-16 mx-4 sm:mx-0" style="margin-bottom:calc(var(--spacing)*24)">{% block content %} {% endblock %}</div></main>        
     <div class="bg-secondary text-primary-foreground w-fit fixed bottom-4 float-right right-8 transition-all duration-200 opacity-0"

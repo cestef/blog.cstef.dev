@@ -1,11 +1,15 @@
 # The URL the site will be built for
 base_url = "https://blog.cstef.dev"
-
 minify_html = true
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 taxonomies = [{ name = "tags" }]
+build_search_index = true
 
+[search]
+index_format = "fuse_javascript"
+include_description = true
+include_path = true
 
 [markdown]
 render_emoji = true

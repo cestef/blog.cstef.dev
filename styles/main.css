@@ -113,3 +113,28 @@ details summary p {
 	display: inline;
 	margin: 0;
 }
+
+input {
+	@apply focus:ring-0 focus:outline-none;
+}
+
+/* .goto-result:not(:last-child) {
+	@apply border-b border-muted;
+} */
+
+.goto-result,
+.goto-no-result {
+	@apply px-2 py-1 lg:px-4 lg:py-2;
+}
+
+.goto-result:hover {
+	@apply bg-background/90;
+}
+
+.goto-result.selected {
+	@apply bg-primary text-primary-foreground;
+}
+
+.goto-no-result {
+	@apply text-destructive;
+}
