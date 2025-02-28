@@ -58,37 +58,30 @@ window.addEventListener("DOMContentLoaded", () => {
 	twemoji.parse(document.body);
 	console.log(`twemoji.parse() took ${(performance.now() - twemojiStart).toFixed(2)} ms`);
 
-	// Enhanced search functionality
 	const input = document.getElementById("goto-input");
 	const results = document.getElementById("goto-results");
 	const popup = document.getElementById("goto-popup");
 
-	// Track selected result for keyboard navigation
 	let selectedIndex = -1;
 	let searchResults = [];
 
-	// Function to highlight and scroll to selected result
 	function highlightResult(index) {
 		const resultElements = results.querySelectorAll(".goto-result");
 
-		// Remove highlight from all results
 		for (const el of resultElements) {
 			el.classList.remove("selected");
 		}
 
-		// Apply highlight to selected result and scroll into view if needed
 		if (index >= 0 && index < resultElements.length) {
 			resultElements[index].classList.add("selected");
 			resultElements[index].scrollIntoView({ block: "nearest", behavior: "smooth" });
 		}
 	}
 
-	// Function to perform search and update results
 	function performSearch() {
 		const query = input.value.trim();
 		searchResults = query ? fuse.search(query) : [];
 
-		// Clear and repopulate results
 		results.innerHTML = "";
 
 		if (searchResults.length === 0 && query) {
@@ -125,11 +118,12 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
-	// Track if the button was clicked to prevent blur from closing popup
 	let buttonClicked = false;
 
 	input.addEventListener("input", () => {
+		// const now = performance.now();
 		performSearch();
+		// console.log(`Search took ${(performance.now() - now).toFixed(2)} ms`);
 	});
 
 	input.addEventListener("keydown", (e) => {
@@ -200,7 +194,6 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-	// Get the goto button and add click handler
 	const gotoButton = document.getElementById("goto-button");
 	if (gotoButton) {
 		gotoButton.addEventListener("click", () => {
