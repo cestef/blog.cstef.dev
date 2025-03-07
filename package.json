@@ -5,7 +5,7 @@
     "scripts": {
         "css:dev": "pnpm tailwindcss -i ./styles/main.css -o ./static/css/main.css --watch -m",
         "css:build": "pnpm tailwindcss -i ./styles/main.css -o ./static/css/main.css -m",
-        "zola:dev": "zola serve",
+        "zola:dev": "zola serve --fast",
         "zola:dev-local": "../zola/target/debug/zola serve",
         "zola:build": "zola build",
         "dev": "npm-run-all --parallel css:dev zola:dev",

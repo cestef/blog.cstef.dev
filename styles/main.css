@@ -90,6 +90,11 @@ pre[data-copy] {
 	@apply relative;
 }
 
+pre,
+code {
+	line-height: 1;
+}
+
 img.emoji {
 	border-radius: 0px !important;
 	display: inline-block;
