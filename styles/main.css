@@ -83,11 +83,19 @@ article img:not(.typst-doc) {
 }
 
 .copy-button {
-	@apply absolute top-0 right-0 px-4 py-2 text-sm text-muted-foreground cursor-pointer;
+	@apply absolute top-0 right-0 px-2 py-1 text-xs text-muted-foreground bg-accent border border-muted rounded-tr-lg cursor-pointer;
 }
 
 pre[data-copy] {
 	@apply relative;
+}
+
+pre[data-name] {
+	@apply relative pt-8;
+	&::before {
+		content: attr(data-name);
+		@apply absolute top-0 left-0 px-2 py-1 text-xs text-muted-foreground bg-accent border border-muted rounded-tl-lg;
+	}
 }
 
 pre,
