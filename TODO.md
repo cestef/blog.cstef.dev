@@ -1,4 +1,4 @@
-- [ ] Copy button for code blocks (`zola`: add `data-copy`)
+- [x] Copy button for code blocks (`zola`: add `data-copy`)
 - [ ] Text wrap toggle for code blocks
-- [ ] Twemoji support
-- [ ] More callouts (`pulldown-cmark` PR)
+- [x] Twemoji support
+- [x] More callouts (`pulldown-cmark` PR)
