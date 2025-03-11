@@ -38,7 +38,7 @@ As with a real pile of plates, the stack is a last-in, first-out (LIFO) data str
 
 ```ansi
 ┌──────────────┐
-│ [2m# base addr[0m  │ <---[0m [2m# lowest address[0m
+│ [2m# max addr [0m  │ <---[0m [2m# lowest address[0m
 ├──────────────┤
 │ [2m....[0m         │
 ├──────────────┤
@@ -124,4 +124,93 @@ Let's start out with the registers:
 You may also have noticed that two things are stored with negative offsets from `rbp`:
 
 - Local variables (closest to `rbp`, e.g. `b`).
-- Arguments (right above local variables, e.g. `a`).
+- Arguments (right below local variables, e.g. `a`).
+
+An other important thing to note is that the return address is stored on the stack, right above the base pointer. 
+
+```ansi
+ [2m# top of stack[0m    ◄─── [2m# low mem. addr[0m                      
+┌───────────────┐                      
+│ [2m# variables[0m   │ 
+├───────────────┤                      
+│ [2m# frame ptr[0m   │                      
+├───────────────┤                      
+│ [2m# return addr[0m │                      
+├───────────────┤                      
+│ [2m# (arguments)[0m │ 
+└───────────────┘                      
+ [2m# bot. of stack[0m   ◄─── [2m# high mem. addr[0m                     
+```
+
+### Let's start breaking stuff
+
+Now that we know how the stack works, let's see what happens when we smash it. 
+
+```c, copy
+void vulnerable_function() {
+    char buffer[16];
+    printf("Enter some text: ");
+    gets(buffer); // Vulnerable function
+    printf("You entered: %s\n", buffer);
+}
+
+int main() {
+    vulnerable_function();
+    return 0;
+}
+```
+
+```bash, copy
+gcc -fno-stack-protector -no-pie -z execstack -o vuln vuln.c
+# vuln.c: warning: the `gets' function is dangerous and should not be used.
+```
+<small>What? I know what I'm doing, gcc.</small>
+
+Let's start out by being a good citizen and running the program as intended:
+
+```bash
+❯ ./vuln
+Enter some text: uhm hey
+You entered: uhm hey
+```
+
+Now let's scream our lungs out:
+
+```bash
+❯ ./vuln
+Enter some text: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Segmentation fault
+```
+
+What happened here? Let's spin up `radare2` and take a look at the stack:
+
+```bash
+r2 -d -AA ./vuln
+```
+
+```ansi
+[38;5;178m[0x7ffff7fe5a50]> [39mdc
+Enter some text: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+You entered: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+[+] SIGNAL 11 errno=0 addr=0x00000000 code=128 si_pid=0 ret=0
+[38;5;178m[0x00401180]> [39mdr
+[38;5;75mrax = 0x00000044
+[38;5;75mrbx = 0x7fffffffe498
+rcx = 0x00000000
+rdx = 0x00000000
+[38;5;75mr8 = 0x004056e7
+[38;5;75mr9 = 0x00000073
+r10 = 0x00000000
+[38;5;75mr11 = 0x00000202
+r12 = 0x00000000
+[38;5;75mr13 = 0x7fffffffe4a8
+[38;5;75mr14 = 0x00403e00
+[38;5;75mr15 = 0x7ffff7ffd020
+[38;5;75mrsi = 0x004052a0
+[38;5;75mrdi = 0x7fffffffde00
+[38;5;75mrsp = 0x7fffffffe378
+[38;5;75mrbp = 0x4141414141414141
+[38;5;75mrip = 0x00401180
+[38;5;75mrflags = 0x00010202
+[38;5;75morax = 0xffffffffffffffff
+```

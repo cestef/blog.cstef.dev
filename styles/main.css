@@ -92,7 +92,7 @@ pre[data-copy] {
 
 pre,
 code {
-	line-height: 1;
+	line-height: 1.28;
 }
 
 img.emoji {
