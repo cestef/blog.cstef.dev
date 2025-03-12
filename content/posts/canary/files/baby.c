@@ -1,5 +1,5 @@
 #include <stdio.h>
-void win()
+void shell()
 {
     execve("/bin/sh", NULL, NULL);
 }

