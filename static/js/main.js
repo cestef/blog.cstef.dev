@@ -129,6 +129,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	input.addEventListener("keydown", (e) => {
 		switch (e.key) {
 			case "ArrowDown":
+			case "Tab":
 				e.preventDefault();
 				if (searchResults.length > 0) {
 					selectedIndex = (selectedIndex + 1) % searchResults.length;
@@ -191,6 +192,33 @@ window.addEventListener("DOMContentLoaded", () => {
 			e.preventDefault();
 			popup.classList.add("hidden");
 			input.blur();
+		}
+
+		if (popup.classList.contains("hidden") && !(e.ctrlKey || e.metaKey)) {
+			let scrollBy;
+			switch (e.key) {
+				case "k":
+					scrollBy = -100;
+					break;
+				case "j":
+					scrollBy = 100;
+					break;
+
+				case "h":
+					window.history.back();
+					break;
+				case "l":
+					window.history.forward();
+					break;
+
+				default:
+					return;
+			}
+
+			const scrollElement = document.getElementById("scroll-element");
+			scrollElement.scrollBy({
+				top: scrollBy,
+			});
 		}
 	});
 
