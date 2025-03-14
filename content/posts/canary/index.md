@@ -29,7 +29,7 @@ But don't worry, I got you covered. In this post, I'll explain everything you ne
 
 Before we dive into stack canaries, let's talk about stack smashing. Stack smashing is a type of vulnerability that occurs when a program writes beyond the bounds of a buffer on the stack. This can lead to all sorts of bad things happening, like overwriting the return address of a function, or corrupting other important data on the stack.
 
-_Stop bothering me with the basics, go to [the good stuff](#canary-roasting)._
+_Stop bothering me with the basics, go to [the cool stuff](#canary-roasting)._
 
 <details>
 <summary>What is the stack?</summary>
@@ -144,7 +144,7 @@ Now let's scream our lungs out:
 
 ```bash
 ❯ ./vuln
-Enter some text: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Enter some text: AAAAAAAAAAAAAAAAAAAAAAAA
 Segmentation fault
 ```
 
@@ -156,8 +156,8 @@ r2 -d -AA ./vuln
 
 ```ansi
 [38;5;178m[0x7ffff7fe5a50]> [39mdc
-Enter some text: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-You entered: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Enter some text: AAAAAAAAAAAAAAAAAAAAAAAA
+You entered: AAAAAAAAAAAAAAAAAAAAAAAA
 [+] SIGNAL 11 errno=0 addr=0x00000000 code=128 si_pid=0 ret=0
 [38;5;178m[0x00401180]> [39mdr
 [38;5;75mrax = 0x00000044
@@ -181,7 +181,22 @@ r12 = 0x00000000
 [38;5;75morax = 0xffffffffffffffff
 ```
 
-We notice that the base pointer `rbp` has been overwritten with `0x4141414141414141` (ASCII `AAAA`). This is a clear sign that we've overwritten the stack frame of the function.
+We notice that the base pointer `rbp` has been overwritten with `0x4141414141414141` (ASCII `AAAAAAAA`). This is a clear sign that we've overwritten the stack frame of the function.
+
+```ansi
+ [2m# top of stack[0m    ◄─── [2m# low mem. addr[0m                      
+┌────────────────────┐                                     
+│ 0x4141414141414141 │ [2m# buffer[0m   |
+│ 0x4141414141414141 │            |
+├────────────────────┤            |          
+│ 0x4141414141414141 │ [2m# rbp[0m      | [2m# overflow direction                   
+├────────────────────┤            |          
+│ 0x0x00401180       │ [2m# rip[0m      |                 
+├────────────────────┤            |          
+│        ....        │            ▼
+└────────────────────┘                                     
+ [2m# bot. of stack[0m   ◄─── [2m# high mem. addr[0m                     
+```
 
 Now what if we wanted to overwrite the return address of the function? This would allow us to redirect the program's execution to a different location in memory.
 
@@ -337,7 +352,15 @@ The first `16 * 'A'` are to fill the buffer, and the `F\x11@` is the address of 
 
 ezpz, nothing too fancy.
 
-### Return-Oriented Programming
+### ROP-chains
+
+Let's try chaining multiple ROPs together to sequentially call `rop1`, `rop2`, and `rop3`.
+
+```c, copy, name=rop.c, include=files/rop.c
+```
+
+
+
 ## Canary Roasting
 
 ## References and Further Reading

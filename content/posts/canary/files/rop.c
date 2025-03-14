@@ -16,14 +16,16 @@ void rop3()
     printf("ROP 3!\n");
 }
 
-void vulnerable(char *string)
+void vulnerable()
 {
     char buffer[16];
-    strcpy(buffer, string);
+    puts("Enter some text: ");
+    gets(buffer);
+    printf("You entered: %s\n", buffer);
 }
 
-int main(int argc, char **argv)
+int main()
 {
-    vulnerable(argv[1]);
+    vulnerable();
     return 0;
 }
