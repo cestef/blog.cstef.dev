@@ -153,7 +153,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 			case "Escape":
 				e.preventDefault();
-				popup.classList.add("hidden");
+				popup.classList.remove("active");
 				input.blur();
 				break;
 		}
@@ -163,7 +163,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (!buttonClicked && !popup.contains(e.relatedTarget)) {
 			console.log("blur,hidePopup");
 			setTimeout(() => {
-				popup.classList.add("hidden");
+				popup.classList.remove("active");
 			}, 50);
 		}
 		buttonClicked = false;
@@ -172,9 +172,14 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.addEventListener("keydown", (e) => {
 		if (e.key === "k" && (e.ctrlKey || e.metaKey)) {
 			e.preventDefault();
-			popup.classList.remove("hidden");
-			input.focus();
-			input.select();
+			if (popup.classList.contains("active")) {
+				popup.classList.remove("active");
+				// input.blur();
+			} else {
+				popup.classList.add("active");
+				input.focus();
+				input.select();
+			}
 		}
 
 		if (
@@ -183,18 +188,18 @@ window.addEventListener("DOMContentLoaded", () => {
 			document.activeElement.tagName !== "TEXTAREA"
 		) {
 			e.preventDefault();
-			popup.classList.remove("hidden");
+			popup.classList.add("active");
 			input.focus();
 			input.select();
 		}
 
-		if (e.key === "Escape" && !popup.classList.contains("hidden")) {
+		if (e.key === "Escape" && popup.classList.contains("active")) {
 			e.preventDefault();
-			popup.classList.add("hidden");
+			popup.classList.remove("active");
 			input.blur();
 		}
 
-		if (popup.classList.contains("hidden") && !(e.ctrlKey || e.metaKey)) {
+		if (!popup.classList.contains("active") && !(e.ctrlKey || e.metaKey)) {
 			let scrollBy;
 			switch (e.key) {
 				case "k":
@@ -226,8 +231,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	if (gotoButton) {
 		gotoButton.addEventListener("click", () => {
 			buttonClicked = true;
-			popup.classList.toggle("hidden");
-			if (!popup.classList.contains("hidden")) {
+			popup.classList.toggle("active");
+			if (popup.classList.contains("active")) {
 				input.focus();
 				input.select();
 			}
@@ -236,12 +241,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	document.addEventListener("touchstart", (e) => {
 		if (
-			!popup.classList.contains("hidden") &&
+			popup.classList.contains("active") &&
 			!popup.contains(e.target) &&
 			e.target !== gotoButton
 		) {
-			console.log("touchstart,hidePopup");
-			popup.classList.add("hidden");
+			popup.classList.remove("active");
 		}
 	});
 });

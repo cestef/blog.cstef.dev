@@ -151,3 +151,11 @@ input {
 .goto-no-result {
 	@apply text-destructive;
 }
+
+#goto-popup {
+	@apply opacity-0 scale-95 -translate-y-1 pointer-events-none transition-all duration-200 ease-in-out;
+}
+
+#goto-popup.active {
+	@apply opacity-100 scale-100 translate-y-0 pointer-events-auto;
+}
