@@ -6,10 +6,14 @@
   <title>{% block title %}cstef's Blog{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ get_url(path="css/main.css") | safe }}" />
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml" />
   <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.basic.min.js" crossorigin="anonymous"></script>
+  
   <script src="{{ get_url(path="js/main.js") | safe }}" defer></script>
   <script src="{{ get_url(path="search_index.en.js") | safe }}" defer></script>
+
 </head>
 
 <body class="min-h-[100svh]">

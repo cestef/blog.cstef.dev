@@ -17,10 +17,11 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (e.target.scrollTop > 300) {
 			scrollButton.style.opacity = 1;
 			scrollButton.style.cursor = "pointer";
+			scrollButton.style.pointerEvents = "auto";
 			enabled = true;
 		} else {
 			scrollButton.style.opacity = 0;
-			scrollButton.style.cursor = "default";
+			scrollButton.style.pointerEvents = "none";
 			enabled = false;
 		}
 	});

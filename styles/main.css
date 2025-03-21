@@ -159,3 +159,7 @@ input {
 #goto-popup.active {
 	@apply opacity-100 scale-100 translate-y-0 pointer-events-auto;
 }
+
+pre[data-center] {
+	@apply flex items-center justify-center;
+}
