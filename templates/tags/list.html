@@ -1,0 +1,17 @@
+{% extends "prose.html" %}
+{%block title%} {{ taxonomy.name | capitalize }}{%endblock%}
+{% block article %}
+
+<h1>
+    Available {{ taxonomy.name | capitalize }}
+</h1>
+
+<ul>
+{% for term in terms %}
+
+<li><a href="/tags/{{ term.slug }}">{{ term.name }}</a> <span class="text-muted-foreground">({{ term.pages | length }})</span></li>
+
+{% endfor %}
+</ul>
+
+{% endblock article %}

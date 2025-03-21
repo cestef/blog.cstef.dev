@@ -1,0 +1,19 @@
+{% extends "prose.html" %}
+{%block title%} {{ taxonomy.name | capitalize }} | {{ term.name }}{%endblock%}
+{% block article %}
+
+<h1>
+    {{ term.name }} Scribblings
+</h1>
+
+{% for year, posts in term.pages | group_by(attribute="year") %}
+    <h2>{{ year }}</h2>
+
+    <ul>
+    {% for post in posts %}
+        <li><a href="{{ post.permalink }}">{{ post.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+
+{% endblock article %}
