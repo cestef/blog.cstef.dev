@@ -36,20 +36,35 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	// Add copy buttons to code blocks (data-copy)
 	const codeBlockStart = performance.now();
-	const preElements = document.querySelectorAll("pre[data-copy]");
+	const preElements = document.querySelectorAll("pre");
 	for (const preElement of preElements) {
-		const codeElement = preElement.querySelector("code");
-		const copyButton = document.createElement("button");
-		copyButton.className = "copy-button";
-		copyButton.textContent = "Copy";
-		copyButton.addEventListener("click", () => {
-			navigator.clipboard.writeText(codeElement.textContent);
-			copyButton.textContent = "Copied!";
-			setTimeout(() => {
-				copyButton.textContent = "Copy";
-			}, 2000);
+		const canCopy = preElement.dataset.copy !== undefined;
+		const buttonsHolder = document.createElement("div");
+		buttonsHolder.className = "buttons-holder";
+		preElement.appendChild(buttonsHolder);
+		const toggleWrapButton = document.createElement("button");
+		toggleWrapButton.className = "wrap-toggle";
+		toggleWrapButton.textContent = "Wrap";
+		toggleWrapButton.addEventListener("click", () => {
+			const html = document.querySelector("html");
+			html.toggleAttribute("data-wrap");
 		});
-		preElement.appendChild(copyButton);
+		buttonsHolder.appendChild(toggleWrapButton);
+
+		if (canCopy) {
+			const codeElement = preElement.querySelector("code");
+			const copyButton = document.createElement("button");
+			copyButton.className = "copy-button";
+			copyButton.textContent = "Copy";
+			copyButton.addEventListener("click", () => {
+				navigator.clipboard.writeText(codeElement.textContent);
+				copyButton.textContent = "Copied!";
+				setTimeout(() => {
+					copyButton.textContent = "Copy";
+				}, 2000);
+			});
+			buttonsHolder.appendChild(copyButton);
+		}
 	}
 	console.log(
 		`Copy buttons injection took ${(performance.now() - codeBlockStart).toFixed(2)} ms`

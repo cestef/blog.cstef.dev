@@ -82,11 +82,23 @@ article img:not(.typst-doc) {
 	@apply rounded-lg;
 }
 
-.copy-button {
-	@apply absolute top-0 right-0 px-2 py-1 text-xs text-muted-foreground bg-accent border border-muted rounded-tr-lg cursor-pointer;
+.buttons-holder {
+	@apply absolute top-0 right-0  text-xs text-muted-foreground bg-accent border border-muted rounded-tr-lg;
 }
 
-pre[data-copy] {
+.buttons-holder :nth-child(2) {
+	@apply border-l border-muted-foreground/20 md:border-none;
+}
+.copy-button,
+.wrap-toggle {
+	@apply cursor-pointer px-2 py-1;
+}
+
+.wrap-toggle {
+	@apply md:hidden;
+}
+
+pre {
 	@apply relative;
 }
 
@@ -162,4 +174,8 @@ input {
 
 pre[data-center] {
 	@apply flex items-center justify-center;
+}
+
+html[data-wrap] pre {
+	@apply whitespace-pre-wrap;
 }
