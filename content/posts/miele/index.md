@@ -3,6 +3,7 @@ title = "Reverse Engineering the TMS 220 Miele Payment System"
 description = "A deep dive into the TMS 220 Miele payment system, how it works, and how I reverse-engineered it with a Flipper Zero."
 date = 2024-08-29
 draft = true
+
 [taxonomies]
 tags = ["re"]
 +++

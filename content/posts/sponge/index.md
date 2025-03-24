@@ -10,7 +10,7 @@ In 2007, the NIST (National Institue of Standards and Technology) announced a Cr
 
 The function uses a **sponge construction**, but what the hell is even this thing? Let's take a look!
 
-We have a message $M$ as our input and the final hash $H$. We then have two "registers": $r$ and $c$, which both make up our state $s$. These two are initialized with $0$s in them. 
+We have a message $M$ as our input and the final hash $H$. We then have two "registers": $r$ and $c$, which both make up our state $s$. These two are initialized with $0$s in them.
 
 The message $M$ is first padded so that it can fit in exactly $k in NN$ parts $m_i$, each of size $r$. The process of "absorption" is the following:
 
@@ -18,21 +18,20 @@ The message $M$ is first padded so that it can fit in exactly $k in NN$ parts $m
 2. Scramble the whole register $s$ ($r$ and $c$) altogether to produce a new state $s'$ by applying $f$
     The function $f$ needs to generate a pseudo-random permutation of the bits in $s$
 
-```typ,include=figures/permutation.typ
-```
+    ```typ,include=figures/permutation.typ
+    ```
 
-<p align="center"
-><small> Example permutation <i>via</i> <code class="language-math language-typst">f</code></small></p>
+    <p align="center"
+    ><small> Example permutation <i>via</i> <code class="language-math language-typst">f</code></small></p>
 
 3. Pass on the state to the next iteration
 
-We can now "squeeze" our sponge to extract the hash from it, by applying $f$ again and taking a small chunk $h_i$ ($r$ bits) over and over until we have enough for our desired output length. 
+We can now "squeeze" our sponge to extract the hash from it, by applying $f$ again and taking a small chunk $h_i$ ($r$ bits) over and over until we have enough for our desired output length.
 
 This whole process can be described with the following diagram:
 
 ```typ,include=figures/classic.typ
 ```
-
 
 <p align="center"><small>Sponge construction algorithm, inspired by <a href="https://keccak.team/sponge_duplex.html">Keccak's diagram</a></small></p>
 

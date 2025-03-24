@@ -6,7 +6,7 @@ date = 2024-11-29
 tags = ["maths"]
 +++
 
-You may remember, when in High School, being asked to find the equation of a line that goes through two points. The process was straightforward: you would calculate the slope $a$ and the intercept $b$ of the line $f(x) = a x + b$. 
+You may remember, when in High School, being asked to find the equation of a line that goes through two points. The process was straightforward: you would calculate the slope $a$ and the intercept $b$ of the line $f(x) = a x + b$.
 
 This is a simple example of polynomial interpolation, where we are trying to find a polynomial that goes through a set of points. While the process is simple for a line, it becomes slightly more complex for higher degree polynomials.
 
@@ -39,7 +39,7 @@ mat(
 mat(u_0; u_1; dots.v; u_(n)) = mat(y_0; y_1; dots.v; y_n)
 $$
 
-Written as $V u = y$, we can solve this by inverting $V$: 
+Written as $V u = y$, we can solve this by inverting $V$:
 
 $$
 u = V^(-1) y
@@ -155,5 +155,5 @@ Generalizing this process, we can write the function $f(x) in PP_n (x)$ that goe
 
 $$
 f(x) &= sum_(i=0)^n y_i l_i (x) \
-        &= sum_(i=0)^n y_i product_(j=0, j!=i)^n (x - x_j) /  (x_i - x_j) 
+        &= sum_(i=0)^n y_i product_(j=0, j!=i)^n (x - x_j) /  (x_i - x_j)
 $$

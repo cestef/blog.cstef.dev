@@ -7,7 +7,7 @@ date = 2025-03-21
 tags = ["rss"]
 +++
 
-Back when the Internet was still young (I wasn't even born), folks would dial up to their favorite BBS (Bulletin Board System) and dive into whatever people were talking about. 
+Back when the Internet was still young (I wasn't even born), folks would dial up to their favorite BBS (Bulletin Board System) and dive into whatever people were talking about.
 It was so basic - just pure text posts lined up by date. No flashy ads, no infinite-doomscroll apps.
 Just people talking to each other.
 
@@ -24,6 +24,7 @@ Just people talking to each other.
 [32m   / fido \      (_/(_|(____/        [34mcalifornia/nevada usa
 [32m  (________)          [0m[2m(jm)[2m
 ```
+
 <p align="center"><small>They had cool ASCII arts too </small></p>
 
 Then, as everyone's grandmother started getting online, the Internet turned into this crazy fight for eyeballs. Companies began watching everything you clicked, trying to get inside your head. Suddenly, you're drowning in ads, getting pushed toward certain articles, and your feed's all shuffled around just to keep you glued to your screen.
@@ -66,8 +67,8 @@ It typically looks like this:
 ### As a Reader
 
 1. **Find an RSS Reader**: There are many out there, but some popular ones are [NetNewsWire](https://ranchero.com/netnewswire/), [Glance](https://github.com/glanceapp/glance) or [miniflux](https://miniflux.app/) (my favorite)
-2. **Subscribe to Websites**: Sometimes this is as easy as pasting the website's URL into your reader. Other times, you might need to look for an icon like this: <img src="images/rss.png" style="width: 1.5rem; height: 1.5rem; border-radius: 0px; display: inline-block; vertical-align: text-bottom;"> or try your luck with `/(feed|rss|atom)(\.xml)?` at the end of the URL.
-   
+2. **Subscribe to Websites**: Sometimes this is as easy as pasting the website's URL into your reader. Other times, you might need to look for an icon like this: <img alt="RSS icon" src="images/rss.png" style="width: 1.5rem; height: 1.5rem; border-radius: 0px; display: inline-block; vertical-align: text-bottom;"> or try your luck with `/(feed|rss|atom)(\.xml)?` at the end of the URL.
+
    For websites/content sources that don't have an RSS feed (e.g. Telegram channels), you can use a bridge service like [RSSHub](https://docs.rsshub.app/) to generate one.
 
 3. **Enjoy**: At the beginning, you may find it a bit underwhelming to have a feed with just a few posts. But as you add more and more sources, you'll have a personalized feed that's just right for you.

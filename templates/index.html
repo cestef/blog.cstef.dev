@@ -15,40 +15,68 @@
 
 {% set section = get_section(path="posts/_index.md") %}
 
-<ul>
-    {% for page in section.pages | slice(end=5) %}
-        <li>
+<ul id="posts">
+    {% for page in section.pages %}
+        <li class="{% if loop.index > 5 %}hidden{% endif %}">
             <div>
                 <h3 class="flex items-center gap-2 md:gap-4">
-                    <a
-                        href="{{ page.permalink | safe }}"
-                        class="underline-offset-2 decoration-2 max-w-[70%] w-fit"
-                    >
+                    <a href="{{ page.permalink | safe }}" class="underline-offset-2 decoration-2 max-w-[70%] w-fit">
                         {{ page.title }}
                     </a>
                     <div class="flex-grow"></div>
-                    <div class="flex-col flex items-center justify-center gap-y-2 gap-x-4">
+                    <div class="flex items-center gap-4">
                         <span class="text-sm text-muted-foreground">
                             {{ page.date | date(format="%Y-%m-%d") }}
                         </span>
-                        <div class="flex flex-col gap-2 items-center">
+                        <div class="flex gap-2">
                             {% for tax in page.taxonomies.tags %}
-                            <a
-                                href="/tags/{{ tax }}"
-                                class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline"
-                            >
+                            <a href="/tags/{{ tax }}" class="bg-accent text-accent-foreground px-2 py-1 rounded-md text-sm w-fit font-bold no-underline">
                                 {{ tax }}
                             </a>
                             {% endfor %}
                         </div>
                     </div>
                 </h3>
-
                 <p>{{ page.description }}</p>
             </div>
         </li>
     {% endfor %}
 </ul>
+
+<button id="load-more" class="flex items-center justify-center gap-2 text-sm text-muted-foreground mx-auto cursor-pointer px-2 py-1 hover:bg-accent hover:text-accent-foreground transition-colors duration-200">
+    Display More  
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+        <path d="M12 5v14" />
+        <path d="m19 12-7 7-7-7" />
+    </svg>
+</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const posts = document.querySelectorAll('#posts li');
+        const loadMoreBtn = document.getElementById('load-more');
+        const BATCH_SIZE = 5;
+        let currentlyShown = BATCH_SIZE;
+        
+        if (posts.length <= BATCH_SIZE) {
+            loadMoreBtn.style.display = 'none';
+        }
+        
+        loadMoreBtn.addEventListener('click', () => {
+            const nextBatch = Math.min(currentlyShown + BATCH_SIZE, posts.length);
+            
+            for (let i = currentlyShown; i < nextBatch; i++) {
+                posts[i].classList.remove('hidden');
+            }
+            
+            currentlyShown = nextBatch;
+            
+            if (currentlyShown >= posts.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 
 <div class="flex gap-4 sm:gap-6 items-center justify-center mt-8 md:mt-12">

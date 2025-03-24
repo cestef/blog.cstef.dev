@@ -58,7 +58,7 @@ Let's now plot the polynomial $f(x)$:
 
 ### Reconstructing the Secret
 
-We know that $n+1$ points $Z_i (x_i, y_i) | i in S$ will suffice to construct the polynonial $P_n (x)$ of degree $n$. 
+We know that $n+1$ points $Z_i (x_i, y_i) | i in S$ will suffice to construct the polynonial $P_n (x)$ of degree $n$.
 
 In our case, $deg(f(x)) = k-1$, so we need $(k-1)+1 = k$ points to restore $f(x)$, just as described in the beginning.
 
@@ -106,7 +106,7 @@ $$
 
 You could see this procedure as computing the "public keys" of the coefficients. This method is also called "Feldman's Verifiable Secret Sharing".
 
-One may argue that disclosing $a_0 dot G = s dot G$ could give information about the polynomial, but if we suppose that $s$ is an EC secret key, the public key $s dot G$ is supposed public and may be shared. Finding $s$ with $s dot G$ comes down to solving the discrete logarithm problem, which is supposed really hard here. 
+One may argue that disclosing $a_0 dot G = s dot G$ could give information about the polynomial, but if we suppose that $s$ is an EC secret key, the public key $s dot G$ is supposed public and may be shared. Finding $s$ with $s dot G$ comes down to solving the discrete logarithm problem, which is supposed really hard here.
 
 #### Verifying that $f(0)$ is a private key
 
@@ -129,7 +129,7 @@ Let's now instead take $phi.alt_i = a_i dot G + b_i dot H$ where $b_i$ comes fro
 Shareholders may now verify their shares with:
 
 $$
-f(i) dot G + g(i) dot H &= sum_(j=0)^(k-1) (phi.alt_j dot i^j) \ 
+f(i) dot G + g(i) dot H &= sum_(j=0)^(k-1) (phi.alt_j dot i^j) \
                         &= sum_(j=0)^(k-1) ((a_i dot G + b_i dot H) dot i^j) \
                         &= sum_(j=0)^(k-1) (a_j i^j) dot G + sum_(j=0)^(k-1) (b_j i^j) dot H \
                         &= underline(f(i) dot G + g(i) dot H )
@@ -183,8 +183,8 @@ $$
 This can be rewritten as:
 
 $$
-sum_(j in R) sigma_j &= sum_(j in R) sum_(i in R) partial_(j,i) \ 
-                     &= sum_(i in R) (sum_(j in R) partial_(j,i)) \ 
+sum_(j in R) sigma_j &= sum_(j in R) sum_(i in R) partial_(j,i) \
+                     &= sum_(i in R) (sum_(j in R) partial_(j,i)) \
                      &= sum_(i in R) (partial_(1,i) + partial_(2,i) + ... + partial_(3,i)) \
                      &= sum_(i in R) z_i dot l_i = underline(f(ell)) \
 $$
@@ -193,13 +193,13 @@ $$
 
 Another angle to tackle this problem from is to re-use Secret Sharing _inside_ our Secret Sharing scheme (Inception, anyone?).
 
-Let's say we have our recovery group $R$, our new shareholders $N$ and $A = R union N$ for convenience. 
+Let's say we have our recovery group $R$, our new shareholders $N$ and $A = R union N$ for convenience.
 
 1. Each shareholder $i in R$ generates a random polynomial $g_i (x)$ of degree $k-1$.
 2. They each compute the auxiliary shares $d_(i,j) = g_i (j)$ for $j in A$.
 3. Every shareholder $j in A$ receives the auxiliary shares $d_(i,j)$ from the recovery group.
 4. Each shareholder $j in R$ computes the aggregated share $H(j) = u_j = z_j + sum_(i in R) d_(i,j)$ and shares it to everyone in $N$.
-5. Each future bearer $ell in N$ can interpolate the polynomial $H(x)$ from the shares $u_j | j in R$ and compute their share 
+5. Each future bearer $ell in N$ can interpolate the polynomial $H(x)$ from the shares $u_j | j in R$ and compute their share
    $$
    z_ell = H(ell) - sum_(i in R) d_(i,ell) = u_ell - sum_(i in R) d_(i,ell)
    $$
@@ -222,35 +222,35 @@ But wait! We just learnt how to implement a secure, verifiable secret sharing sc
 Let's review the protocol, this time including relevant checks to ensure the data we're receiving is genuine. We assume the original dealer was a good guy and already used Feldman's VSS, providing the commitments $C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G$ for the OG polynomial $f(x) = a_0 + a_1 x + ... + a_(k-1) x^(k-1)$ to everyone.
 
 1. Each shareholder $i in R$ generates a random polynomial $g_i (x) = b_(i,0) + b_(i,1) x + ... + b_(i,k-1) x^(k-1)$ of degree $k-1$.
-2. They also compute and share for $j in R$ to see their commitments: 
+2. They also compute and share for $j in R$ to see their commitments:
    $$
    Gamma_i = {psi_(i,0), psi_(i, 1), ..., psi_(i, k-1)} | psi_(i,j) = b_(i,j) dot G
    $$
 3. They each compute the auxiliary shares $d_(i,j) = g_i (j)$ for $j in A$, and shares them **once they have received all other $Gamma_i | i in R$**
 4. Every shareholder $j in A$ receives the auxiliary shares $d_(i,j)$ from $i in R$ and checks whether they match $Gamma_i$
    $$
-   d_(i,j) dot G &= sum_(m=0)^(k-1) psi_(i,m) dot j^m 
+   d_(i,j) dot G &= sum_(m=0)^(k-1) psi_(i,m) dot j^m
                   = sum_(m=0)^(k-1) b_(i,m) dot G dot j^m \
                  &= sum_(m=0)^(k-1) (b_(i,m) dot j^m), g_i (j) dot G \
-                 &= g_i (j) dot G 
+                 &= g_i (j) dot G
    $$
 5. Before computing anything else, each shareholder $j in R$ commits to the upcoming $H(x)$ polynomial and sends it to $i in A$:
    $$
    T = {theta_i}_(i in R) | theta_i = sum_(k in R) psi_(i, k)
    $$
 6. Each shareholder $j in R$ computes the aggregated share $H(j) = u_j = z_j + sum_(i in R) d_(i,j)$.
-7. Each inductee $i in N$ first waits to receive all $T$, checks that they are the same from everyone, and then receives $u_j | j in R$. 
+7. Each inductee $i in N$ first waits to receive all $T$, checks that they are the same from everyone, and then receives $u_j | j in R$.
 8. Each future shareholder $i in N$ checks whether each given $u_j | j in R$ is genuine:
    $$
    u_j dot G &= sum_(i=0)^(k-1) phi.alt_i + sum_(i in R) theta_i \
              &= sum_(i=0)^(k-1) a_i j^i dot G + sum_(i in R) sum_(m in R) psi_(i, m) \
              &= sum_(i=0)^(k-1) a_i j^i dot G + sum_(i in R) sum_(m in R) b_(i,m) j^m dot G \
              &= (sum_(i=0)^(k-1) a_i j^i + sum_(i in R) sum_(m in R) b_(i,m) j^m) dot G \
-             &= (f(j) + sum_(i in R) g_i (j)) dot G 
+             &= (f(j) + sum_(i in R) g_i (j)) dot G
               = (z_j + sum_(i in R) d_(i,j)) dot G \
              &= H(j) dot G = u_j dot G
    $$
-9.  Each future bearer $j in N$ can interpolate the polynomial $H(x)$ from the shares $u_j$ and compute their share 
+9. Each future bearer $j in N$ can interpolate the polynomial $H(x)$ from the shares $u_j$ and compute their share
     $$
     z_j = H(j) - sum_(i in R) d_(i,j) = u_j - sum_(i in R) d_(i,j)
     $$
@@ -299,7 +299,7 @@ $$
 C = {phi.alt_0, phi.alt_1, ..., phi.alt_(k-1)} | phi.alt_i = a_i dot G
 $$
 
-One cannot manipulate the value of $y_i dot G$ as it is verifiable by the others with 
+One cannot manipulate the value of $y_i dot G$ as it is verifiable by the others with
 
 $$
 y_i dot G = sum_(i = 0)^(k-1) phi.alt_i
@@ -314,7 +314,7 @@ Let's instead require each bearer to **first** send their share to everyone plac
 ```typ, include=figures/incremental.typ
 ```
 
-We have a single shared state $R$ that needs to be kept up-to-date for everyone at each round. This is to keep track of who has and who hasn't sent their share yet. The state $S$ consisting of every sent share does not need to be shared as everyone can keep track of the broadcasts to $R$ received. 
+We have a single shared state $R$ that needs to be kept up-to-date for everyone at each round. This is to keep track of who has and who hasn't sent their share yet. The state $S$ consisting of every sent share does not need to be shared as everyone can keep track of the broadcasts to $R$ received.
 
 This way, a single malicious shareholder cannot dupe the rest of the group. But what if **two** malicious actors $P_m$ and $P_m'$ tried hijacking the recovery ?
 
@@ -328,11 +328,11 @@ In this case, $P_m$ (and $P_m'$) are the only ones able to recover the secret. T
 
 #### Inception, again
 
-To prevent a single actor from hijacking the recovery, we will leverage once again an Inception-like scheme. Here, our new scheme will be $2$-out-of-$k$. 
+To prevent a single actor from hijacking the recovery, we will leverage once again an Inception-like scheme. Here, our new scheme will be $2$-out-of-$k$.
 
 Each shareholder $i in R$ generates a random polynomial $g_i (x) = z_i + b_(i,1) x$ of degree $1$, where $z_i$ is their respective share.
 
-The commitment and sharing phase of $g_i (j) | i,j in R$ continues as usual, and before recovering the secret, two shareholders $P_m$ and $P_m'$ are chosen to reveal their shares. This way, when $P_m$ broadcasts his shares $g_i (m) | i in R$, everyone is instantly able to recover the secret. 
+The commitment and sharing phase of $g_i (j) | i,j in R$ continues as usual, and before recovering the secret, two shareholders $P_m$ and $P_m'$ are chosen to reveal their shares. This way, when $P_m$ broadcasts his shares $g_i (m) | i in R$, everyone is instantly able to recover the secret.
 
 The last step is to verify that $P_m'$ also sends his shares to $P_m$. If he does not, every other shareholder can post a complaint against him and optionally send his shares to $P_m$, who can then recover the secret.
 
@@ -343,7 +343,6 @@ $P_1$ and $P_2$ are chosen to reveal their intermediate shares, but $P_2$ and $P
 1. Each shareholder $i in R = {1,2,3}$ splits his share $z_i$ into $g_i (x) = z_i + b_(i,1) x$ and sends $g_i (j) | i,j in R$ to everyone.
 2. $P_1$ reveals his shares as expected, but $P_2$ and $P_3$ do not.
 3. $P_2$ and $P_3$ are the only ones able to recover the secret, and $P_1$ is left out.
-
 
 ## References and Suggested readings
 

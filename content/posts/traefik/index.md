@@ -27,8 +27,11 @@ I was surprised to see that there was no traditional CV to send, but a docker co
 
 Spun up the image as requested, I was greeted with a nice error message:
 
+```bash
+docker run -it traefik/jobs
 ```
-$ docker run -it traefik/jobs
+
+```text
 Helmsman, where are you? 🤔
 ```
 
@@ -48,7 +51,7 @@ kubectl run traefik-jobs -it --image=traefik/jobs --restart=Never
 
 Still getting an error message, but this time it was different:
 
-```
+```text
 It seems I do need more permissions... May I be promoted cluster-admin? 🙏
 Hmmmm, it seems Helmsman deployment has an issue 😒
 ```
@@ -125,13 +128,13 @@ We have a pod running with the `cluster-admin` role, so we should be able to tak
 kubectl logs deployments/jobs
 ```
 
-```
+```text
 Look at me by the 8888 ingress 🚪
 ```
 
 Setting up an ingress on port `8888` should do the trick.
 
-```yaml,copy 
+```yaml,copy
 # ingress.yml
 
 ---
@@ -176,7 +179,7 @@ kubectl rollout restart deployment jobs
 
 The logs now say:
 
-```
+```text
 You have set up your cluster in good taste 😉
 Now that you have set up an ingress... You should be able find me...
 ```
@@ -189,7 +192,7 @@ kubectl port-forward deployments/jobs 8888:8888
 
 And then, we can access the pod on [`localhost:8888`](http://localhost:8888).
 
-```
+```text
 Come on, use that damn ingress please 😬
 ```
 
@@ -362,7 +365,7 @@ kubectl port-forward deployments/traefik-deployment 1337:80
 
 Visiting [`localhost:1337`](http://localhost:1337):
 
-```
+```text
 I have to tell you something...
 Something that nobody should know.
 However, everyone could see it.
@@ -381,23 +384,23 @@ docker inspect traefik/jobs
 
 ```json
 {
-	"Id": "sha256:...",
-	"RepoTags": ["traefik/jobs:latest"],
-	"Comment": "buildkit.dockerfile.v0",
-	"Created": "2020-10-22T13:50:23.922043068Z",
-	"Config": {
-		// ...
-		"WorkingDir": "/",
-		"Entrypoint": ["/start"],
-		"Labels": {
-			"helmsman": "dcc9c530767c102764d45d621fc92317"
-		}
-	},
-	"Architecture": "amd64",
-	"Os": "linux",
-	"Size": 27754496,
-	"VirtualSize": 27754496
-	// ...
+    "Id": "sha256:...",
+    "RepoTags": ["traefik/jobs:latest"],
+    "Comment": "buildkit.dockerfile.v0",
+    "Created": "2020-10-22T13:50:23.922043068Z",
+    "Config": {
+        // ...
+        "WorkingDir": "/",
+        "Entrypoint": ["/start"],
+        "Labels": {
+            "helmsman": "dcc9c530767c102764d45d621fc92317"
+        }
+    },
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Size": 27754496,
+    "VirtualSize": 27754496
+    // ...
 }
 ```
 
@@ -415,7 +418,7 @@ This looked juicy, so I first tried to decode the value as hex, but the output w
 echo dcc9c530767c102764d45d621fc92317 | xxd -r -p
 ```
 
-```
+```text
 ���0v|'d�]b�#%
 ```
 
@@ -425,7 +428,7 @@ Base64 wasn't any better.
 echo dcc9c530767c102764d45d621fc92317 | base64 -d
 ```
 
-```
+```text
 u�=s�����M��x�޶��=�}{%
 ```
 

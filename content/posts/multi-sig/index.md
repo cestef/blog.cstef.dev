@@ -11,7 +11,6 @@ tags = ["crypto"]
 >
 > The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references-and-suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
 
-
 Elliptic curves may not write your emails, but they can help prove **_you_** sent them. Our goal is to output a signature $(r, s)$ for a given message $m$, so that the recipient can verify that the sender is authentic. The sender's keys are $(p, P)$, with $p$ the private key, and $P$ the public one.
 
 ## ECDSA Signatures
@@ -149,7 +148,7 @@ $$
 <==>& p = (s_1 - s_2) / (e_1 - e_2)
 $$
 
-You may see $r$ as an additional unknown variable that is used to prevent the linear equation system from being solved, because for $n$ messages, you have $n$ equations and $n+1$ unknowns, which is unsolvable in our case. 
+You may see $r$ as an additional unknown variable that is used to prevent the linear equation system from being solved, because for $n$ messages, you have $n$ equations and $n+1$ unknowns, which is unsolvable in our case.
 
 ### Aggregating Signatures
 

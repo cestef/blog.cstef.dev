@@ -11,7 +11,6 @@ tags = ["crypto"]
 >
 > The vast majority of what is written here is taken from various sources, which are listed at the [end of this article](#references-and-suggested-readings). I highly recommend you to read them if you want to dive deeper into the subject.
 
-
 Elliptic curve cryptography (ECC) is a fascinating field of study that has been around for a while. It's a cornerstone of modern cryptography, and it's used in many applications, from secure messaging to cryptocurrencies. RSA, the most widely used public-key cryptosystem, is slowly being replaced by ECC due to its efficiency and security.
 
 The trapdoor function (easy to do one way, hard the other) for an elliptic curve is the multiplication of a point $P$ by a scalar $n$ which is just adding the point $P$ to itself $n$ times. This operation is denoted as $n dot P$. If $n$ is large enough, it is computationally impossible to find $n$ for $Q = n dot P$, being given both $Q$ and $P$, in a reasonable time.
@@ -138,19 +137,19 @@ See this as if we were differentiating $u^2$, where $u = y(x)$.
 The right side is just a function of $x$, so we can differentiate it as we would with any other function:
 
 $$
-(x^3 + 7)' = 3x^2 
+(x^3 + 7)' = 3x^2
 $$
 
 Our differentiated equation is:
 
 $$
-2y(x) dot y'(x) = 3x^2 
+2y(x) dot y'(x) = 3x^2
 $$
 
 Solving for $m = y'(x)$:
 
 $$
-y'(x) = (3x^2)/(2y(x)) = m 
+y'(x) = (3x^2)/(2y(x)) = m
 $$
 
 Notice that the tangent's slope depends on both $x$ and $y$, which makes sense because we'd have two different slopes otherwise:
@@ -175,7 +174,6 @@ Elliptic curves are defined over a finite field, which means that all operations
 - **A (Relatively Easy To Understand) Primer on Elliptic Curve Cryptography**  
     Nick Sullivan  
     [cloudflare.com](https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/)
-
 
 - **Elliptic Curve Cryptography (ECC)**  
     Svetlin Nakov  

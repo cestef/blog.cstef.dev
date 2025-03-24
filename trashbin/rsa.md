@@ -203,7 +203,7 @@ $$
 a^(p-1) eq.triple 1 space (mod p)
 $$
 
-And we want to show that 
+And we want to show that:
 
 $$
 (m^e)^d eq.triple m space (mod n)
@@ -255,6 +255,6 @@ And that's about it :smile:
 
 ## Conclusion
 
-RSA is a fascinating algorithm that relies on the mathematical properties of prime numbers and modular arithmetic. It's a great example of how abstract mathematical concepts can be applied to solve real-world problems. 
+RSA is a fascinating algorithm that relies on the mathematical properties of prime numbers and modular arithmetic. It's a great example of how abstract mathematical concepts can be applied to solve real-world problems.
 
 If you're interested in learning more about RSA, I highly recommend diving into the details of the algorithm and trying to implement it yourself. It's a great way to deepen your understanding of cryptography and computer science in general.

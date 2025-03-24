@@ -137,7 +137,7 @@ $$
 
 ## Nullifying Adaptor Signatures
 
-In the previous case, we saw how two parties could jointly sign a transaction without the need for a trusted third party. But what if one of the parties wanted to cancel the transaction? 
+In the previous case, we saw how two parties could jointly sign a transaction without the need for a trusted third party. But what if one of the parties wanted to cancel the transaction?
 
 If Alice wants to cancel the transaction, she can simply discard her $y$ and never publish it. Bob will then be unable to unlock the signature $hat(s)_A$ and claim the transaction.
 

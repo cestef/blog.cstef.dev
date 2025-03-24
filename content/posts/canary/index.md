@@ -21,7 +21,7 @@ Imagine this: you're about to start a pwn chall, so you run `rabin2`, thinking "
 [1mcanary   [32mtrue[0m
 ```
 
-You're starting to sweat. Your hands are shaking. You're thinking about giving up already. 
+You're starting to sweat. Your hands are shaking. You're thinking about giving up already.
 
 But don't worry, I got you covered. In this post, I'll explain everything you need to know about stack canaries, and how to bypass them. Let's get started!
 
@@ -72,6 +72,7 @@ Data is appended to the stack by `PUSH`-ing it onto the stack, and removed by `P
                        │ 0x50      │                       
                        └───────────┘                                       
 ```
+
 <p align="center"><small>t.o.s. = top of stack, b.o.s. = bottom of stack</small></p>
 </details>
 
@@ -103,7 +104,7 @@ You may also have noticed that two things are stored with negative offsets from 
 - Local variables (closest to `rbp`, e.g. `b`).
 - Arguments (right below local variables, e.g. `a`).
 
-An other important thing to note is that the return address is stored on the stack, right above the base pointer. 
+An other important thing to note is that the return address is stored on the stack, right above the base pointer.
 
 ```ansi
  [2m# top of stack[0m    ◄─── [2m# low mem. addr[0m                      
@@ -121,7 +122,7 @@ An other important thing to note is that the return address is stored on the sta
 
 ### Let's start breaking stuff
 
-Now that we know how the stack works, let's see what happens when we smash it. 
+Now that we know how the stack works, let's see what happens when we smash it.
 
 ```c, copy, name=vuln.c, include=files/vuln.c
 ```
@@ -130,6 +131,7 @@ Now that we know how the stack works, let's see what happens when we smash it.
 gcc -fno-stack-protector -no-pie -z execstack -o vuln vuln.c
 # vuln.c: warning: the `gets' function is dangerous and should not be used.
 ```
+
 <small>What? I know what I'm doing, gcc.</small>
 
 Let's start out by being a good citizen and running the program as intended:
@@ -252,6 +254,7 @@ We start out by setting our breakpoint (`db`, **d**ebug **b**reakpoint) around t
 </small>
 
 Continuing the program, we can dump the stack with `pxQ @ rsp` (**p**rint he**x**adecimal **Q**uadwords at (**@**) the address in the **r**egister **sp**):
+
 ```ansi
 [33m[0x00401136]> [39mdc
 [33mINFO: [39mhit breakpoint at: 0x40115e
@@ -275,7 +278,6 @@ Remember, our stack grows downwards, so here the top of the stack is indeed at t
 | `0x7ffc47cd8ed8` | `0x0000000000000000` | Local variable (`buffer`)       |
 | `0x7ffc47cd8ee0` | `0x00007ffc47cd8ef0` | Saved base pointer (`push rbp`) |
 | `0x7ffc47cd8ee8` | `0x000000000040118f` | Return address (`main`)         |
-
 
 ```ansi
 [33m[0x0040115e]> [39mdc
@@ -322,7 +324,7 @@ nth paddr      vaddr      len size section type  string
 2   0x0000201e 0x0040201e 16  17   .rodata ascii You entered: %s\n
 ```
 
-To make our life easier, we'll use `pwntools` to interact with the program. 
+To make our life easier, we'll use `pwntools` to interact with the program.
 
 ```py, copy, name=baby.py, include=files/baby.py
 ```
@@ -359,7 +361,7 @@ Let's try chaining multiple ROPs together to sequentially call `rop1`, `rop2`, a
 ```c, copy, name=rop.c, include=files/rop.c
 ```
 
-```bash, copy	
+```bash, copy
 gcc -fno-stack-protector -no-pie -z execstack -o rop rop.c
 ```
 
@@ -379,9 +381,8 @@ Let's lay out how our stack should look like in `vulnerable`:
 └─────────────────────┘                  
 ```
 
-
 > [!INFO]
-> In glibc `2.34` and later, [`__libc_csu_init`](https://sourceware.org/legacy-ml/libc-alpha/2018-06/msg00717.html) has been removed. This used to contain the very useful `pop rdi` gadget that we're about to make extensive use of. 
+> In glibc `2.34` and later, [`__libc_csu_init`](https://sourceware.org/legacy-ml/libc-alpha/2018-06/msg00717.html) has been removed. This used to contain the very useful `pop rdi` gadget that we're about to make extensive use of.
 
 ## Canary Roasting
 
