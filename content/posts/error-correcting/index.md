@@ -105,10 +105,26 @@ If our distance is $d(cal(C)) >= t + 1$, we can **detect** at most $t$ errors. I
 
 
 > [!NOTE]
-> Saying that a code is able to correct $t$ errors also means that, geometrically, every ball of radius $t$ defined by
+> Saying that a code is able to correct $t$ errors also means that, geometrically, all balls of radius $t$ in $cal(C)$ defined by
 > 
 > $$
-> B(x, t) = {y in FF_2^k | d(x,y) <= r}
+> B(x, t) = {y in FF_2^k | d(x,y) <= r} \
 > $$
 > 
-> are disjointed.
+> are disjointed:
+>
+> $$
+> forall x,z in cal(C), x != z ==> B(x,t) sect B(z, t) = text(font: #(), emptyset)
+> $$
+
+## Linear Codes
+
+Just like with vector spaces, a binary code $cal(C) subset.eq FF_2^k$ is linear if:
+
+1) $arrow(0) = (0,0, ..., 0) in cal(C)$
+2) $c, c' in cal(C) ==> c + c' in cal(C)$
+3) $c in cal(C), a in FF_2 ==> a dot c = (a dot c_1, a dot c_2, ..., a dot c_n) in cal(C)$
+
+Guess what this means? Matrices!
+
+Each code $cal(C)$ of dimension $k$
