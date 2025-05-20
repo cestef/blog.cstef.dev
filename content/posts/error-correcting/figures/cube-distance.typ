@@ -8,9 +8,9 @@
     (x*SCALE,y*SCALE,z*SCALE)
   }
   
-  line(c(0,0,0), c(1,0,0))
-  line(c(0,0,0), c(0,1,0))
-  line(c(0,0,0), c(0,0,1))
+  line(c(0,0,0), c(1,0,0), stroke: (dash:"dashed"))
+  line(c(0,0,0), c(0,1,0), stroke: (dash:"dashed"))
+  line(c(0,0,0), c(0,0,1), stroke: (dash:"dashed"))
   line(c(1,0,0), c(1,0,1))
   line(c(1,0,0), c(1,1,0))
   line(c(0,1,0), c(0,1,1))

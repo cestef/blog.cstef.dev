@@ -38,7 +38,7 @@ Alice receives the message, looks at the picture, and replies:
 From: alice@example.com
 To: bob@example.com
 
-That's clearly a cat. Did you fail biology? We are done together.
+That's clearly a cat. Did you fail biology? We are DONE together.
 ```
 
 We clearly don't want this type of stuff to happen, right?
@@ -53,7 +53,7 @@ $$
 m = {b_0, b_1, ..., b_n} | b_i in FF_2 = {0,1}
 $$
 
-But what if we simply repeat each bit $r$ times ? For a repetition code, our codeword becomes:
+But what if we repeat each bit $r$ times ? For a repetition code, our codeword becomes:
 
 $$
 c = {(b_0, b_0, ..., b_0), (b_1, b_1, ..., b_1), ..., (b_n, b_n, ..., b_n)} | b_i in FF_2^r
@@ -88,7 +88,7 @@ Suppose we received an erroneous word $(0,0,1)$, it is _more likely_ that it cam
 Up until now, I kept talking about "jumps" from one word to another, but mathematically, this concept is called a **Hamming distance**. This formally defined as:
 
 $$
-d(x,y) = \#{i | x_i != y_i}
+d(x,y) = |{i | x_i != y_i}|
 $$
 
 Which basically means "the number of bits that differ from each word".
@@ -135,4 +135,95 @@ G_(k times n) = mat(
     dots.v, dots.v, dots.down, dots.v;
     a_(k-1, 0), a_(k-1, 1), dots.h, a_(k-1, n-1);
 )
+$$
+
+For any message $m = (m_1 m_2, ..., m_(k-1))$, we can obtain its encoded version by simply using matrix multiplication:
+
+$$
+c = m dot G = (m_1 m_2, ..., m_(k-1)) dot G
+$$
+
+This means our code $cal(C)$ is the image of the linear application represented by $G$:
+
+$$
+cal(C) = {m dot G | m in FF_2^k}
+$$
+
+A generator matrix in its systematic form looks like this:
+
+$$
+G = (I_(k times k) | P_(k times n-k))
+$$
+
+Where $I$ is the identity matrix:
+
+$$
+I_(k times k) = mat(
+    1, 0, dots.h, 0;
+    0, 1, dots.h, 0;
+    dots.v, dots.v, dots.down, dots.v;
+    0, 0, dots.h, 1;
+)
+$$
+
+This is sort of just to "copy" as-is the message $m$ into the codeword $c$. The rest of the matrix $P$ is used to add redundancy to our message.
+
+But wait, how do we detect errors now? This is where the **parity check matrix** $H$ comes in:
+
+$$
+H_((n-k) times n) = mat(
+    p_(0, 0), p_(0, 1), dots.h, p_(0, n-1);
+    p_(1, 0), p_(1, 1), dots.h, p_(1, n-1);
+    dots.v, dots.v, dots.down, dots.v;
+    p_(n-k-1, 0), p_(n-k-1, 1), dots.h, p_(n-k-1, n-1);
+)
+$$
+
+$H$ is designed specifically so that:
+
+$$
+forall c in cal(C), H dot c^T = arrow(0)
+$$
+
+<details>
+<summary>What the hell does <span>
+
+$c^T$
+</span> mean?</summary>
+
+The $T$ in $c^T$ means "transpose". In other words, we are taking the codeword $c$ and flipping it over. This is a common operation in linear algebra, and it allows us to treat the codeword as a column vector instead of a row vector.
+
+For example:
+
+$$
+c = mat(
+    1, 2, 3;
+    4, 5, 6;
+    7, 8, 9;
+)
+$$
+
+The transpose of $c$ would be:
+
+$$
+c^T = mat(
+    1, 4, 7;
+    2, 5, 8;
+    3, 6, 9;
+)
+$$
+</details>
+
+In other words, for any valid codeword, multiplying by $H$ gives us the zero vector. If we receive a potentially corrupted word $r$, we can compute its syndrome:
+
+$$
+s = H dot r^T
+$$
+
+If $s = arrow(0)$ then either $r$ is valid or contains too many errors for us to detect. If $s != arrow(0)$, we know errors occurred.
+
+To compute $H$ from $G = (I | P)$, we can use the following formula:
+
+$$
+H = (P^T | I_(n-k times n-k))
 $$
