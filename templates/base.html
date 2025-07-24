@@ -5,14 +5,14 @@
   <meta charset="utf-8">
   <title>{% block title %}cstef's Blog{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ get_url(path="css/main.css") | safe }}" />
+  <link rel="stylesheet" href="{{ get_url(path='css/main.css') | safe }}" />
   <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
   <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml" />
   <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.basic.min.js" crossorigin="anonymous"></script>
   
-  <script src="{{ get_url(path="js/main.js") | safe }}" defer></script>
-  <script src="{{ get_url(path="search_index.en.js") | safe }}" defer></script>
+  <script src="{{ get_url(path='js/main.js') | safe }}" defer></script>
+  <script src="{{ get_url(path='search_index.en.js') | safe }}" defer></script>
 
 </head>
 
@@ -26,41 +26,15 @@
         <a href="/">
             <div class="bg-primary text-primary-foreground px-4 md:py-2 py-1 w-fit font-black title-underline relative overflow-hidden group">
                 <div class="color-strip left-0 top-0 animate-[slide_4s_linear_infinite]">
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
+                    {% for i in range(end=16) %}
+                        <div class="color-block"></div>
+                    {% endfor %}
                 </div>
                 cstef
                 <div class="color-strip left-0 bottom-0 animate-[slide_4s_linear_infinite_reverse]">
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
-                    <div class="color-block"></div>
+                    {% for i in range(end=16) %}
+                        <div class="color-block"></div>
+                    {% endfor %}
                 </div>
             </div>
         </a>

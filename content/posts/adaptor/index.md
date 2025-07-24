@@ -79,9 +79,9 @@ $$
 
 Exchanging cryptocurrencies between different blockchains is hard. Typically, you'd need a trusted third party to act as a middleman, which would obviously need to be compensated financially for his work. Doing things this way is costly and pretty inefficient. Instead, we can leverage Adaptor Signatures to ensure that either both parties get what they expected, either both get nothing.
 
-We have Alice, holder of $1 space suit.club$, and Bob, holder of $1 space suit.heart$. They want to exchange both their balances, and we assume they already know each other's addresses on both chains.
+We have Alice, holder of $1 suit.club$, and Bob, holder of $1 suit.heart$. They want to exchange both their balances, and we assume they already know each other's addresses on both chains.
 
-Alice starts by sampling $hat(r)_A, y <- FF_q$, and computes an adaptor signature as usual, on a message $m$ that attests the transaction of her $1 space suit.club$ to Bob's address:
+Alice starts by sampling $hat(r)_A, y <- FF_q$, and computes an adaptor signature as usual, on a message $m$ that attests the transaction of her $1 suit.club$ to Bob's address:
 
 $$
 hat(R)_A = hat(r)_A dot G, space Y = y dot G \

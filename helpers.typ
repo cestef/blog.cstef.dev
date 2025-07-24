@@ -2,14 +2,17 @@
 #import "@preview/cetz-plot:0.1.0": plot
 
 #let clipped-paths(points, low, high, fill: false) = {
-  let (min-x, max-x) = (calc.min(low.at(0), high.at(0)),
-                        calc.max(low.at(0), high.at(0)))
-  let (min-y, max-y) = (calc.min(low.at(1), high.at(1)),
-                        calc.max(low.at(1), high.at(1)))
+  let (min-x, max-x) = (
+    calc.min(low.at(0), high.at(0)),
+    calc.max(low.at(0), high.at(0)),
+  )
+  let (min-y, max-y) = (
+    calc.min(low.at(1), high.at(1)),
+    calc.max(low.at(1), high.at(1)),
+  )
 
   let in-rect(pt) = {
-    return (pt.at(0) >= min-x and pt.at(0) <= max-x and
-            pt.at(1) >= min-y and pt.at(1) <= max-y)
+    return (pt.at(0) >= min-x and pt.at(0) <= max-x and pt.at(1) >= min-y and pt.at(1) <= max-y)
   }
 
   let interpolated-end(a, b) = {
@@ -82,8 +85,10 @@
   }
 
   let clamped-pt(pt) = {
-    return (calc.max(min-x, calc.min(pt.at(0), max-x)),
-            calc.max(min-y, calc.min(pt.at(1), max-y)))
+    return (
+      calc.max(min-x, calc.min(pt.at(0), max-x)),
+      calc.max(min-y, calc.min(pt.at(1), max-y)),
+    )
   }
 
   let paths = ()
@@ -130,8 +135,10 @@
       if was-inside {
         path.push(interpolated-end(prev, pt))
       } else {
-        let (a, b) = (interpolated-end(pt, prev),
-                      interpolated-end(prev, pt))
+        let (a, b) = (
+          interpolated-end(pt, prev),
+          interpolated-end(prev, pt),
+        )
         if in-rect(a) and in-rect(b) {
           path.push(a)
           path.push(b)
@@ -148,7 +155,7 @@
         path = ()
       }
     }
-    
+
     was-inside = is-inside
   }
 
@@ -169,9 +176,11 @@
 }
 
 #let sampled-spline-data(points, tension, samples) = {
-  assert(samples >= 1 and samples <= 100,
-    message: "Must at least use 1 sample per curve")
-  
+  assert(
+    samples >= 1 and samples <= 100,
+    message: "Must at least use 1 sample per curve",
+  )
+
   let curves = bezier.catmull-to-cubic(points, tension)
   let pts = ()
   for c in curves {
@@ -201,7 +210,10 @@
       if new-dir == 0 {
         // Infinite slope
         if dx != none {
-          if skipped != none {pts.push(skipped); skipped = none}
+          if skipped != none {
+            pts.push(skipped)
+            skipped = none
+          }
           pts.push(pt)
         } else {
           skipped = pt
@@ -212,7 +224,10 @@
         // if slope or direction changed
         let new-dx = ((pt.at(1) - prev.at(1)) / new-dir)
         if dx == none or calc.abs(new-dx - dx) > epsilon or (new-dir * dir) < 0 {
-          if skipped != none {pts.push(skipped); skipped = none}
+          if skipped != none {
+            pts.push(skipped)
+            skipped = none
+          }
           pts.push(pt)
 
           dx = new-dx
@@ -222,7 +237,10 @@
         }
       }
     } else {
-      if skipped != none {pts.push(skipped); skipped = none}
+      if skipped != none {
+        pts.push(skipped)
+        skipped = none
+      }
       pts.push(pt)
     }
 
@@ -260,19 +278,20 @@
     axis.min = get-axis-option(name, "min", axis.min)
     axis.max = get-axis-option(name, "max", axis.max)
 
-    assert(axis.min not in (none, auto) and
-           axis.max not in (none, auto),
-      message: "Axis min and max must be set.")
+    assert(
+      axis.min not in (none, auto) and axis.max not in (none, auto),
+      message: "Axis min and max must be set.",
+    )
     if axis.min == axis.max {
-      axis.min -= 1; axis.max += 1
+      axis.min -= 1
+      axis.max += 1
     }
 
     axis.mode = get-axis-option(name, "mode", "lin")
     axis.base = get-axis-option(name, "base", 10)
 
     // Configure axis orientation
-    axis.horizontal = get-axis-option(name, "horizontal",
-      get-default-axis-horizontal(name))
+    axis.horizontal = get-axis-option(name, "horizontal", get-default-axis-horizontal(name))
 
     // Configure ticks
     axis.ticks.list = get-axis-option(name, "ticks", ())
@@ -300,16 +319,21 @@
     // Configure axis aspect ratio
     let equal-to = get-axis-option(name, "equal", none)
     if equal-to != none {
-      assert.eq(type(equal-to), str,
-        message: "Expected axis name.")
-      assert(equal-to != name,
-        message: "Axis can not be equal to itself.")
+      assert.eq(type(equal-to), str, message: "Expected axis name.")
+      assert(
+        equal-to != name,
+        message: "Axis can not be equal to itself.",
+      )
 
       let other = axis-dict.at(equal-to, default: none)
-      assert(other != none,
-        message: "Other axis must exist.")
-      assert(other.horizontal != axis.horizontal,
-        message: "Equal axes must have opposing orientation.")
+      assert(
+        other != none,
+        message: "Other axis must exist.",
+      )
+      assert(
+        other.horizontal != axis.horizontal,
+        message: "Equal axes must have opposing orientation.",
+      )
 
       let (w, h) = plot-size
       let ratio = if other.horizontal {
@@ -336,10 +360,14 @@
 }
 
 #let find-contours(data, offset, op: auto, interpolate: true, contour-limit: 50) = {
-  assert(data != none and type(data) == array,
-    message: "Data must be of type array")
-  assert(type(offset) in (int, float),
-    message: "Offset must be numeric")
+  assert(
+    data != none and type(data) == array,
+    message: "Data must be of type array",
+  )
+  assert(
+    type(offset) in (int, float),
+    message: "Offset must be numeric",
+  )
 
   let n-rows = data.len()
   let n-cols = data.at(0).len()
@@ -347,14 +375,18 @@
     return ()
   }
 
-  assert(op == auto or type(op) in (str, function),
-    message: "Operator must be of type auto, string or function")
+  assert(
+    op == auto or type(op) in (str, function),
+    message: "Operator must be of type auto, string or function",
+  )
   if op == auto {
     op = if offset < 0 { "<=" } else { ">=" }
   }
   if type(op) == str {
-    assert(op in ("<", "<=", ">", ">=", "==", "!="),
-      message: "Operator must be one of: <, <=, >, >=, != or ==")
+    assert(
+      op in ("<", "<=", ">", ">=", "==", "!="),
+      message: "Operator must be one of: <, <=, >, >=, != or ==",
+    )
   }
 
   // Return if data is set
@@ -399,9 +431,7 @@
   }
 
   let lerp(a, b) = {
-    if a == b { return a }
-    else if a == none { return 1 }
-    else if b == none { return 0 }
+    if a == b { return a } else if a == none { return 1 } else if b == none { return 0 }
     return (offset - a) / (b - a)
   }
 
@@ -412,21 +442,21 @@
   for y in range(-1, n-rows) {
     for x in range(-1, n-cols) {
       let tl = get-bin(x, y)
-      let tr = get-bin(x+1, y)
-      let bl = get-bin(x, y+1)
-      let br = get-bin(x+1, y+1)
+      let tr = get-bin(x + 1, y)
+      let bl = get-bin(x, y + 1)
+      let br = get-bin(x + 1, y + 1)
 
       // Corner data
-      // 
+      //
       // nw-----ne
       // |       |
       // |       |
       // |       |
       // sw-----se
       let nw = get-data(x, y)
-      let ne = get-data(x+1, y)
-      let se = get-data(x+1, y+1)
-      let sw = get-data(x, y+1)
+      let ne = get-data(x + 1, y)
+      let se = get-data(x + 1, y + 1)
+      let sw = get-data(x, y + 1)
 
       // Interpolated edge points
       //
@@ -486,8 +516,10 @@
     let i = 0
     while i < segments.len() {
       let (a, b) = segments.at(i)
-      let (h, t) = (contours.last().first(),
-                    contours.last().last())
+      let (h, t) = (
+        contours.last().first(),
+        contours.last().last(),
+      )
       if a == t {
         contours.last().push(b)
         segments.remove(i)
@@ -515,9 +547,10 @@
     }
 
     // Check limit
-    assert(contours.len() <= contour-limit,
-      message: "Countour limit reached! Raise contour-limit if you " +
-                "think this is not an error")
+    assert(
+      contours.len() <= contour-limit,
+      message: "Countour limit reached! Raise contour-limit if you " + "think this is not an error",
+    )
   }
 
   return contours
@@ -549,14 +582,22 @@
 }
 
 #let sample-fn2(fn, x-domain, y-domain, x-samples, y-samples) = {
-  assert(x-samples >= 2,
-    message: "You must at least sample 2 x-values")
-  assert(y-samples >= 2,
-    message: "You must at least sample 2 y-values")
-  assert(type(x-domain) == array and x-domain.len() == 2,
-    message: "X-Domain must be a tuple")
-  assert(type(y-domain) == array and y-domain.len() == 2,
-    message: "Y-Domain must be a tuple")
+  assert(
+    x-samples >= 2,
+    message: "You must at least sample 2 x-values",
+  )
+  assert(
+    y-samples >= 2,
+    message: "You must at least sample 2 y-values",
+  )
+  assert(
+    type(x-domain) == array and x-domain.len() == 2,
+    message: "X-Domain must be a tuple",
+  )
+  assert(
+    type(y-domain) == array and y-domain.len() == 2,
+    message: "Y-Domain must be a tuple",
+  )
 
   let (x-min, x-max) = x-domain
   let (y-min, y-max) = y-domain
@@ -572,25 +613,30 @@
   })
 }
 
-#let add-contour(data,
-                 label: none,
-                 z: (1,),
-                 x-domain: (0, 1),
-                 y-domain: (0, 1),
-                 x-samples: 25,
-                 y-samples: 25,
-                 interpolate: true,
-                 op: auto,
-                 axes: ("x", "y"),
-                 style: (:),
-                 fill: false,
-                 limit: 50,
-  ) = {
+#let add-contour(
+  data,
+  label: none,
+  z: (1,),
+  x-domain: (0, 1),
+  y-domain: (0, 1),
+  x-samples: 25,
+  y-samples: 25,
+  interpolate: true,
+  op: auto,
+  axes: ("x", "y"),
+  style: (:),
+  fill: false,
+  limit: 50,
+) = {
   // Sample a x/y function
   if type(data) == function {
-    data = sample-fn2(data,
-                             x-domain, y-domain,
-                             x-samples, y-samples)
+    data = sample-fn2(
+      data,
+      x-domain,
+      y-domain,
+      x-samples,
+      y-samples,
+    )
   }
 
   // Find matrix dimensions
@@ -605,8 +651,10 @@
   for z in z {
     for contour in find-contours(data, z, op: op, interpolate: interpolate, contour-limit: limit) {
       let line-data = contour.map(pt => {
-        (pt.at(0) * dx + x-min,
-         pt.at(1) * dy + y-min)
+        (
+          pt.at(0) * dx + x-min,
+          pt.at(1) * dy + y-min,
+        )
       })
 
       contours.push((
@@ -616,22 +664,29 @@
     }
   }
 
-  return ((
-    type: "contour",
-    label: label,
-    contours: contours,
-    axes: axes,
-    x-domain: x-domain,
-    y-domain: y-domain,
-    style: style,
-    fill: fill,
-    mark: none,
-    mark-style: none,
-    plot-prepare: _prepare,
-    plot-stroke: _stroke,
-    plot-legend-preview: self => {
-      if not self.fill { self.style.fill = none }
-      draw.rect((0,0), (1,1), ..self.style)
-    }
-  ),)
+  return (
+    (
+      type: "contour",
+      label: label,
+      contours: contours,
+      axes: axes,
+      x-domain: x-domain,
+      y-domain: y-domain,
+      style: style,
+      fill: fill,
+      mark: none,
+      mark-style: none,
+      plot-prepare: _prepare,
+      plot-stroke: _stroke,
+      plot-legend-preview: self => {
+        if not self.fill { self.style.fill = none }
+        draw.rect((0, 0), (1, 1), ..self.style)
+      },
+    ),
+  )
 }
+
+#show sym.suit.heart: set text(font: ())
+#show sym.suit.club: set text(font: ())
+#show sym.suit.spade: set text(font: ())
+#show sym.suit.diamond: set text(font: ())
