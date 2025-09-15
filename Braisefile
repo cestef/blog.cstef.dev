@@ -1,0 +1,30 @@
+recipe "dev" {
+    let recipes = [@zola(drafts: true), @tailwind(watch: true)]
+
+    for r in recipes {
+        call r
+    } async
+}
+
+recipe "zola" {
+    param drafts: bool = false
+    let args = ""
+    if drafts {
+        args = "--drafts"
+    }
+    run "zola serve ${args}"
+}
+
+recipe "tailwind" {
+    param watch: bool = false
+    param minify: bool = true
+
+    let args = ""
+    if watch {
+        args = "--watch"
+    }
+    if minify {
+        args = "${args} --minify"
+    }
+    run "pnpm tailwindcss -i ./styles/main.css -o ./static/css/main.css ${args}"
+}

@@ -146,8 +146,8 @@
     </p>
     <p class="text-xs"><a href="https://getzola.org">Zola</a> v{{ version }} -
         <a href="https://github.com/cestef/blog.cstef.dev" class="underline-offset-2 decoration-2">
-            source
-        </a>
+            source</a>
+            at <a href="https://github.com/cestef/blog.cstef.dev/commit/{{ git.commit_hash }}">{{ git.commit_hash | truncate(length=8, end="") }}</a>
     </p>
 </footer>
 

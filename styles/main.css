@@ -225,3 +225,55 @@ html[data-wrap] pre {
         transform: translateX(-50%);
     }
 }
+
+/* Table of Contents */
+.toc {
+	@apply mb-6 lg:mb-8;
+}
+
+.toc details {
+	@apply border border-border rounded-lg px-4 py-3 bg-card;
+}
+
+.toc summary {
+	@apply font-medium text-sm cursor-pointer select-none text-foreground;
+}
+
+.toc ul {
+	@apply mt-3 mb-0 pl-0 list-none;
+}
+
+.toc li {
+	@apply my-1;
+}
+
+.toc a {
+	@apply text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 no-underline block py-1;
+}
+
+.toc > details > ul > li > a {
+	@apply font-medium;
+}
+
+.toc ul ul {
+	@apply pl-4 mt-1;
+}
+
+.toc ul ul a {
+	@apply text-xs;
+}
+
+@media (min-width: 1024px) {
+	.toc {
+		@apply sticky top-4 float-right clear-right ml-6 w-64 shrink-0;
+		margin-bottom: 0;
+	}
+	
+	.toc details {
+		@apply open:shadow-sm;
+	}
+	
+	.toc details[open] {
+		@apply bg-accent/30;
+	}
+}
