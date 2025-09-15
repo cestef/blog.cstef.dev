@@ -66,7 +66,7 @@ It typically looks like this:
 
 ### As a Reader
 
-1. **Find an RSS Reader**: There are many out there, but some popular ones are [NetNewsWire](https://ranchero.com/netnewswire/), [Glance](https://github.com/glanceapp/glance) or [miniflux](https://miniflux.app/) (my favorite)
+1. **Find an RSS Reader**: There are many out there, but some popular ones are [NetNewsWire](https://ranchero.com/netnewswire/), [Glance](https://github.com/glanceapp/glance), [Folo](https://folo.is/) or [miniflux](https://miniflux.app/) (my favorite)
 2. **Subscribe to Websites**: Sometimes this is as easy as pasting the website's URL into your reader. Other times, you might need to look for an icon like this: <img alt="RSS icon" src="images/rss.png" style="width: 1.5rem; height: 1.5rem; border-radius: 0px; display: inline-block; vertical-align: text-bottom;"> or try your luck with `/(feed|rss|atom)(\.xml)?` at the end of the URL.
 
    For websites/content sources that don't have an RSS feed (e.g. Telegram channels), you can use a bridge service like [RSSHub](https://docs.rsshub.app/) to generate one.
