@@ -1,5 +1,5 @@
 .callouts {
-	@apply py-4 px-6 my-4 rounded-lg bg-[var(--callouts-background)];
+	@apply py-4 px-6 my-4 bg-[var(--callouts-background)];
 }
 
 .callouts > *:first-child {

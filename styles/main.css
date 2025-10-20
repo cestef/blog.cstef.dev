@@ -65,7 +65,7 @@ main {
 }
 
 details {
-	@apply border border-border rounded-lg px-4 py-2 my-4;
+	@apply border border-border px-4 py-2 my-4;
 }
 
 summary {
@@ -88,12 +88,8 @@ article img {
 	margin-bottom: 0px !important;
 }
 
-article img:not(.typst-doc) {
-	@apply rounded-lg;
-}
-
 .buttons-holder {
-	@apply absolute top-0 right-0  text-xs text-muted-foreground bg-accent border border-muted rounded-tr-lg;
+	@apply absolute top-0 right-0  text-xs text-muted-foreground bg-accent border border-muted;
 }
 
 .buttons-holder :nth-child(2) {
@@ -109,14 +105,14 @@ article img:not(.typst-doc) {
 }
 
 pre {
-	@apply relative;
+	@apply relative !rounded-none;
 }
 
 pre[data-name] {
 	@apply relative pt-8;
 	&::before {
 		content: attr(data-name);
-		@apply absolute top-0 left-0 px-2 py-1 text-xs text-muted-foreground bg-accent border border-muted rounded-tl-lg;
+		@apply absolute top-0 left-0 px-2 py-1 text-xs text-muted-foreground bg-accent border border-muted;
 	}
 }
 
@@ -228,7 +224,7 @@ html[data-wrap] pre {
 
 /* Table of Contents */
 .toc {
-	@apply mb-6 lg:mb-8;
+	@apply mb-6;
 }
 
 .toc details {
@@ -263,17 +259,3 @@ html[data-wrap] pre {
 	@apply text-xs;
 }
 
-@media (min-width: 1024px) {
-	.toc {
-		@apply sticky top-4 float-right clear-right ml-6 w-64 shrink-0;
-		margin-bottom: 0;
-	}
-	
-	.toc details {
-		@apply open:shadow-sm;
-	}
-	
-	.toc details[open] {
-		@apply bg-accent/30;
-	}
-}

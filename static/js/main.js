@@ -1,267 +1,240 @@
 window.addEventListener("DOMContentLoaded", () => {
-	const fuse = new Fuse(window.searchIndex, {
-		keys: ["title", "description"],
-		includeScore: true,
-		includeMatches: true,
-	});
+    const fuse = new Fuse(window.searchIndex, {
+        keys: ["title", "description"],
+        includeScore: true,
+        includeMatches: true,
+    });
 
-	// Hide/show the scroll-to-top button
-	const scrollButton = document.getElementById("scroll-to-top");
-	const fillElement = document.getElementById("scroll-fill");
-	const scrollElement = document.getElementById("scroll-element");
-	let enabled = false;
-	scrollElement.addEventListener("scroll", (e) => {
-		const percent =
-			(e.target.scrollTop / (e.target.scrollHeight - e.target.clientHeight)) * 100;
-		fillElement.style.width = `${percent}%`;
-		if (e.target.scrollTop > 300) {
-			scrollButton.style.opacity = 1;
-			scrollButton.style.cursor = "pointer";
-			scrollButton.style.pointerEvents = "auto";
-			enabled = true;
-		} else {
-			scrollButton.style.opacity = 0;
-			scrollButton.style.pointerEvents = "none";
-			enabled = false;
-		}
-	});
+    // Hide/show the scroll-to-top button
+    const scrollButton = document.getElementById("scroll-to-top");
+    const fillElement = document.getElementById("scroll-fill");
+    const scrollElement = document.getElementById("scroll-element");
+    let enabled = false;
+    scrollElement.addEventListener("scroll", (e) => {
+        const percent =
+            (e.target.scrollTop / (e.target.scrollHeight - e.target.clientHeight)) * 100;
+        fillElement.style.width = `${percent}%`;
+        if (e.target.scrollTop > 300) {
+            scrollButton.style.opacity = 1;
+            scrollButton.style.cursor = "pointer";
+            scrollButton.style.pointerEvents = "auto";
+            enabled = true;
+        } else {
+            scrollButton.style.opacity = 0;
+            scrollButton.style.pointerEvents = "none";
+            enabled = false;
+        }
+    });
 
-	scrollButton.addEventListener("click", (e) => {
-		if (!enabled) return;
-		scrollElement.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
-	});
+    scrollButton.addEventListener("click", (e) => {
+        if (!enabled) return;
+        scrollElement.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    });
 
-	// Add copy buttons to code blocks (data-copy)
-	const codeBlockStart = performance.now();
-	const preElements = document.querySelectorAll("pre");
-	for (const preElement of preElements) {
-		const canCopy = preElement.dataset.copy !== undefined;
-		const buttonsHolder = document.createElement("div");
-		buttonsHolder.className = "buttons-holder";
-		preElement.appendChild(buttonsHolder);
-		const toggleWrapButton = document.createElement("button");
-		toggleWrapButton.className = "wrap-toggle";
-		toggleWrapButton.textContent = "Wrap";
-		toggleWrapButton.addEventListener("click", () => {
-			const html = document.querySelector("html");
-			html.toggleAttribute("data-wrap");
-		});
-		buttonsHolder.appendChild(toggleWrapButton);
+    // Add copy buttons to code blocks (data-copy)
+    const codeBlockStart = performance.now();
+    const preElements = document.querySelectorAll("pre");
+    for (const preElement of preElements) {
+        const canCopy = preElement.dataset.copy !== undefined;
+        const buttonsHolder = document.createElement("div");
+        buttonsHolder.className = "buttons-holder";
+        preElement.appendChild(buttonsHolder);
+        const toggleWrapButton = document.createElement("button");
+        toggleWrapButton.className = "wrap-toggle";
+        toggleWrapButton.textContent = "Wrap";
+        toggleWrapButton.addEventListener("click", () => {
+            const html = document.querySelector("html");
+            html.toggleAttribute("data-wrap");
+        });
+        buttonsHolder.appendChild(toggleWrapButton);
 
-		if (canCopy) {
-			const codeElement = preElement.querySelector("code");
-			const copyButton = document.createElement("button");
-			copyButton.className = "copy-button";
-			copyButton.textContent = "Copy";
-			copyButton.addEventListener("click", () => {
-				navigator.clipboard.writeText(codeElement.textContent);
-				copyButton.textContent = "Copied!";
-				setTimeout(() => {
-					copyButton.textContent = "Copy";
-				}, 2000);
-			});
-			buttonsHolder.appendChild(copyButton);
-		}
-	}
-	console.log(
-		`Copy buttons injection took ${(performance.now() - codeBlockStart).toFixed(2)} ms`
-	);
+        if (canCopy) {
+            const codeElement = preElement.querySelector("code");
+            const copyButton = document.createElement("button");
+            copyButton.className = "copy-button";
+            copyButton.textContent = "Copy";
+            copyButton.addEventListener("click", () => {
+                navigator.clipboard.writeText(codeElement.textContent);
+                copyButton.textContent = "Copied!";
+                setTimeout(() => {
+                    copyButton.textContent = "Copy";
+                }, 2000);
+            });
+            buttonsHolder.appendChild(copyButton);
+        }
+    }
+    console.log(
+        `Copy buttons injection took ${(performance.now() - codeBlockStart).toFixed(2)} ms`
+    );
 
-	const twemojiStart = performance.now();
-	twemoji.parse(document.body);
-	console.log(`twemoji.parse() took ${(performance.now() - twemojiStart).toFixed(2)} ms`);
+    const twemojiStart = performance.now();
+    twemoji.parse(document.body);
+    console.log(`twemoji.parse() took ${(performance.now() - twemojiStart).toFixed(2)} ms`);
 
-	const input = document.getElementById("goto-input");
-	const results = document.getElementById("goto-results");
-	const popup = document.getElementById("goto-popup");
+    const input = document.getElementById("goto-input");
+    const results = document.getElementById("goto-results");
+    const popup = document.getElementById("goto-popup");
+    const overlay = document.getElementById("goto-overlay");
 
-	let selectedIndex = -1;
-	let searchResults = [];
+    let selectedIndex = -1;
+    let searchResults = [];
 
-	function highlightResult(index) {
-		const resultElements = results.querySelectorAll(".goto-result");
+    const showPopup = () => {
+        popup.classList.add("active");
+        overlay.classList.add("opacity-100");
+        input.focus();
+        input.select();
+    };
 
-		for (const el of resultElements) {
-			el.classList.remove("selected");
-		}
+    const hidePopup = () => {
+        popup.classList.remove("active");
+        overlay.classList.remove("opacity-100");
+        input.blur();
+    };
 
-		if (index >= 0 && index < resultElements.length) {
-			resultElements[index].classList.add("selected");
-			resultElements[index].scrollIntoView({ block: "nearest", behavior: "smooth" });
-		}
-	}
+    const togglePopup = () => {
+        popup.classList.contains("active") ? hidePopup() : showPopup();
+    };
 
-	function performSearch() {
-		const query = input.value.trim();
-		searchResults = query ? fuse.search(query) : [];
+    const highlightResult = (index) => {
+        const resultElements = results.querySelectorAll(".goto-result");
+        // biome-ignore lint/complexity/noForEach: it's fine
+        resultElements.forEach((el) => el.classList.remove("selected"));
 
-		results.innerHTML = "";
+        if (index >= 0 && index < resultElements.length) {
+            resultElements[index].classList.add("selected");
+            resultElements[index].scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+    };
 
-		if (searchResults.length === 0 && query) {
-			const noResult = document.createElement("div");
-			noResult.className = "goto-no-result";
-			noResult.textContent = "No results found";
-			results.appendChild(noResult);
-			return;
-		}
+    const performSearch = () => {
+        const query = input.value.trim();
+        searchResults = query ? fuse.search(query) : [];
 
-		for (const { item } of searchResults) {
-			const result = document.createElement("a");
-			result.href = item.url;
-			result.className = "goto-result";
-			result.innerHTML = `<h3>${item.title}</h3>`;
+        results.innerHTML = "";
 
-			// Add mouse interactions
-			result.addEventListener("mouseenter", () => {
-				selectedIndex = Array.from(results.children).indexOf(result);
-				highlightResult(selectedIndex);
-			});
+        if (searchResults.length === 0 && query) {
+            const noResult = document.createElement("div");
+            noResult.className = "goto-no-result";
+            noResult.textContent = "No results found";
+            results.appendChild(noResult);
+            return;
+        }
 
-			results.appendChild(result);
-		}
+        searchResults.forEach(({ item }, index) => {
+            const result = document.createElement("a");
+            result.href = item.url;
+            result.className = "goto-result";
+            result.innerHTML = `<h3>${item.title}</h3>`;
+            result.addEventListener("mouseenter", () => {
+                selectedIndex = index;
+                highlightResult(selectedIndex);
+            });
+            results.appendChild(result);
+        });
 
-		// Reset selection
-		selectedIndex = searchResults.length > 0 ? 0 : -1;
-		highlightResult(selectedIndex);
-	}
+        selectedIndex = searchResults.length > 0 ? 0 : -1;
+        highlightResult(selectedIndex);
+    };
 
-	function navigateToResult(index) {
-		if (index >= 0 && index < searchResults.length) {
-			window.location.href = searchResults[index].item.url;
-		}
-	}
+    const navigateToSelected = () => {
+        if (selectedIndex >= 0 && selectedIndex < searchResults.length) {
+            window.location.href = searchResults[selectedIndex].item.url;
+        }
+    };
 
-	let buttonClicked = false;
+    const navigateResults = (direction) => {
+        if (searchResults.length === 0) return;
+        selectedIndex = (selectedIndex + direction + searchResults.length) % searchResults.length;
+        highlightResult(selectedIndex);
+    };
 
-	input.addEventListener("input", () => {
-		// const now = performance.now();
-		performSearch();
-		// console.log(`Search took ${(performance.now() - now).toFixed(2)} ms`);
-	});
+    let buttonClicked = false;
 
-	input.addEventListener("keydown", (e) => {
-		switch (e.key) {
-			case "ArrowDown":
-			case "Tab":
-				e.preventDefault();
-				if (searchResults.length > 0) {
-					selectedIndex = (selectedIndex + 1) % searchResults.length;
-					highlightResult(selectedIndex);
-				}
-				break;
+    input.addEventListener("input", performSearch);
 
-			case "ArrowUp":
-				e.preventDefault();
-				if (searchResults.length > 0) {
-					selectedIndex =
-						(selectedIndex - 1 + searchResults.length) % searchResults.length;
-					highlightResult(selectedIndex);
-				}
-				break;
+    input.addEventListener("keydown", (e) => {
+        const actions = {
+            ArrowDown: () => navigateResults(1),
+            Tab: () => navigateResults(1),
+            ArrowUp: () => navigateResults(-1),
+            Enter: navigateToSelected,
+            Escape: hidePopup,
+        };
 
-			case "Enter":
-				e.preventDefault();
-				navigateToResult(selectedIndex);
-				break;
+        if (actions[e.key]) {
+            e.preventDefault();
+            actions[e.key]();
+        }
+    });
 
-			case "Escape":
-				e.preventDefault();
-				popup.classList.remove("active");
-				input.blur();
-				break;
-		}
-	});
+    input.addEventListener("blur", (e) => {
+        if (!buttonClicked && !popup.contains(e.relatedTarget)) {
+            setTimeout(hidePopup, 50);
+        }
+        buttonClicked = false;
+    });
 
-	input.addEventListener("blur", (e) => {
-		if (!buttonClicked && !popup.contains(e.relatedTarget)) {
-			console.log("blur,hidePopup");
-			setTimeout(() => {
-				popup.classList.remove("active");
-			}, 50);
-		}
-		buttonClicked = false;
-	});
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "k" && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            togglePopup();
+            return;
+        }
 
-	document.addEventListener("keydown", (e) => {
-		if (e.key === "k" && (e.ctrlKey || e.metaKey)) {
-			e.preventDefault();
-			if (popup.classList.contains("active")) {
-				popup.classList.remove("active");
-				// input.blur();
-			} else {
-				popup.classList.add("active");
-				input.focus();
-				input.select();
-			}
-		}
+        if (
+            e.key === "/" &&
+            document.activeElement.tagName !== "INPUT" &&
+            document.activeElement.tagName !== "TEXTAREA"
+        ) {
+            e.preventDefault();
+            showPopup();
+            return;
+        }
 
-		if (
-			e.key === "/" &&
-			document.activeElement.tagName !== "INPUT" &&
-			document.activeElement.tagName !== "TEXTAREA"
-		) {
-			e.preventDefault();
-			popup.classList.add("active");
-			input.focus();
-			input.select();
-		}
+        if (e.key === "Escape" && popup.classList.contains("active")) {
+            e.preventDefault();
+            hidePopup();
+            return;
+        }
 
-		if (e.key === "Escape" && popup.classList.contains("active")) {
-			e.preventDefault();
-			popup.classList.remove("active");
-			input.blur();
-		}
+        if (popup.classList.contains("active") || e.ctrlKey || e.metaKey) return;
 
-		if (!popup.classList.contains("active") && !(e.ctrlKey || e.metaKey)) {
-			let scrollBy;
-			switch (e.key) {
-				case "k":
-					scrollBy = -100;
-					break;
-				case "j":
-					scrollBy = 100;
-					break;
+        const scrollActions = {
+            k: -100,
+            j: 100,
+            h: () => window.history.back(),
+            l: () => window.history.forward(),
+        };
 
-				case "h":
-					window.history.back();
-					break;
-				case "l":
-					window.history.forward();
-					break;
+        const action = scrollActions[e.key];
+        if (action !== undefined) {
+            if (typeof action === "number") {
+                document.getElementById("scroll-element").scrollBy({ top: action });
+            } else {
+                action();
+            }
+        }
+    });
 
-				default:
-					return;
-			}
+    const gotoButton = document.getElementById("goto-button");
+    if (gotoButton) {
+        gotoButton.addEventListener("click", () => {
+            buttonClicked = true;
+            togglePopup();
+        });
+    }
 
-			const scrollElement = document.getElementById("scroll-element");
-			scrollElement.scrollBy({
-				top: scrollBy,
-			});
-		}
-	});
-
-	const gotoButton = document.getElementById("goto-button");
-	if (gotoButton) {
-		gotoButton.addEventListener("click", () => {
-			buttonClicked = true;
-			popup.classList.toggle("active");
-			if (popup.classList.contains("active")) {
-				input.focus();
-				input.select();
-			}
-		});
-	}
-
-	document.addEventListener("touchstart", (e) => {
-		if (
-			popup.classList.contains("active") &&
-			!popup.contains(e.target) &&
-			e.target !== gotoButton
-		) {
-			popup.classList.remove("active");
-		}
-	});
+    document.addEventListener("touchstart", (e) => {
+        if (
+            popup.classList.contains("active") &&
+            !popup.contains(e.target) &&
+            e.target !== gotoButton
+        ) {
+            hidePopup();
+        }
+    });
 });
