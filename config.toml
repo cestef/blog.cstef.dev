@@ -2,7 +2,7 @@
 base_url = "https://blog.cstef.dev"
 minify_html = true
 generate_feeds = true
-feed_filenames = ["atom.xml", "rss.xml"]
+feed_filenames = ["atom.xml"]
 taxonomies = [{ name = "tags" }]
 build_search_index = true
 
