@@ -228,7 +228,7 @@ html[data-wrap] pre {
 }
 
 .toc details {
-	@apply border border-border rounded-lg px-4 py-3 bg-card;
+	@apply border border-border px-4 py-3 bg-card;
 }
 
 .toc summary {

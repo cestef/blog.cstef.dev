@@ -60,9 +60,89 @@ Now here's the not-so-fun part: we can't make a NOT Gate. Why is that?
 
 ## The NOT Problem
 
+When adding new information (having a new share), we can't really "subtract" it from what we already had.
+Let's take a step back and reason with linear algebra in mind to try to understand why.
+
+If we suppose our secret is the vector $arrow(s)$, we are trying to find a vector combination to reach that vector.
+Here come Bob, Alice and Charlie:
+
+Our secret is at $arrow(s) = (0, 10)$, Alice's share is $arrow(v_A) = (1, 2)$,
+Bob's share is $arrow(v_B) = (1, 0)$,
+Charlie's share is $arrow(v_C) = (3,3)$.
+
+If Alice was to try to reach $arrow(s)$ with her vector alone:
+
+$$
+lambda_A dot arrow(v_A) = arrow(s), space lambda_A in ZZ_q
+$$
+
+It's impossible. She can go up to $(5 dot 1, 5 dot 2) = (5, 10)$ with $lambda_A = 5$
+but there's no solution in $ZZ_q$ for $(0, 10)$.
+
+However, if we were to add Bob's share-vector $arrow(v_B) = (1, 0)$:
+
+$$
+lambda_A dot arrow(v_A) + lambda_B dot arrow(v_B) = arrow(s), space lambda_(A,B) in ZZ_q
+$$
+
+There is now a solution to the equation:
+
+$$
+5 dot arrow(v_A) - 5 dot arrow(v_B) = (5, 10) - (5, 0) =(0, 10) = arrow(s)
+$$
+
+You may have noticed it, this is basically just a fancy way of writing the equation system we're trying to solve
+(which we usually do with [Lagrange's interpolation](@/posts/lagrange/index.md))
+
+$$
+cases(
+  space lambda_A dot 1 + lambda_B dot 1 = 0,
+  space lambda_A dot 2 + lambda_B dot 0 = 10
+)
+$$
+
+Without the two shares of Alice and Bob, our system would just look like
+
+$$
+cases(
+  space lambda_A dot x_A + lambda_B dot x_B = 0,
+  space lambda_A dot y_A + lambda_B dot y_B = 10
+)
+$$
+
+With our unknowns: $arrow(v_A) = (x_A, y_A)$ and $arrow(v_B) = (x_B, y_B)$
+
+Back to our share-vectors, if we were to add Charlie's $v_C = (3,3)$
+
+$$
+lambda_A dot arrow(v_A) + lambda_B dot arrow(v_B) + lambda_C dot arrow(v_C) = arrow(s), space lambda_(A,B) in ZZ_q
+$$
+
+Our first solution is still valid, we can just set $lambda_C = 0$ and ignore it. Adding new vectors to a base of vectors can't shrink its span.
+In other terms, adding new information can't discard previous solutions in this case.
+
+> [!NOTE]
+> You may have noticed that we are only using linearly independent vectors here. Having such vectors would be equivalent to duplicate shares.
+
+### The "Solution(s)"
+
+Instead of explicitely excluding a share, we can accept every combination of shares that does **not** include this excluded share.
+This has the massive downside of generating very very large circuits when the number of shares increases.
+
+$$
+C_k^n = (n!)/(k!(n-k)!)
+$$
+
+<p align="center">
+<small>
+this bad boy right here
+</small>
+</p>
+
+
+
 ## References / Suggested Readings
 
-- **Succinct Computational Secret Sharing
-for Monotone Circuits**  
+- **Succinct Computational Secret Sharing for Monotone Circuits**  
   George Lu, Shafik Nassar, Brent Waters  
   [eprint.iacr.org](https://eprint.iacr.org/2025/850.pdf) <small>[PDF]</small>
