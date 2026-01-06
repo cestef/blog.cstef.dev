@@ -93,8 +93,6 @@ If your static site generator doesn't support RSS feed generation, get your hand
 
 You might have heard of [Atom](https://en.wikipedia.org/wiki/Atom_(web_standard)) feeds as well. Atom is another XML-based web feed format that's quite similar to RSS. Atom was created in 2005 as an alternative to RSS, and it's a bit more modern and extensible. But in practice, the two formats are pretty much interchangeable. Most feed readers can handle both, pick one and stick with it, you'll be fine. (no harm in supporting both though)
 
-## Conclusion
-
-By choosing RSS, you’re doing more than just avoiding ads and reclaiming your attention. You’re keeping a part of the open web alive. Every time you subscribe to an independent feed instead of surrendering to a corporate timeline, you’re voting for a better internet — one that values choice over control, curiosity over clicks, and depth over dopamine hits.
+## Start using it!!!
 
 If that’s the kind of web you want to exist, start using it. Start sharing it. And maybe, just maybe, we can make it happen.

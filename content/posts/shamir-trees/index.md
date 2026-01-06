@@ -68,7 +68,17 @@ Here come Bob, Alice and Charlie:
 
 Our secret is at $arrow(s) = (0, 10)$, Alice's share is $arrow(v_A) = (1, 2)$,
 Bob's share is $arrow(v_B) = (1, 0)$,
-Charlie's share is $arrow(v_C) = (3,3)$.
+Charlie's share is $arrow(v_C) = (3,3)$. Also note that all of the protagonist vectors are linearly independent.
+
+<details>
+
+<summary>
+Linearly independent?
+</summary>
+
+Just a fancy way of saying that every vector is **not** a "whole" ($in ZZ$) multiple of another one.
+
+</details>
 
 If Alice was to try to reach $arrow(s)$ with her vector alone:
 
@@ -121,13 +131,10 @@ $$
 Our first solution is still valid, we can just set $lambda_C = 0$ and ignore it. Adding new vectors to a base of vectors can't shrink its span.
 In other terms, adding new information can't discard previous solutions in this case.
 
-> [!NOTE]
-> You may have noticed that we are only using linearly independent vectors here. Having such vectors would be equivalent to duplicate shares.
-
 ### The "Solution(s)"
 
 Instead of explicitely excluding a share, we can accept every combination of shares that does **not** include this excluded share.
-This has the massive downside of generating very very large circuits when the number of shares increases.
+This has the massive downside of generating _very very large_ circuits when the number of shares increases.
 
 $$
 C_k^n = (n!)/(k!(n-k)!)
@@ -139,10 +146,15 @@ this bad boy right here
 </small>
 </p>
 
+Rafail Ostrovsky, Amit Sahai and Brent Waters mention an other clever solution:
 
+> Instead of making a specified share invalid, just make it useless.
 
 ## References / Suggested Readings
 
 - **Succinct Computational Secret Sharing for Monotone Circuits**  
   George Lu, Shafik Nassar, Brent Waters  
   [eprint.iacr.org](https://eprint.iacr.org/2025/850.pdf) <small>[PDF]</small>
+- **Attribute-Based Encryption with Non-Monotonic Access Structures**  
+  Rafail Ostrovsky, Amit Sahai and Brent Waters  
+  [eprint.iacr.org](https://eprint.iacr.org/2007/323.pdf) <small>[PDF]</small>
