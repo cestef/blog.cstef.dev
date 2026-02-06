@@ -293,8 +293,7 @@ html[data-wrap] pre {
 	@apply text-xs;
 }
 
-.highlight,
-.article a {
+.highlight {
 	@apply relative inline-block px-1 transition-colors duration-300;
 	background: linear-gradient(
 		90deg,
@@ -317,8 +316,7 @@ html[data-wrap] pre {
 	animation-play-state: paused;
 }
 
-.highlight:hover,
-.article a:hover {
+.highlight:hover {
 	animation-play-state: running;
 }
 
