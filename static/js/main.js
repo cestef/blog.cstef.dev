@@ -74,6 +74,12 @@ window.addEventListener("DOMContentLoaded", () => {
     twemoji.parse(document.body);
     console.log(`twemoji.parse() took ${(performance.now() - twemojiStart).toFixed(2)} ms`);
 
+    const rainbowElements = document.querySelectorAll(".article a, .highlight");
+    for (const element of rainbowElements) {
+        const randomDelay = Math.random() * -3;
+        element.style.animationDelay = `${randomDelay}s`;
+    }
+
     const input = document.getElementById("goto-input");
     const results = document.getElementById("goto-results");
     const popup = document.getElementById("goto-popup");

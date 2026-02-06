@@ -2,9 +2,13 @@
 {%block title%} {{ page.title }}{%endblock%}
 {% block article %}
 
-<h1>
+<h1 class="italic">
     {{ page.title }}
 </h1>
+<p class="text-muted-foreground text-sm">
+    {{ page.description }}
+<p>
+
 <div class="flex flex-row gap-4 items-center">
     <span><strong>{{ page.date | date(format="%Y-%m-%d") }}</strong></span>
     <span class="text-muted-foreground">({{ page.reading_time }} min. read)</span> -
@@ -44,6 +48,8 @@
 </nav>
 {% endif %}
 
+<div class="article">
 {{ page.content | safe }}
+</div>
 
 {% endblock article %}

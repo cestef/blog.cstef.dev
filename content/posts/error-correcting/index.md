@@ -1,14 +1,12 @@
 +++
 title = "Oops Engineering"
-description = "Stuff breaks. Bits flip. Error correcting codes shrug and fix it."
+description = "Stuff breaks. Bits sometimes flip :^)"
 date = 2025-05-15
 draft = true
 taxonomies.tags = ["maths"]
 +++
 
-When we send data through wires, waves, or lasers, it’s tempting to believe everything arrives just fine. But reality — and Murphy — loves chaos:
-
-> If a bit can flip, it will flip.
+When we send data through wires, waves, or lasers, it’s tempting to believe everything arrives just fine. But reality, loves [chaos](https://en.wikipedia.org/wiki/Murphy's_law)!
 
 Let's take the following scenario:
 
