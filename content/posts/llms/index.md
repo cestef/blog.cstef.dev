@@ -27,9 +27,9 @@ My generation might be the last one that learned [to code] without llms being a 
 <small class="text-muted-foreground">this is how I feel while writing this but whatever</small>
 </p>
 
-Now there are two paths: one where you struggle with a padlock until you figure out how to pick it, and one where the door just... opens. and yeah, that may sound a bit cheesy, but the point stands. when you can just bypass the struggle entirely, you never build the muscle memory of thinking through the problem yourself.
+Now there are two paths: one where you struggle with a padlock until you figure out how to pick it, and one where the door just... opens. and yeah, that may sound a bit cheesy, but the point stands. when you can just bypass the struggle-part entirely, you never build the muscle memory of thinking through the problem yourself.
 
-I see this in myself. I used to be able to sit with a bug/idea for hours, motivated and _somewhat_ focused. now my attention span has collapsed. why wrestle with something when I can paste it into a chat window and get an answer in seconds?
+I see this in myself. I used to be able to sit with a bug/idea for hours, motivated and _somewhat_ focused. now my attention span has become catastrophic. why bother with something when I can paste it into a chat window and get an answer in seconds?
 
 The "cruel" irony is that I know this is happening. I can see myself getting worse at the things I care about. and I still reach for the easy solutions anyway.
 I don't think the answer is to pretend these tools don't exist. but I do think we're not talking/caring enough about what we're losing. that 12 year old me in the hotel room learned more in one weekend of frustration than I've learned in months of frictionless problem "solving".
