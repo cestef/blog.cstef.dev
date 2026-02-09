@@ -216,7 +216,7 @@ pre[data-center] {
 	@apply flex items-center justify-center;
 }
 
-html[data-wrap] pre {
+html[data-wrap] pre:not([data-center]) {
 	@apply whitespace-pre-wrap;
 }
 

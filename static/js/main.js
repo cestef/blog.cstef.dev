@@ -34,22 +34,38 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Add copy buttons to code blocks (data-copy)
     const codeBlockStart = performance.now();
     const preElements = document.querySelectorAll("pre");
+    const html = document.querySelector("html");
+
+    if (localStorage.getItem("code-wrap") === "true") {
+        html.setAttribute("data-wrap", "");
+    }
+
+    const updateWrapButtons = () => {
+        const isWrapped = html.hasAttribute("data-wrap");
+        for (const btn of document.querySelectorAll(".wrap-toggle")) {
+            btn.textContent = isWrapped ? "Unwrap" : "Wrap";
+        }
+    };
+
     for (const preElement of preElements) {
         const canCopy = preElement.dataset.copy !== undefined;
+        const isCentered = preElement.dataset.center !== undefined;
         const buttonsHolder = document.createElement("div");
         buttonsHolder.className = "buttons-holder";
         preElement.appendChild(buttonsHolder);
-        const toggleWrapButton = document.createElement("button");
-        toggleWrapButton.className = "wrap-toggle";
-        toggleWrapButton.textContent = "Wrap";
-        toggleWrapButton.addEventListener("click", () => {
-            const html = document.querySelector("html");
-            html.toggleAttribute("data-wrap");
-        });
-        buttonsHolder.appendChild(toggleWrapButton);
+
+        if (!isCentered) {
+            const toggleWrapButton = document.createElement("button");
+            toggleWrapButton.className = "wrap-toggle";
+            toggleWrapButton.addEventListener("click", () => {
+                html.toggleAttribute("data-wrap");
+                localStorage.setItem("code-wrap", html.hasAttribute("data-wrap"));
+                updateWrapButtons();
+            });
+            buttonsHolder.appendChild(toggleWrapButton);
+        }
 
         if (canCopy) {
             const codeElement = preElement.querySelector("code");
@@ -66,6 +82,7 @@ window.addEventListener("DOMContentLoaded", () => {
             buttonsHolder.appendChild(copyButton);
         }
     }
+    updateWrapButtons();
     console.log(
         `Copy buttons injection took ${(performance.now() - codeBlockStart).toFixed(2)} ms`
     );
