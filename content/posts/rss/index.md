@@ -4,11 +4,11 @@ description = "Big techs hate it! This one simple trick lets you read what you w
 date = 2025-03-21
 
 [taxonomies]
-tags = ["rss"]
+tags = ["social"]
 +++
 
 Back when the Internet was still young (I wasn't even born), folks would dial up to their favorite BBS (Bulletin Board System) and dive into whatever people were talking about.
-It was so basic - just pure text posts lined up by date. No flashy ads, no infinite-doomscroll apps.
+It was so basic: just pure text posts lined up by date. No flashy ads, no infinite-doomscroll apps.
 Just people talking to each other.
 
 ```ansi,center
@@ -25,7 +25,7 @@ Just people talking to each other.
 [32m  (________)          [0m[2m(jm)[2m
 ```
 
-<p align="center"><small>They had cool ASCII arts too </small></p>
+<p align="center" class="text-muted-foreground"><small>They had cool ASCII arts too </small></p>
 
 Then, as everyone's grandmother started getting online, the Internet turned into this crazy fight for eyeballs. Companies began watching everything you clicked, trying to get inside your head. Suddenly, you're drowning in ads, getting pushed toward certain articles, and your feed's all shuffled around just to keep you glued to your screen.
 
@@ -89,10 +89,10 @@ Most static site generators already support RSS feed generation. Very often, it'
 
 If your static site generator doesn't support RSS feed generation, get your hands dirty and write a script to do it! It's not that hard, and you'll learn a lot in the process :^)
 
-## Atom ? RSS ?
+## Atom? RSS?
 
 You might have heard of [Atom](https://en.wikipedia.org/wiki/Atom_(web_standard)) feeds as well. Atom is another XML-based web feed format that's quite similar to RSS. Atom was created in 2005 as an alternative to RSS, and it's a bit more modern and extensible. But in practice, the two formats are pretty much interchangeable. Most feed readers can handle both, pick one and stick with it, you'll be fine. (no harm in supporting both though)
 
 ## Start using it!!!
 
-If that’s the kind of web you want to exist, start using it. Start sharing it. And maybe, just maybe, we can make it happen.
+If that’s the kind of web you want to exist, start using it. Start sharing it.
